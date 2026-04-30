@@ -95,7 +95,7 @@ body, html {
 .swiper-pagination-bullet-active {
     opacity: 1 !important;
     width: 80px !important;
-    background: var(--accent-color) !important;
+    background: var(--color-cream) !important;
 }
 
 /* Navigation Arrows */
@@ -113,22 +113,36 @@ body, html {
 .nav-arrow {
     background: transparent;
     border: none;
-    color: var(--text-color);
+    color: var(--color-white);
     font-family: var(--font-secondary);
     font-size: 11px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    opacity: 0.5;
+    opacity: 0.2;
     transition: var(--transition-smooth);
     padding: var(--space-xs);
     outline: none;
+    cursor: pointer;
+}
+
+/* Contenidor per a l'efecte de màscara SplitText */
+.split-mask {
+    position: relative;
+    overflow: hidden;
+    height: 1.2em;
+    display: flex;
+}
+
+.split-txt.clone {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    color: var(--accent-color);
 }
 
 .nav-arrow:hover,
 .nav-arrow:focus {
     opacity: 1;
-    color: var(--accent-color);
-    transform: translateY(-2px);
 }
 
 /* ----- INICI SECCIÓ CURSOR PERSONALITZAT ----- */

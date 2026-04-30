@@ -9,7 +9,7 @@
     --color-mauve: #debcb0;     
     
     /* Mapeig funcional */
-    --bg-color: var(--color-wine);
+    --bg-color: var(--color-black);
     --text-color: var(--color-white);
     --accent-color: var(--color-wine);
     --surface-color: var(--color-cream);
