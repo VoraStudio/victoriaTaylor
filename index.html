@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="cat">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Victoria Taylor | Premium Slider</title>
+    
+    <!-- Swiper CSS: Estils base per al slider -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <!-- Custom CSS: El nostre sistema de disseny i estils personalitzats -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- GSAP: Llibreria d'animacions d'alt rendiment -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+
+    <!-- Contenidor principal semàntic -->
+    <main>
+        <!-- Secció del slider amb etiqueta d'accessibilitat -->
+        <section class="hero-slider" aria-label="Portfoli de Victoria Taylor">
+            <!-- Estructura principal de Swiper -->
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <!-- Slide 1: Cada projecte es defineix com un article independent -->
+                    <article class="swiper-slide">
+                        <div class="slide-bg" style="background-image: url('img/fashion_model_grayscale_1_1777358449240.png');"></div>
+                        <div class="slide-content">
+                            <span class="slide-subtitle">Photography 2024</span>
+                            <h1 class="slide-title">Romen Bray</h1>
+                        </div>
+                    </article>
+
+                    <!-- Slide 2 -->
+                    <article class="swiper-slide">
+                        <div class="slide-bg" style="background-image: url('img/fashion_model_grayscale_2_1777358464351.png');"></div>
+                        <div class="slide-content">
+                            <span class="slide-subtitle">Avant-Garde</span>
+                            <h1 class="slide-title">Minimalism</h1>
+                        </div>
+                    </article>
+
+                    <!-- Slide 3 -->
+                    <article class="swiper-slide">
+                        <div class="slide-bg" style="background-image: url('img/fashion_model_grayscale_3_1777358480980.png');"></div>
+                        <div class="slide-content">
+                            <span class="slide-subtitle">Editorial</span>
+                            <h1 class="slide-title">Artistic</h1>
+                        </div>
+                    </article>
+
+                    <!-- Slide 4 -->
+                    <article class="swiper-slide">
+                        <div class="slide-bg" style="background-image: url('img/fashion_model_grayscale_4_simple_1777360770823.png');"></div>
+                        <div class="slide-content">
+                            <span class="slide-subtitle">Luxury Studio</span>
+                            <h1 class="slide-title">Shadows</h1>
+                        </div>
+                    </article>
+
+                    <!-- Slide 5 -->
+                    <article class="swiper-slide">
+                        <div class="slide-bg" style="background-image: url('img/fashion_model_grayscale_5_1777360732362.png');"></div>
+                        <div class="slide-content">
+                            <span class="slide-subtitle">Vogue Style</span>
+                            <h1 class="slide-title">Elegant</h1>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Paginació (punts horitzontals) -->
+                <div class="swiper-pagination"></div>
+            </div>
+
+            <!-- Navegació manual (fletxes) amb suport per a lectors de pantalla -->
+            <nav class="nav-arrows" aria-label="Navegació del slider">
+                <button class="nav-arrow prev-btn" aria-label="Anterior slide">PREV</button>
+                <button class="nav-arrow next-btn" aria-label="Següent slide">NEXT</button>
+            </nav>
+        </section>
+    </main>
+
+    <!-- Swiper JS: Lògica del slider -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <!-- Custom JS: La nostra lògica d'animacions i configuració -->
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Syne:wght@400;700;800&display=swap');
+
+:root {
+    /* ----- PALETA COLORS ----- */
+    --color-black: #000000;
+    --color-white: #FFFFFF;
+    --color-cream: #F5ECE5;
+    --color-wine: #722F37;      
+    --color-mauve: #debcb0;     
+    
+    /* Mapeig funcional */
+    --bg-color: var(--color-wine);
+    --text-color: var(--color-white);
+    --accent-color: var(--color-wine);
+    --surface-color: var(--color-cream);
+    
+    /* ----- TYPOGRAPHY ----- */
+    /* Font Principal: Syne */
+    --font-primary: 'Syne', sans-serif;
+    /* Font Secundaria: Plus Jakarta Sans */
+    --font-secondary: 'Plus Jakarta Sans', sans-serif;
+    
+    --font-heading: var(--font-primary);
+    
+    /* Fluid Typography with clamp() */
+    --fs-h1: clamp(3rem, calc(8vw + 1rem), 8rem);
+    --fs-h2: clamp(2rem, calc(5vw + 1rem), 4rem);
+    --fs-h3: clamp(1.5rem, calc(3vw + 1rem), 2.5rem);
+    --fs-subtitle: clamp(0.75rem, calc(1vw + 0.5rem), 1rem);
+    
+    /* ----- SPACING (8px scale) ----- */
+    --space-xs: 8px;
+    --space-s: 16px;
+    --space-m: 24px;
+    --space-l: 32px;
+    --space-xl: 48px;
+    --space-xxl: 64px;
+    
+    /* ----- ANIMATIONS ----- */
+    --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
