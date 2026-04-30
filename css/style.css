@@ -1,5 +1,171 @@
 @import url('variables.css');
 
+/* ----- INICI SECCIÓ HEADER ----- */
+
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    z-index: var(--z-header);
+    padding: var(--header-padding);
+    box-sizing: border-box;
+    background-color: rgba(10, 10, 10, 0.4); /* Fondo semitransparente */
+    backdrop-filter: blur(15px); /* Efecto blur premium */
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.header-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-logo {
+    height: 30px; 
+    width: auto;
+    display: block;
+    object-fit: contain;
+}
+
+.nav-list {
+    display: flex;
+    gap: var(--space-l);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-link {
+    font-family: var(--font-secondary);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--color-white);
+    text-decoration: none;
+    opacity: 0.5;
+    transition: var(--transition-smooth);
+    position: relative;
+    padding: var(--space-xs) 0;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    opacity: 1;
+}
+
+/* Hamburguesa */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: calc(var(--z-header) + 1);
+    padding: 0;
+}
+
+.hamburger-line {
+    width: 90%;
+    height: 1px;
+    background-color: var(--color-white);
+    transition: var(--transition-slow);
+}
+
+/* Mobile Nav Overlay */
+.mobile-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--color-black);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: var(--z-mobile-nav);
+    transform: translateY(-100%);
+    transition: var(--transition-slow);
+    visibility: hidden;
+
+    .header-logo {
+    height: 50px; 
+    width: auto;
+    display: block;
+    object-fit: contain;
+    margin-bottom:var(--space-l);
+}
+}
+
+.mobile-nav.is-open {
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.mobile-nav-list {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+.mobile-link {
+    font-family: var(--font-primary);
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-white);
+    text-decoration: none;
+    display: block;
+    margin-bottom: var(--space-s);
+    transition: var(--transition-smooth);
+}
+
+.mobile-link:hover {
+    color: var(--accent-color);
+}
+
+/* Media Queries */
+@media (max-width: 1024px) {
+    .desktop-nav {
+        display: none;
+    }
+    
+    .menu-toggle {
+        display: flex;
+    }
+
+    .main-header {
+        padding: 0 var(--space-m);
+    }
+}
+
+/* Animacions Hamburguesa quan està obert */
+.menu-toggle.is-active .line-1 {
+    transform: translateY(5.5px) rotate(45deg);
+}
+
+.menu-toggle.is-active .line-2 {
+    transform: translateY(-5.5px) rotate(-45deg);
+}
+
+
+/* Optimitzacions de rendiment */
+.main-header, .mobile-nav, .logo, .nav-link, .hamburger-line {
+    will-change: transform, opacity;
+}
+
+
+
+
 /* ----- INICI SECCIÓ ESTRUCTURES ----- */
 
 body, html {
@@ -18,7 +184,7 @@ body, html {
 
 .hero-slider {
     width: 100%;
-    height: 100vh;
+    height: 100svh;
     position: relative;
 }
 
@@ -43,7 +209,8 @@ body, html {
     height: 100%;
     background-size: cover;
     background-position: center;
-    filter: brightness(0.4);
+    filter: brightness(0.2);
+    will-change: filter(brightness);
 }
 
 .slide-content {
@@ -60,7 +227,8 @@ body, html {
     text-transform: uppercase;
     margin-bottom: var(--space-m);
     display: block;
-    color: var(--color-mauve);
+    color: var(--color-blanc);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .slide-title {
@@ -70,6 +238,7 @@ body, html {
     line-height: 0.9;
     text-transform: uppercase;
     margin: 0;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 /* ----- INICI SECCIÓ NAVEGACIÓ ----- */
@@ -145,41 +314,3 @@ body, html {
     opacity: 1;
 }
 
-/* ----- INICI SECCIÓ CURSOR PERSONALITZAT ----- */
-
-#custom-cursor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 9999;
-}
-
-.cursor-dot {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background-color: var(--accent-color);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10001;
-}
-
-.cursor-ring {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border: 1px solid var(--accent-color);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10000;
-}
-
-body.cursor-hover .cursor-ring {
-    background-color: rgba(114, 47, 55, 0.15); /* Vino amb opacitat */
-    border-color: transparent;
-    width: 60px;
-    height: 60px;
-}

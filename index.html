@@ -19,6 +19,52 @@
 </head>
 <body>
 
+    <!-- Header premium amb navegació i menú hamburguesa -->
+    <header if="header" class="main-header" aria-label="Navegació principal">
+        <div class="header-container">
+            <!-- Logo Victoria Taylor -->
+            <div class="logo">
+                <a href="#header" aria-label="Inici Victoria Taylor">
+                    <img src="img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
+                </a>
+            </div>
+
+            <!-- Navegació Desktop -->
+            <nav class="desktop-nav" aria-label="Navegació de sobretaula">
+                <ul class="nav-list">
+                    <li><a href="html/nosotros.html" class="nav-link">Nosotros</a></li>
+                    <li><a href="html/artistas.html" class="nav-link">Artistas</a></li>
+                    <li><a href="html/agencias.html" class="nav-link">Agenda</a></li>
+                    <li><a href="html/contacto.html" class="nav-link">Noticias</a></li>
+                    <li><a href="html/contacto.html" class="nav-link">Contacto</a></li>
+                </ul>
+            </nav>
+
+            <!-- Botó Menú Hamburguesa per a mòbils -->
+            <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Obrir menú">
+                <span class="hamburger-line line-1"></span>
+                <span class="hamburger-line line-2"></span>
+            </button>   
+        </div>
+
+        <!-- Navegació Mòbil (Full Screen Overlay) -->
+        <nav id="mobile-nav" class="mobile-nav" aria-label="Navegació mòbil">
+        <div class="logo">
+        <a href="#header" aria-label="Inici Victoria Taylor">
+            <img src="img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
+        </a>
+    </div>
+            <ul class="mobile-nav-list">
+                <li><a href="html/nosotros.html" class="mobile-link">Nosotros</a></li>
+                <li><a href="html/artistas.html" class="mobile-link">Artistas</a></li>
+                <li><a href="html/agencias.html" class="mobile-link">Agenda</a></li>
+                <li><a href="html/contacto.html" class="mobile-link">Noticias</a></li>
+                <li><a href="html/contacto.html" class="mobile-link">Contacto</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
     <!-- Contenidor principal semàntic -->
     <main>
         <!-- Secció del slider amb etiqueta d'accessibilitat -->
@@ -26,36 +72,36 @@
             <!-- Estructura principal de Swiper -->
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                    <!-- Slide 1: Cada projecte es defineix com un article independent -->
+                    <!-- Slide 1 -->
                     <article class="swiper-slide">
-                        <div class="slide-bg" style="background-image: url('img/fashion_model_grayscale_1_1777358449240.png');"></div>
+                        <div class="slide-bg" style="background-image: url('img/slide1.webp');"></div>
                         <div class="slide-content">
-                            <span class="slide-subtitle">Photography 2024</span>
-                            <h1 class="slide-title">Romen Bray</h1>
+                            <span class="slide-subtitle">Portfolio 2024</span>
+                            <h1 class="slide-title">Victoria</h1>
                         </div>
                     </article>
 
                     <!-- Slide 2 -->
                     <article class="swiper-slide">
-                        <div class="slide-bg" style="background-image: url('img/fashion_model_grayscale_2_1777358464351.png');"></div>
+                        <div class="slide-bg" style="background-image: url('img/slide2.avif');"></div>
                         <div class="slide-content">
-                            <span class="slide-subtitle">Avant-Garde</span>
-                            <h1 class="slide-title">Minimalism</h1>
+                            <span class="slide-subtitle">Editorial Photography</span>
+                            <h1 class="slide-title">Urban Soul</h1>
                         </div>
                     </article>
 
                     <!-- Slide 3 -->
                     <article class="swiper-slide">
-                        <div class="slide-bg" style="background-image: url('img/fashion_model_grayscale_3_1777358480980.png');"></div>
+                        <div class="slide-bg" style="background-image: url('img/slide3.webp');"></div>
                         <div class="slide-content">
-                            <span class="slide-subtitle">Editorial</span>
-                            <h1 class="slide-title">Artistic</h1>
+                            <span class="slide-subtitle">Fashion Film</span>
+                            <h1 class="slide-title">Noir Essence</h1>
                         </div>
                     </article>
 
                     <!-- Slide 4 -->
                     <article class="swiper-slide">
-                        <div class="slide-bg" style="background-image: url('img/fashion_model_grayscale_4_simple_1777360770823.png');"></div>
+                        <div class="slide-bg" style="background-image: url('img/slide4.avif');"></div>
                         <div class="slide-content">
                             <span class="slide-subtitle">Luxury Studio</span>
                             <h1 class="slide-title">Shadows</h1>
@@ -64,10 +110,19 @@
 
                     <!-- Slide 5 -->
                     <article class="swiper-slide">
-                        <div class="slide-bg" style="background-image: url('img/fashion_model_grayscale_5_1777360732362.png');"></div>
+                        <div class="slide-bg" style="background-image: url('img/slide5.webp');"></div>
                         <div class="slide-content">
                             <span class="slide-subtitle">Vogue Style</span>
                             <h1 class="slide-title">Elegant</h1>
+                        </div>
+                    </article>
+
+                    <!-- Slide 6 -->
+                    <article class="swiper-slide">
+                        <div class="slide-bg" style="background-image: url('img/slide6.webp');"></div>
+                        <div class="slide-content">
+                            <span class="slide-subtitle">New Collection</span>
+                            <h1 class="slide-title">Infinite</h1>
                         </div>
                     </article>
                 </div>
