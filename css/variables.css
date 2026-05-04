@@ -9,7 +9,7 @@
     --color-mauve: #debcb0;     
     
     /* Mapeig funcional */
-    --bg-color: var(--color-wine);
+    --bg-color: var(--color-black);
     --text-color: var(--color-white);
     --accent-color: var(--color-wine);
     --surface-color: var(--color-cream);
@@ -39,4 +39,9 @@
     /* ----- ANIMATIONS ----- */
     --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    /* ----- HEADER & NAV ----- */
+    --header-height: clamp(50px, 10vh, 120px);
+    --header-padding: 0 var(--space-xl);
+    --z-header: 1000;
+    --z-mobile-nav: 999;
 }
