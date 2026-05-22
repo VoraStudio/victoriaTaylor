@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="cat" class="page-html">
+<head>
+    <script>document.documentElement.classList.add('js-enabled');</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Victoria Taylor | Nosotros</title>
+
+    <!-- Custom CSS: El nostre sistema de disseny i estils personalitzats -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- GSAP Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/SplitText.min.js"></script>
+</head>
+<body class="page-body">
+
+    <!-- Header premium amb navegació i menú hamburguesa -->
+    <header id="header" class="main-header" aria-label="Navegació principal">
+        <div class="header-container">
+            <!-- Logo Victoria Taylor -->
+            <div class="logo">
+                <a href="../index.html" aria-label="Inici Victoria Taylor">
+                    <img src="../img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
+                </a>
+            </div>
+
+            <!-- Navegació Desktop -->
+            <nav class="desktop-nav" aria-label="Navegació de sobretaula">
+                <ul class="nav-list">
+                    <li><a href="nosotros.html" class="nav-link">Nosotros</a></li>
+                    <li><a href="artistas.html" class="nav-link">Artistas</a></li>
+                    <li><a href="agencias.html" class="nav-link">Agenda</a></li>
+                    <li><a href="noticias.html" class="nav-link">Noticias</a></li>
+                    <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+                </ul>
+            </nav>
+
+            <!-- Botó Menú Hamburguesa per a mòbils -->
+            <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Obrir menú">
+                <span class="hamburger-line line-1"></span>
+                <span class="hamburger-line line-2"></span>
+            </button>
+        </div>
+
+        <!-- Navegació Mòbil (Full Screen Overlay) -->
+        <nav id="mobile-nav" class="mobile-nav" aria-label="Navegació mòbil">
+            <div class="logo">
+                <a href="../index.html" aria-label="Inici Victoria Taylor">
+                    <img src="../img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
+                </a>
+            </div>
+            <ul class="mobile-nav-list">
+                <li><a href="nosotros.html" class="mobile-link">Nosotros</a></li>
+                <li><a href="artistas.html" class="mobile-link">Artistas</a></li>
+                <li><a href="agencias.html" class="mobile-link">Agenda</a></li>
+                <li><a href="noticias.html" class="mobile-link">Noticias</a></li>
+                <li><a href="contacto.html" class="mobile-link">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Contenidor principal semàntic -->
+    <main>
+        <!-- Secció única: títol + columnes + botons en 100vh -->
+        <section class="about-hero" aria-label="Sobre Nosaltres">
+            <div class="about-hero-bg" style="background-image: url('../img/slide1.webp');"></div>
+            <div class="about-hero-content">
+                <h1 class="about-hero-title">Victoria Taylor</h1>
+                <div class="about-grid">
+                    <div class="about-text-main">
+                        <p>Victoria Taylor neix com un espai de trobada entre creació i apreciació. No som una galeria tradicional. Som una plataforma curatorial que selecciona, impulsa i posiciona a artistes contemporanis dins d'un entorn on la seva obra pugui ser vista, entesa i valorada. Creiem en l'art com una forma de llenguatge universal, capaç de transmetre identitat, emoció i pensament.</p>
+                    </div>
+                    <div class="about-text-side">
+                        <p>Treballem amb una visió clara: donar valor real al talent artístic a través d'una selecció cuidada i una presentació impecable.</p>
+                        <div class="about-ctas">
+                            <a href="#" class="btn-cta btn-primary">Ver Colección</a>
+                            <a href="#" class="btn-cta btn-secondary">Ser Artista</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Secció parallax -->
+        <section class="about-parallax" aria-label="Secció parallax decorativa">
+            <div class="about-parallax-bg" style="background-image: url('../img/slide1.webp');"></div>
+        </section>
+
+        <!-- Nova secció: Artistes i Col·leccionistes -->
+        <section class="about-artists" aria-labelledby="about-artists-title">
+            <div class="about-artists-header">
+                <h2 id="about-artists-title" class="about-artists-title"><span class="about-artists-line1">Unimos artistas</span> contemporáneos  
+                    <br class="about-artists-break">
+                    con coleccionistas</h2>
+                <p class="about-artists-subtitle">que buscan piezas únicas, auténticas y con valor emocional y artístico</p>
+            </div>
+            
+            <div class="about-artists-grid">
+                <!-- Card 1 -->
+                    <a href="artista.html?id=cristina-montero" class="artist-card-link">
+                    <article class="artist-card">
+                        <div class="artist-card-img">
+                            <img src="../img/artistes/2024-vallviva.avif" alt="Cristina Montero" loading="lazy">
+                        </div>
+                        <h3 class="artist-card-name">CRISTINA MONTERO</h3>
+                    </article>
+                </a>
+
+                <!-- Card 2 -->
+                <a href="artista.html?id=david-thorne" class="artist-card-link">
+                    <article class="artist-card">
+                        <div class="artist-card-img">
+                            <img src="../img/slide3.webp" alt="Obra de David Thorne" loading="lazy">
+                        </div>
+                        <h3 class="artist-card-name">DAVID THORNE</h3>
+                    </article>
+                </a>
+
+                <!-- Card 3 -->
+                <a href="artista.html?id=hubo" class="artist-card-link">
+                    <article class="artist-card">
+                        <div class="artist-card-img">
+                            <img src="../img/slide4.avif" alt="Obra de Hubo" loading="lazy">
+                        </div>
+                        <h3 class="artist-card-name">HUBO</h3>
+                    </article>
+                </a>
+
+                <!-- Card 4 -->
+                <a href="artista.html?id=iol-baques" class="artist-card-link">
+                    <article class="artist-card">
+                        <div class="artist-card-img">
+                            <img src="../img/slide5.webp" alt="Obra de IOL Baqués" loading="lazy">
+                        </div>
+                        <h3 class="artist-card-name">IOL BAQUÉS</h3>
+                    </article>
+                </a>
+
+                <!-- Card 5 -->
+                <a href="artista.html?id=juda-munoz" class="artist-card-link">
+                    <article class="artist-card">
+                        <div class="artist-card-img">
+                            <img src="../img/slide6.webp" alt="Obra de Judà Muñoz" loading="lazy">
+                        </div>
+                        <h3 class="artist-card-name">JUDÀ MUÑOZ</h3>
+                    </article>
+                </a>
+
+                <!-- Card 6 -->
+                <a href="artista.html?id=mohammed-er-rabehy" class="artist-card-link">
+                    <article class="artist-card">
+                        <div class="artist-card-img">
+                            <img src="../img/slide2.avif" alt="Obra de Mohammed Er Rabehy" loading="lazy">
+                        </div>
+                        <h3 class="artist-card-name">MOHAMMED ER RABEHY</h3>
+                    </article>
+                </a>
+
+                <!-- Card 7 -->
+                <a href="artista.html?id=rosa-martin" class="artist-card-link">
+                    <article class="artist-card">
+                        <div class="artist-card-img">
+                            <img src="../img/slide3.webp" alt="Obra de Rosa Martín" loading="lazy">
+                        </div>
+                        <h3 class="artist-card-name">ROSA MARTÍN</h3>
+                    </article>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Custom JS: La nostra lògica d'animacions i configuració -->
+    <script src="../js/script.js"></script>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="../img/logo.avif" alt="Victoria Taylor" class="footer-logo-img">
+                <p class="footer-tagline">Descubrimos y promovemos artistas con un talento excepcional.</p>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/victoriataylor.art/" target="_blank" rel="noopener" class="footer-social-link" aria-label="Instagram Victoria Taylor">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-nav-col">
+                <h4 class="footer-col-title">Menú</h4>
+                <ul class="footer-nav">
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                    <li><a href="artistas.html">Artistas</a></li>
+                    <li><a href="agencias.html">Agenda</a></li>
+                    <li><a href="noticias.html">Noticias</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact-col">
+                <h4 class="footer-col-title">Contacto</h4>
+                <div class="footer-offices">
+                    <div class="footer-office">
+                        <span class="footer-city">Girona</span>
+                        <p>Carrer Pic de Peguera, 11<br>17003 GIRONA</p>
+                    </div>
+                    <div class="footer-office">
+                        <span class="footer-city">London</span>
+                        <p>112 Whitechapel High St<br>E1 7AQ LONDON</p>
+                    </div>
+                </div>
+                <a href="mailto:info@victoriataylor.art" class="footer-email">info@victoriataylor.art</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copy">© 2026 Victoria Taylor · Global Brands Europe, SL</p>
+            <ul class="footer-legal">
+                <li><a href="#">Aviso legal</a></li>
+                <li><a href="#">Privacidad</a></li>
+                <li><a href="#">Cookies</a></li>
+                <li><a href="#">Accesibilidad</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>

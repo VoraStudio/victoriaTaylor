@@ -148,8 +148,9 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 // Variable de control per evitar solapaments d'animacions
 let isAnimating = false;
 
-// Inicialitzem Swiper
-const swiper = new Swiper(".mySwiper", {
+// Inicialitzem Swiper (només si existeix un slider a la pàgina)
+const swiperEl = document.querySelector(".mySwiper");
+const swiper = swiperEl ? new Swiper(swiperEl, {
     speed: 1600, 
     loop: true,
     parallax: true,
@@ -180,9 +181,10 @@ const swiper = new Swiper(".mySwiper", {
             gsap.fromTo(activeContent, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1, ease: "power2.out", delay: 0.4 });
         }
     }
-});
+}) : null;
 
-// INTERCEPTOR DE LA RODA
+// INTERCEPTOR DE LA RODA (només si hi ha slider)
+if (swiper) {
 window.addEventListener('wheel', (e) => {
     // Evitem solapaments
     if (isAnimating) return;
@@ -207,7 +209,7 @@ window.addEventListener('wheel', (e) => {
         gsap.to(allContent, { opacity: 0, y: 30, duration: 0.5, ease: "power2.inOut" });
     }
 }, { passive: true });
-
+} // fi del guard swiper
 
 // SplitText del botons Anterior i Seguent
 function hoverNextPrev(selector) {
@@ -239,8 +241,111 @@ function hoverNextPrev(selector) {
     });
 }
 
-// Inicialitzem l'efecte als botons PREV i NEXT
-hoverNextPrev('.nav-arrow');
+// Inicialitzem l'efecte als botons PREV i NEXT (només si existeixen)
+if (document.querySelector('.nav-arrow')) {
+    hoverNextPrev('.nav-arrow');
+}
+
+/* ----- INICI SECCIÓ ABOUT ENTRANCE (nosotros.html) ----- */
+function initAboutEntrance() {
+    // ============================================
+    // 0. SET INITIAL STATE — hero only (timeline plays on load)
+    // ============================================
+        const heroTitle = document.querySelector('.about-hero-title');
+        let heroSplit = null;
+        if (heroTitle) {
+            heroSplit = new SplitText(heroTitle, { type: "words,chars" });
+            heroTitle.style.visibility = 'visible'; // override CSS .js-enabled rule BEFORE GSAP captures "to" state
+            gsap.set(heroSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: "center bottom" });
+        }
+        gsap.set('.about-text-main p, .about-text-side p, .btn-cta', { opacity: 0, y: 30 });
+
+        // ============================================
+        // 1. HERO ENTRANCE (on load)
+        // ============================================
+        const heroTl = gsap.timeline({ delay: 0.5 });
+
+        if (heroSplit) {
+            heroTl.to(heroSplit.chars, {
+                opacity: 1, yPercent: 0, scale: 1, rotationX: 0,
+                duration: 1.2, stagger: { each: 0.04, from: "start" }, ease: "back.out(1.4)"
+            }, 0);
+        }
+    heroTl.to('.about-text-main p', { autoAlpha: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.4");
+    heroTl.to('.about-text-side p', { autoAlpha: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.6");
+    heroTl.to('.btn-cta', { autoAlpha: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.15, ease: "power3.out" }, "-=0.6");
+
+    // ============================================
+    // 2. SECTION — animate via ScrollTrigger or immediately if already visible
+    // ============================================
+    const artSec = document.querySelector('.about-artists');
+    const artSecTop = artSec ? artSec.getBoundingClientRect().top : Infinity;
+    const isPastStart = artSecTop < window.innerHeight * 0.8;
+
+    const artTitle = document.querySelector('.about-artists-title');
+    if (artTitle) {
+        artTitle.style.visibility = 'visible'; // override CSS .js-enabled BEFORE GSAP captures "to" state
+        const artSplit = new SplitText(artTitle, { type: "chars" });
+
+        if (isPastStart) {
+            // Section already visible — play immediately with slight delay
+            gsap.set(artSplit.chars, { autoAlpha: 0, yPercent: 80, rotationX: -90, transformOrigin: "top center" });
+            gsap.to(artSplit.chars, {
+                autoAlpha: 1, yPercent: 0, rotationX: 0,
+                duration: 0.7, stagger: { each: 0.04, from: "start" }, ease: "power3.out",
+                delay: 0.3
+            });
+        } else {
+            // Section below fold — ScrollTrigger
+            gsap.from(artSplit.chars, {
+                autoAlpha: 0, yPercent: 80, rotationX: -90, transformOrigin: "top center",
+                duration: 1, stagger: { each: 0.06, from: "start" }, ease: "power3.out",
+                scrollTrigger: { trigger: '.about-artists', start: 'top 80%', once: true }
+            });
+        }
+    }
+
+    // Subtitle
+    const artSubtitle = document.querySelector('.about-artists-subtitle');
+    if (artSubtitle) {
+        artSubtitle.style.visibility = 'visible'; // override CSS .js-enabled rule
+        if (isPastStart) {
+            gsap.set(artSubtitle, { autoAlpha: 0, y: 20 });
+            gsap.to(artSubtitle, {
+                autoAlpha: 1, y: 0, duration: 0.8, ease: "power2.out", delay: 1
+            });
+        } else {
+            gsap.from(artSubtitle, {
+                autoAlpha: 0, y: 20, duration: 0.8, ease: "power2.out",
+                scrollTrigger: { trigger: '.about-artists', start: 'top 80%', once: true }
+            });
+        }
+    }
+
+    // ============================================
+    // 3. CARDS — Despliegue Cinemático 3D "Izquierda"
+    // ============================================
+    const cards = document.querySelectorAll('.artist-card-link');
+    if (cards.length) {
+        cards.forEach(card => card.style.visibility = 'visible'); // override CSS .js-enabled rule
+        gsap.set('.about-artists-grid', { perspective: 1200 });
+
+        if (isPastStart) {
+            gsap.set(cards, { autoAlpha: 0, rotationY: -90, transformOrigin: "left center" });
+            gsap.to(cards, {
+                autoAlpha: 1, rotationY: 0, duration: 1.2,
+                stagger: { each: 0.5, from: "start" }, ease: "power3.out",
+                delay: 0.5
+            });
+        } else {
+            gsap.from(cards, {
+                autoAlpha: 0, rotationY: -90, transformOrigin: "left center",
+                duration: 1.2, stagger: { each: 0.5, from: "start" }, ease: "power3.out",
+                scrollTrigger: { trigger: '.about-artists', start: 'top 70%', once: true }
+            });
+        }
+    }
+}
 
 // Inicialitzem tot quan el DOM estigui llist
 document.addEventListener("DOMContentLoaded", () => {
@@ -248,4 +353,54 @@ document.addEventListener("DOMContentLoaded", () => {
     initNavHover(); 
     initHeaderAnimations();
     initMobileMenu();
+
+    // Parallax real amb ScrollTrigger (només si existeix la secció)
+    if (document.querySelector('.about-parallax')) {
+        gsap.to('.about-parallax-bg', {
+            yPercent: -35,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.about-parallax',
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1
+            }
+        });
+    }
+
+    // About entrance (nosotros.html hero + artists section)
+    if (document.querySelector('.about-hero') || document.querySelector('.about-artists')) {
+        initAboutEntrance();
+    }
+
+    // Footer reveal animation
+    if (document.querySelector('.main-footer')) {
+        const footerCols = document.querySelectorAll('.footer-grid > div');
+        gsap.from(footerCols, {
+            opacity: 0,
+            y: 40,
+            duration: 0.8,
+            ease: 'power3.out',
+            stagger: 0.1,
+            scrollTrigger: {
+                trigger: '.main-footer',
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+
+        // Bottom bar reveal
+        gsap.from('.footer-bottom', {
+            opacity: 0,
+            y: 20,
+            duration: 0.6,
+            ease: 'power2.out',
+            delay: 0.4,
+            scrollTrigger: {
+                trigger: '.main-footer',
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+    }
 });

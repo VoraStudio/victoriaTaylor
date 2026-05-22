@@ -23,7 +23,7 @@
     --font-heading: var(--font-primary);
     
     /* Fluid Typography with clamp() */
-    --fs-h1: clamp(3rem, calc(8vw + 1rem), 8rem);
+    --fs-h1: clamp(3rem, calc(8vw + 1rem), 7rem);
     --fs-h2: clamp(2rem, calc(5vw + 1rem), 4rem);
     --fs-h3: clamp(1.5rem, calc(3vw + 1rem), 2.5rem);
     --fs-subtitle: clamp(0.75rem, calc(1vw + 0.5rem), 1rem);
