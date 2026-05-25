@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     main.innerHTML = `
         <!-- Hero -->
         <section class="artist-hero" aria-label="${a.nombre}">
-            <div class="artist-hero-bg" style="background-image: url('${a.heroImg}');"></div>
+            <div class="artist-hero-bg" style="background-image: url('${a.heroImg}');${a.bgPosition ? ` background-position: ${a.bgPosition};` : ''}"></div>
             <div class="artist-hero-overlay"></div>
             <div class="artist-hero-content">
                 ${a.rol ? `<span class="artist-hero-rol">${a.rol}</span>` : ''}

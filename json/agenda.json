@@ -1,0 +1,26 @@
+[
+  {
+    "id": "prod_Ua4ktLRtn0DCsI",
+    "title": "Inauguració Col·lectiva",
+    "date": "2026-07-15",
+    "time": "19:00",
+    "location": "Espai Barri Vell, Girona",
+    "description": "Exposició col·lectiva dels artistes de Victoria Taylor. Una nit per descobrir noves col·leccions.",
+    "image": "",
+    "type": "upcoming",
+    "cta_url": "#",
+    "cta_text": "Reservar plaça"
+  },
+  {
+    "id": "prod_Ua4nHv0CfOGHWr",
+    "title": "prova Pau",
+    "date": "2025-03-10",
+    "time": "18:30",
+    "location": "Galeria Espai Barri Vell, Girona",
+    "description": "Exposició individual de Judà Muñoz amb les seves darreres peces d'expressionisme abstracte.",
+    "image": "https://files.stripe.com/links/MDB8YWNjdF8xVGF1TDY1d0k5eERFeDlvfGZsX3Rlc3RfbnRieVpTdmdySFBWZGhPZDh3UHZtU05w00PbTAMfag",
+    "type": "historical",
+    "cta_url": "#",
+    "cta_text": "Veure galeria"
+  }
+]

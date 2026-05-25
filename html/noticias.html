@@ -4,9 +4,14 @@
     <script>document.documentElement.classList.add('js-enabled');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Victoria Taylor | Artistas</title>
-    <!-- Custom CSS -->
+    <title>Victoria Taylor | Notícies</title>
+
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/noticias.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/SplitText.min.js"></script>
 </head>
 <body class="page-body">
 
@@ -21,7 +26,7 @@
             <nav class="desktop-nav" aria-label="Navegació de sobretaula">
                 <ul class="nav-list">
                     <li><a href="nosotros.html" class="nav-link">Nosotros</a></li>
-                    <li><a href="artistas.html" class="nav-link active">Artistas</a></li>
+                    <li><a href="artistas.html" class="nav-link">Artistas</a></li>
                     <li><a href="agencias.html" class="nav-link">Agenda</a></li>
                     <li><a href="noticias.html" class="nav-link">Noticias</a></li>
                     <li><a href="contacto.html" class="nav-link">Contacto</a></li>
@@ -40,7 +45,7 @@
             </div>
             <ul class="mobile-nav-list">
                 <li><a href="nosotros.html" class="mobile-link">Nosotros</a></li>
-                <li><a href="artistas.html" class="mobile-link active">Artistas</a></li>
+                <li><a href="artistas.html" class="mobile-link">Artistas</a></li>
                 <li><a href="agencias.html" class="mobile-link">Agenda</a></li>
                 <li><a href="noticias.html" class="mobile-link">Noticias</a></li>
                 <li><a href="contacto.html" class="mobile-link">Contacto</a></li>
@@ -48,89 +53,24 @@
         </nav>
     </header>
 
+    <!-- Main -->
     <main>
-        <!-- Nova secció: Artistes i Col·leccionistes -->
-        <section class="about-artists" aria-labelledby="about-artists-title">
-            <div class="about-artists-header">
-                <h2 id="about-artists-title" class="about-artists-title"><span class="about-artists-line1">Unimos artistas</span> contemporáneos  
-                    <br class="about-artists-break">
-                    con coleccionistas</h2>
-                <p class="about-artists-subtitle">que buscan piezas únicas, auténticas y con valor emocional y artístico</p>
-            </div>
-            
-            <div class="about-artists-grid">
-                <!-- Card 1 -->
-                <a href="artista.html?id=cristina-montero" class="artist-card-link">
-                    <article class="artist-card">
-                        <div class="artist-card-img">
-                            <img src="../img/artistes/2024-vallviva.avif" alt="Cristina Montero" loading="lazy">
-                        </div>
-                        <h3 class="artist-card-name">CRISTINA MONTERO</h3>
-                    </article>
-                </a>
-
-                <!-- Card 2 -->
-                <a href="artista.html?id=david-thorne" class="artist-card-link">
-                    <article class="artist-card">
-                        <div class="artist-card-img">
-                            <img src="../img/artistes/thorne-1.avif" alt="David Thorne" loading="lazy">
-                        </div>
-                        <h3 class="artist-card-name">DAVID THORNE</h3>
-                    </article>
-                </a>
-
-                <!-- Card 3 -->
-                <a href="artista.html?id=hubo" class="artist-card-link">
-                    <article class="artist-card">
-                        <div class="artist-card-img">
-                            <img src="../img/artistes/hubo.avif" alt="HUBO" loading="lazy">
-                        </div>
-                        <h3 class="artist-card-name">HUBO</h3>
-                    </article>
-                </a>
-
-                <!-- Card 4 -->
-                <a href="artista.html?id=iol-baques" class="artist-card-link">
-                    <article class="artist-card">
-                        <div class="artist-card-img">
-                            <img src="../img/artistes/iol-baques-1.avif" alt="IOL Baqués" loading="lazy">
-                        </div>
-                        <h3 class="artist-card-name">IOL BAQUÉS</h3>
-                    </article>
-                </a>
-
-                <!-- Card 5 -->
-                <a href="artista.html?id=juda-munoz" class="artist-card-link">
-                    <article class="artist-card">
-                        <div class="artist-card-img">
-                            <img src="../img/artistes/juda-4.avif" alt="Judà Muñoz" loading="lazy">
-                        </div>
-                        <h3 class="artist-card-name">JUDÀ MUÑOZ</h3>
-                    </article>
-                </a>
-
-                <!-- Card 6 -->
-                <a href="artista.html?id=mohammed-er-rabehy" class="artist-card-link">
-                    <article class="artist-card">
-                        <div class="artist-card-img">
-                            <img src="../img/artistes/muha3.avif" alt="Mohammed Er Rabehy" loading="lazy">
-                        </div>
-                        <h3 class="artist-card-name">MOHAMMED ER RABEHY</h3>
-                    </article>
-                </a>
-
-                <!-- Card 7 -->
-                <a href="artista.html?id=rosa-martin" class="artist-card-link">
-                    <article class="artist-card">
-                        <div class="artist-card-img">
-                            <img src="../img/artistes/rosa2.avif" alt="Rosa Martín" loading="lazy">
-                        </div>
-                        <h3 class="artist-card-name">ROSA MARTÍN</h3>
-                    </article>
-                </a>
+        <!-- Hero -->
+        <section class="news-hero" aria-label="Notícies">
+            <div class="news-hero-bg" style="background-image: url('../img/slide1.webp');"></div>
+            <div class="news-hero-content">
+                <span class="news-hero-label">Actualitat</span>
+                <h1 class="news-hero-title" style="visibility:hidden;">Notícies</h1>
+                <p class="news-hero-subtitle">Tota l'actualitat de Victoria Taylor: exposicions, entrevistes i novetats del món de l'art contemporani.</p>
             </div>
         </section>
+
+        <!-- Llista de notícies -->
+        <section class="news-section" aria-label="Llista de notícies">
+            <div id="news-list" class="news-list"></div>
+        </section>
     </main>
+
     <!-- Footer -->
     <footer class="main-footer">
         <div class="footer-grid">
@@ -178,11 +118,9 @@
             </ul>
         </div>
     </footer>
-    <!-- GSAP Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/SplitText.min.js"></script>
-        <!-- Custom JS -->
+
+    <!-- Scripts -->
     <script src="../js/script.js"></script>
+    <script src="../js/noticias.js"></script>
 </body>
 </html>

@@ -13,8 +13,10 @@
     z-index: var(--z-header);
     padding: var(--header-padding);
     box-sizing: border-box;
-    background-color: rgba(10, 10, 10, 0.4); /* Fondo semitransparente */
-    backdrop-filter: blur(15px); /* Efecto blur premium */
+    background-color: rgba(10, 10, 10, 0.4);
+    /* Fondo semitransparente */
+    backdrop-filter: blur(15px);
+    /* Efecto blur premium */
     -webkit-backdrop-filter: blur(15px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -27,7 +29,7 @@
 }
 
 .header-logo {
-    height: 30px; 
+    height: 30px;
     width: auto;
     display: block;
     object-fit: contain;
@@ -98,12 +100,12 @@
     visibility: hidden;
 
     .header-logo {
-    height: 50px; 
-    width: auto;
-    display: block;
-    object-fit: contain;
-    margin-bottom:var(--space-l);
-}
+        height: 50px;
+        width: auto;
+        display: block;
+        object-fit: contain;
+        margin-bottom: var(--space-l);
+    }
 }
 
 .mobile-nav.is-open {
@@ -138,7 +140,7 @@
     .desktop-nav {
         display: none;
     }
-    
+
     .menu-toggle {
         display: flex;
     }
@@ -159,7 +161,11 @@
 
 
 /* Optimitzacions de rendiment */
-.main-header, .mobile-nav, .logo, .nav-link, .hamburger-line {
+.main-header,
+.mobile-nav,
+.logo,
+.nav-link,
+.hamburger-line {
     will-change: transform, opacity;
 }
 
@@ -168,11 +174,14 @@
 
 /* ----- INICI SECCIÓ ESTRUCTURES ----- */
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -495,7 +504,7 @@ body, html {
 
 /* ----- INICI SECCIÓ ABOUT ARTISTS (mobile-first) ----- */
 .about-artists {
-    padding: var(--space-xxl) var(--space-xl);
+    padding: calc(var(--space-xxl) + 120px) var(--space-xl) var(--space-xxl);
     background-color: var(--color-white);
     color: var(--color-black);
     text-align: center;
@@ -677,12 +686,10 @@ body, html {
 .artist-hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        180deg,
-        rgba(0,0,0,0.3) 0%,
-        rgba(0,0,0,0.6) 50%,
-        rgba(0,0,0,0.9) 100%
-    );
+    background: linear-gradient(180deg,
+            rgba(0, 0, 0, 0.3) 0%,
+            rgba(0, 0, 0, 0.6) 50%,
+            rgba(0, 0, 0, 0.9) 100%);
     z-index: 1;
 }
 
@@ -714,7 +721,7 @@ body, html {
     text-transform: uppercase;
     color: var(--color-white);
     margin: 0;
-    text-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    text-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
 .artist-hero-ig {
@@ -899,7 +906,7 @@ body, html {
     object-fit: cover;
     display: block;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-                filter 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        filter 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     filter: grayscale(80%);
 }
 
@@ -1003,11 +1010,9 @@ body, html {
 .artistas-hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        180deg,
-        rgba(0,0,0,0.2) 0%,
-        rgba(0,0,0,0.7) 100%
-    );
+    background: linear-gradient(180deg,
+            rgba(0, 0, 0, 0.2) 0%,
+            rgba(0, 0, 0, 0.7) 100%);
     z-index: 1;
 }
 
@@ -1026,7 +1031,7 @@ body, html {
     text-transform: uppercase;
     color: var(--color-white);
     margin: 0 0 var(--space-s);
-    text-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    text-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
 .artistas-hero-subtitle {
@@ -1071,16 +1076,16 @@ body, html {
     align-items: center;
     gap: var(--space-m);
     padding: var(--space-m);
-    border: 1px solid rgba(0,0,0,0.06);
+    border: 1px solid rgba(0, 0, 0, 0.06);
     border-radius: 16px;
     transition: var(--transition-smooth);
     will-change: transform;
 }
 
 .artista-card:hover {
-    border-color: rgba(0,0,0,0.12);
+    border-color: rgba(0, 0, 0, 0.12);
     transform: translateY(-4px);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
 }
 
 .artista-card-img {
@@ -1237,8 +1242,13 @@ body, html {
     transition: var(--transition-smooth);
 }
 
-.artista-modal-prev { left: var(--space-m); }
-.artista-modal-next { right: var(--space-m); }
+.artista-modal-prev {
+    left: var(--space-m);
+}
+
+.artista-modal-next {
+    right: var(--space-m);
+}
 
 .artista-modal-prev:hover,
 .artista-modal-next:hover,
@@ -1285,7 +1295,7 @@ body, html {
     left: 0;
     width: 100%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
 }
 
 .footer-grid {
@@ -1332,7 +1342,7 @@ body, html {
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--color-white);
     opacity: 0.6;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1340,9 +1350,9 @@ body, html {
 
 .footer-social-link:hover {
     opacity: 1;
-    border-color: rgba(255,255,255,0.4);
+    border-color: rgba(255, 255, 255, 0.4);
     transform: translateY(-3px);
-    background-color: rgba(255,255,255,0.03);
+    background-color: rgba(255, 255, 255, 0.03);
 }
 
 /* Titles */
@@ -1416,7 +1426,7 @@ body, html {
     text-decoration: none;
     transition: opacity 0.3s ease;
     display: inline-block;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     padding-bottom: 2px;
 }
 
@@ -1473,10 +1483,10 @@ body, html {
     }
 
     .footer-logo-img {
-    max-width: 300px;
-    height: auto;
-    display: block;
-}
+        max-width: 300px;
+        height: auto;
+        display: block;
+    }
 
 
     .footer-grid {
