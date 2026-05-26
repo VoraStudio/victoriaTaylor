@@ -1517,6 +1517,213 @@ html.js-enabled .about-text-side p,
 html.js-enabled .btn-cta,
 html.js-enabled .about-artists-title,
 html.js-enabled .about-artists-subtitle,
-html.js-enabled .artist-card-link {
+html.js-enabled .artist-card-link,
+html.js-enabled .contact-title {
     visibility: hidden;
+}
+
+/* ----- INICI SECCIÓ CONTACTO ----- */
+
+.contact-page {
+    width: 100%;
+    min-height: 100svh;
+    background-color: var(--color-black);
+    color: var(--color-white);
+    padding: calc(var(--header-height) + var(--space-xxl)) var(--space-m) var(--space-xxl);
+    display: flex;
+    justify-content: center;
+}
+
+.contact-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contact-top {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    margin-bottom: var(--space-xl);
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xxl);
+}
+
+@media (min-width: 900px) {
+    .contact-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-xl);
+        align-items: end; /* Align form and image to the bottom if preferred, or remove for top */
+    }
+}
+
+.contact-form-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+}
+
+.contact-title {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 0.9;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.contact-details {
+    font-family: var(--font-secondary);
+    font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+    line-height: 1.6;
+}
+
+.contact-details p {
+    margin: 0 0 var(--space-xs);
+}
+
+.contact-email {
+    color: var(--color-white);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    padding-bottom: 2px;
+    transition: var(--transition-smooth);
+}
+
+.contact-email:hover {
+    opacity: 0.7;
+}
+
+.contact-socials {
+    display: flex;
+    gap: var(--space-m);
+    margin-top: var(--space-s);
+}
+
+.contact-socials a {
+    color: var(--color-white);
+    transition: var(--transition-smooth);
+    display: block;
+    width: 24px;
+    height: 24px;
+}
+
+.contact-socials a:hover {
+    color: var(--accent-color);
+}
+
+.contact-subtitle {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: clamp(1.2rem, 2.5vw, 2rem);
+    line-height: 1.1;
+    margin: var(--space-l) 0;
+}
+
+.contact-form-wrapper {
+    margin-top: var(--space-s);
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    max-width: 600px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.form-group label {
+    font-family: var(--font-primary);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group textarea {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: var(--space-s);
+    color: var(--color-white);
+    font-family: var(--font-secondary);
+    font-size: 1rem;
+    transition: var(--transition-smooth);
+    outline: none;
+    width: 100%;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--color-white);
+}
+
+.submit-btn {
+    background-color: var(--color-white);
+    color: var(--color-black);
+    font-family: var(--font-secondary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 12px var(--space-m);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    margin-top: var(--space-s);
+}
+
+.submit-btn:hover {
+    background-color: #ddd;
+}
+
+.form-disclaimer {
+    font-family: var(--font-secondary);
+    font-size: 0.65rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+.contact-image-col {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: var(--space-xl);
+}
+
+.clover-image {
+    width: 100%;
+    max-width: 450px;
+    aspect-ratio: 1;
+    position: relative;
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M 50 10.68 A 28 28 0 1 1 89.32 50 A 28 28 0 1 1 50 89.32 A 28 28 0 1 1 10.68 50 A 28 28 0 1 1 50 10.68 Z" /></svg>');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M 50 10.68 A 28 28 0 1 1 89.32 50 A 28 28 0 1 1 50 89.32 A 28 28 0 1 1 10.68 50 A 28 28 0 1 1 50 10.68 Z" /></svg>');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    overflow: hidden;
+}
+
+.clover-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transform: scale(1.05); /* Slight scale to ensure full coverage */
 }

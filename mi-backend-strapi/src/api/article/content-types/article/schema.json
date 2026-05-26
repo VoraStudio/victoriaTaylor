@@ -8,7 +8,7 @@
     "description": "News articles for Victoria Taylor"
   },
   "options": {
-    "draftAndPublish": false
+    "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
@@ -19,6 +19,30 @@
     "date": {
       "type": "date",
       "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "location": {
+      "type": "string"
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": ["exposicion", "entrevista", "colaboracion", "reconocimiento", "feria", "otro"],
+      "default": "otro"
+    },
+    "description": {
+      "type": "text"
+    },
+    "content": {
+      "type": "richtext"
+    },
+    "cta_label": {
+      "type": "string",
+      "default": "Leer noticia"
     },
     "cta_url": {
       "type": "string",

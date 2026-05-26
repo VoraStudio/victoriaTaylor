@@ -4,30 +4,26 @@
     <script>document.documentElement.classList.add('js-enabled');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Victoria Taylor | Nosotros</title>
+    <title>Victoria Taylor | Notícia</title>
 
-    <!-- Custom CSS: El nostre sistema de disseny i estils personalitzats -->
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/noticia.css">
 
-    <!-- GSAP Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/SplitText.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 </head>
 <body class="page-body">
 
-    <!-- Header premium amb navegació i menú hamburguesa -->
+    <!-- Header -->
     <header id="header" class="main-header" aria-label="Navegació principal">
         <div class="header-container">
-            <!-- Logo Victoria Taylor -->
             <div class="logo">
                 <a href="../index.html" aria-label="Inici Victoria Taylor">
                     <img src="../img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
                 </a>
             </div>
-
-            <!-- Navegació Desktop -->
             <nav class="desktop-nav" aria-label="Navegació de sobretaula">
                 <ul class="nav-list">
                     <li><a href="nosotros.html" class="nav-link">Nosotros</a></li>
@@ -37,15 +33,11 @@
                     <li><a href="contacto.html" class="nav-link">Contacto</a></li>
                 </ul>
             </nav>
-
-            <!-- Botó Menú Hamburguesa per a mòbils -->
             <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Obrir menú">
                 <span class="hamburger-line line-1"></span>
                 <span class="hamburger-line line-2"></span>
             </button>
         </div>
-
-        <!-- Navegació Mòbil (Full Screen Overlay) -->
         <nav id="mobile-nav" class="mobile-nav" aria-label="Navegació mòbil">
             <div class="logo">
                 <a href="../index.html" aria-label="Inici Victoria Taylor">
@@ -62,69 +54,34 @@
         </nav>
     </header>
 
-    <main>
-        <section class="contact-page" aria-label="Contacto">
-            <div class="contact-container">
-                <div class="contact-top">
-                    <h1 class="contact-title">Contacto</h1>
-                    
-                    <div class="contact-details">
-                        <p>Carrer Pic de Peguera, 11 17003 GIRONA<br>123-456-7890</p>
-                        <a href="mailto:info@victoriataylor.art" class="contact-email">info@victoriataylor.art</a>
-                    </div>
-                    
-                    <div class="contact-socials">
-                        <!-- Facebook -->
-                        <a href="#" aria-label="Facebook">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
-                        </a>
-                        <!-- Twitter -->
-                        <a href="#" aria-label="Twitter">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M23.954 4.569a10 10 0 0 1-2.825.775 4.958 4.958 0 0 0 2.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 0 0-8.384 4.482C7.69 8.094 4.066 6.13 1.64 3.161a4.822 4.822 0 0 0-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 0 1-2.228-.616v.061a4.923 4.923 0 0 0 3.946 4.827 4.996 4.996 0 0 1-2.212.085 4.937 4.937 0 0 0 4.604 3.417 9.868 9.868 0 0 1-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 0 0 7.557 2.209c9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63a9.936 9.936 0 0 0 2.46-2.548l-.047-.02z"/></svg>
-                        </a>
-                        <!-- Instagram -->
-                        <a href="#" aria-label="Instagram">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="contact-grid">
-                    <div class="contact-form-col">
-                        <h2 class="contact-subtitle">Regístrate para mantenerte<br>informado de nuestras<br>actividades</h2>
-                        
-                        <div class="contact-form-wrapper">
-                            <form class="contact-form" action="#" method="POST">
-                                <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input type="text" id="name" name="name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email address</label>
-                                    <input type="email" id="email" name="email" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="message">Leave a message</label>
-                                    <textarea id="message" name="message" rows="4" required></textarea>
-                                </div>
-                                <button type="submit" class="submit-btn">Submit</button>
-                                <p class="form-disclaimer">Es compartirà el nom del teu perfil de Canva. No enviïs mai contrasenyes.</p>
-                            </form>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-image-col">
-                        <div class="clover-image">
-                            <img src="../img/slide2.avif" alt="Artist working">
-                        </div>
-                    </div>
+    <!-- Main -->
+    <main id="noticia-main">
+        <!-- Hero -->
+        <section class="noticia-hero" id="noticia-hero">
+            <div class="noticia-hero-bg" id="noticia-hero-bg"></div>
+            <div class="noticia-hero-overlay"></div>
+            <div class="noticia-hero-content">
+                <span class="noticia-cat" id="noticia-cat"></span>
+                <h1 class="noticia-title" id="noticia-title" style="visibility:hidden;"></h1>
+                <div class="noticia-meta" id="noticia-meta">
+                    <span class="noticia-date" id="noticia-date"></span>
+                    <span class="noticia-meta-sep"></span>
+                    <span class="noticia-location" id="noticia-location"></span>
                 </div>
             </div>
         </section>
-    </main>
 
-    <!-- Custom JS: La nostra lògica d'animacions i configuració -->
-    <script src="../js/script.js"></script>
+        <!-- Content -->
+        <article class="noticia-content" id="noticia-content">
+            <div class="noticia-content-inner">
+                <a href="noticias.html" class="noticia-back" id="noticia-back">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    Tornar a notícies
+                </a>
+                <div class="noticia-body" id="noticia-body"></div>
+            </div>
+        </article>
+    </main>
 
     <!-- Footer -->
     <footer class="main-footer">
@@ -173,5 +130,9 @@
             </ul>
         </div>
     </footer>
+
+    <!-- Scripts -->
+    <script src="../js/script.js"></script>
+    <script src="../js/noticia.js"></script>
 </body>
 </html>
