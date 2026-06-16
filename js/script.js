@@ -366,6 +366,7 @@ const i18n = {
         "footer.legal.privacidad": "Privacidad",
         "footer.legal.cookies": "Cookies",
         "footer.legal.accesibilidad": "Accesibilidad",
+        "footer.developed": "Desarrollado por",
         "contact.title": "Contacto",
         "contact.girona": "Carrer Pic de Peguera, 11 17003 GIRONA",
         "contact.london": "VICTORIA TAYLOR<br>112 Whitechapel High Street E1 7AQ LONDON",
@@ -386,6 +387,20 @@ const i18n = {
         "nosotros.artists.title2": "contemporáneos",
         "nosotros.artists.title3": "con coleccionistas",
         "nosotros.artists.subtitle": "que buscan piezas únicas, auténticas y con valor emocional y artístico",
+        "artistas.title1": "Unimos artistas",
+        "artistas.title2": "contemporáneos",
+        "artistas.title3": "con coleccionistas",
+        "artistas.subtitle": "que buscan piezas únicas, auténticas y con valor emocional y artístico",
+        "hero.slide2.subtitle": "Talento Único",
+        "hero.slide2.title": "Artistas",
+        "hero.slide3.subtitle": "Visión Creativa",
+        "hero.slide3.title": "Expresión",
+        "hero.slide4.subtitle": "Obras Selectas",
+        "hero.slide4.title": "Edición Limitada",
+        "hero.slide5.subtitle": "Estilo Vogue",
+        "hero.slide5.title": "Elegante",
+        "hero.slide6.subtitle": "Nueva Colección",
+        "hero.slide6.title": "Infinito",
     },
     ca: {
         "nav.nosotros": "Nosaltres",
@@ -403,6 +418,7 @@ const i18n = {
         "footer.legal.privacidad": "Privacitat",
         "footer.legal.cookies": "Galetes",
         "footer.legal.accesibilidad": "Accessibilitat",
+        "footer.developed": "Desenvolupat per",
         "contact.title": "Contacte",
         "contact.girona": "Carrer Pic de Peguera, 11 17003 GIRONA",
         "contact.london": "VICTORIA TAYLOR<br>112 Whitechapel High Street E1 7AQ LONDRES",
@@ -423,11 +439,25 @@ const i18n = {
         "nosotros.artists.title2": "contemporanis",
         "nosotros.artists.title3": "amb col·leccionistes",
         "nosotros.artists.subtitle": "que busquen peces úniques, autèntiques i amb valor emocional i artístic",
+        "artistas.title1": "Unim artistes",
+        "artistas.title2": "contemporanis",
+        "artistas.title3": "amb col·leccionistes",
+        "artistas.subtitle": "que busquen peces úniques, autèntiques i amb valor emocional i artístic",
+        "hero.slide2.subtitle": "Talent Únic",
+        "hero.slide2.title": "Artistes",
+        "hero.slide3.subtitle": "Visió Creativa",
+        "hero.slide3.title": "Expressió",
+        "hero.slide4.subtitle": "Obres Selectes",
+        "hero.slide4.title": "Edició Limitada",
+        "hero.slide5.subtitle": "Estil Vogue",
+        "hero.slide5.title": "Elegant",
+        "hero.slide6.subtitle": "Nova Col·lecció",
+        "hero.slide6.title": "Infinit",
     },
     en: {
         "nav.nosotros": "About",
         "nav.artistas": "Artists",
-        "nav.agenda": "Agenda",
+        "nav.agenda": "Events",
         "nav.noticias": "News",
         "nav.contacto": "Contact",
         "footer.tagline": "We discover and promote artists with exceptional talent.",
@@ -440,6 +470,7 @@ const i18n = {
         "footer.legal.privacidad": "Privacy",
         "footer.legal.cookies": "Cookies",
         "footer.legal.accesibilidad": "Accessibility",
+        "footer.developed": "Developed by",
         "contact.title": "Contact",
         "contact.girona": "Carrer Pic de Peguera, 11 17003 GIRONA",
         "contact.london": "VICTORIA TAYLOR<br>112 Whitechapel High Street E1 7AQ LONDON",
@@ -460,6 +491,20 @@ const i18n = {
         "nosotros.artists.title2": "artists together",
         "nosotros.artists.title3": "with collectors",
         "nosotros.artists.subtitle": "who seek unique, authentic pieces with emotional and artistic value",
+        "artistas.title1": "We bring contemporary",
+        "artistas.title2": "artists together",
+        "artistas.title3": "with collectors",
+        "artistas.subtitle": "who seek unique, authentic pieces with emotional and artistic value",
+        "hero.slide2.subtitle": "Unique Talent",
+        "hero.slide2.title": "Artists",
+        "hero.slide3.subtitle": "Creative Vision",
+        "hero.slide3.title": "Expression",
+        "hero.slide4.subtitle": "Selected Works",
+        "hero.slide4.title": "Limited Edition",
+        "hero.slide5.subtitle": "Vogue Style",
+        "hero.slide5.title": "Elegant",
+        "hero.slide6.subtitle": "New Collection",
+        "hero.slide6.title": "Infinite",
     }
 };
 
@@ -473,12 +518,13 @@ function setVTLang(lang) {
     document.querySelectorAll("[data-i18n]").forEach((el) => {
         const key = el.getAttribute("data-i18n");
         if (!i18n[lang] || !i18n[lang][key]) return;
-        const isNavLink = el.classList.contains("nav-link") || el.classList.contains("mobile-link");
-        if (isNavLink && el.querySelector(".split-mask")) {
-            const original = el.querySelector(".txt-original");
+        // Si el nav link ya tiene split-mask (de initNavHover), només canviem el text
+        const elSplit = el.querySelector(".split-mask");
+        if (elSplit) {
+            const orig = el.querySelector(".txt-original");
             const clone = el.querySelector(".txt-clone");
-            if (original && clone) {
-                original.textContent = i18n[lang][key];
+            if (orig && clone) {
+                orig.textContent = i18n[lang][key];
                 clone.textContent = i18n[lang][key];
                 return;
             }
@@ -504,6 +550,11 @@ function setVTLang(lang) {
     }
 
     localStorage.setItem("vt-lang", lang);
+
+    // Re-renderitzar pàgina d'artista si és el cas
+    if (typeof window.renderArtist === "function") {
+        window.renderArtist(lang);
+    }
 }
 
 document.addEventListener("click", (e) => {

@@ -1454,6 +1454,33 @@ html {
     margin: 0;
 }
 
+.footer-developed {
+    font-family: var(--font-secondary);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.25);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin: 0;
+}
+
+.footer-vora-link {
+    display: inline-flex;
+    align-items: center;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+.footer-vora-link:hover {
+    opacity: 1;
+}
+
+.footer-vora-logo {
+    height: 16px;
+    width: auto;
+    display: block;
+}
+
 .footer-legal {
     display: flex;
     flex-wrap: wrap;
@@ -1894,13 +1921,13 @@ html.js-enabled .legal-title {
 
 .lang-dropdown__list {
     position: absolute;
-    top: calc(100% - 1px);
-    left: 0;
+    top: 100%;
+    right: 0;
     background: rgba(20, 20, 20, 0.95);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
+    border-radius: 0 0 4px 4px;
     display: none;
     min-width: 130px;
     z-index: var(--z-mobile-nav);
@@ -1910,10 +1937,10 @@ html.js-enabled .legal-title {
 .lang-dropdown__list::before {
     content: "";
     position: absolute;
-    top: -12px;
-    left: 0;
-    right: 0;
-    height: 12px;
+    top: -16px;
+    left: -4px;
+    right: -4px;
+    height: 20px;
     background: transparent;
 }
 
