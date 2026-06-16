@@ -347,8 +347,175 @@ function initAboutEntrance() {
     }
 }
 
+/* ----- INICI SECCIÓ I18N (idiomes) ----- */
+
+const i18n = {
+    es: {
+        "nav.nosotros": "Nosotros",
+        "nav.artistas": "Artistas",
+        "nav.agenda": "Agenda",
+        "nav.noticias": "Noticias",
+        "nav.contacto": "Contacto",
+        "footer.tagline": "Descubrimos y promovemos artistas con un talento excepcional.",
+        "footer.menu": "Menú",
+        "footer.contacto": "Contacto",
+        "footer.girona": "Girona",
+        "footer.london": "London",
+        "footer.copyright": "© 2026 Victoria Taylor · Global Brands Europe, SL",
+        "footer.legal.aviso": "Aviso legal",
+        "footer.legal.privacidad": "Privacidad",
+        "footer.legal.cookies": "Cookies",
+        "footer.legal.accesibilidad": "Accesibilidad",
+        "contact.title": "Contacto",
+        "contact.girona": "Carrer Pic de Peguera, 11 17003 GIRONA",
+        "contact.london": "VICTORIA TAYLOR<br>112 Whitechapel High Street E1 7AQ LONDON",
+        "contact.subtitle": "Regístrate para mantenerte<br>informado de nuestras<br>actividades",
+        "contact.form.name": "Name",
+        "contact.form.email": "Email address",
+        "contact.form.message": "Leave a message",
+        "contact.form.submit": "Submit",
+        "contact.form.privacy": 'He leído y acepto la <a href="privacidad.html" target="_blank">política de privacidad</a>. *',
+        "contact.form.marketing": "Acepto recibir información sobre las actividades, servicios y productos de GLOBAL BRANDS EUROPE, SL.",
+        "contact.form.disclaimer": "Nos pondremos en contacto contigo en breve. No compartimos tus datos con terceros.",
+        "nosotros.hero.title": "Victoria Taylor",
+        "nosotros.hero.text1": "Victoria Taylor nace como un espacio de encuentro entre creación y apreciación. No somos una galería tradicional. Somos una plataforma curatorial que selecciona, impulsa y posiciona a artistas contemporáneos dentro de un entorno donde su obra pueda ser vista, entendida y valorada. Creemos en el arte como una forma de lenguaje universal, capaz de transmitir identidad, emoción y pensamiento.",
+        "nosotros.hero.text2": "Trabajamos con una visión clara: dar valor real al talento artístico a través de una selección cuidada y una presentación impecable.",
+        "nosotros.hero.cta1": "Ver Colección",
+        "nosotros.hero.cta2": "Ser Artista",
+        "nosotros.artists.title1": "Unimos artistas",
+        "nosotros.artists.title2": "contemporáneos",
+        "nosotros.artists.title3": "con coleccionistas",
+        "nosotros.artists.subtitle": "que buscan piezas únicas, auténticas y con valor emocional y artístico",
+    },
+    ca: {
+        "nav.nosotros": "Nosaltres",
+        "nav.artistas": "Artistes",
+        "nav.agenda": "Agenda",
+        "nav.noticias": "Notícies",
+        "nav.contacto": "Contacte",
+        "footer.tagline": "Descobrim i promocionem artistes amb un talent excepcional.",
+        "footer.menu": "Menú",
+        "footer.contacto": "Contacte",
+        "footer.girona": "Girona",
+        "footer.london": "Londres",
+        "footer.copyright": "© 2026 Victoria Taylor · Global Brands Europe, SL",
+        "footer.legal.aviso": "Avís legal",
+        "footer.legal.privacidad": "Privacitat",
+        "footer.legal.cookies": "Galetes",
+        "footer.legal.accesibilidad": "Accessibilitat",
+        "contact.title": "Contacte",
+        "contact.girona": "Carrer Pic de Peguera, 11 17003 GIRONA",
+        "contact.london": "VICTORIA TAYLOR<br>112 Whitechapel High Street E1 7AQ LONDRES",
+        "contact.subtitle": "Registra't per mantenir-te<br>informat de les nostres<br>activitats",
+        "contact.form.name": "Nom",
+        "contact.form.email": "Correu electrònic",
+        "contact.form.message": "Deixa'ns un missatge",
+        "contact.form.submit": "Enviar",
+        "contact.form.privacy": 'He llegit i accepto la <a href="privacidad.html" target="_blank">política de privacitat</a>. *',
+        "contact.form.marketing": "Accepto rebre informació sobre les activitats, serveis i productes de GLOBAL BRANDS EUROPE, SL.",
+        "contact.form.disclaimer": "Ens posarem en contacte amb tu aviat. No compartim les teves dades amb tercers.",
+        "nosotros.hero.title": "Victoria Taylor",
+        "nosotros.hero.text1": "Victoria Taylor neix com un espai de trobada entre creació i apreciació. No som una galeria tradicional. Som una plataforma curatorial que selecciona, impulsa i posiciona a artistes contemporanis dins d'un entorn on la seva obra pugui ser vista, entesa i valorada. Creiem en l'art com una forma de llenguatge universal, capaç de transmetre identitat, emoció i pensament.",
+        "nosotros.hero.text2": "Treballem amb una visió clara: donar valor real al talent artístic a través d'una selecció cuidada i una presentació impecable.",
+        "nosotros.hero.cta1": "Veure Col·lecció",
+        "nosotros.hero.cta2": "Ser Artista",
+        "nosotros.artists.title1": "Unim artistes",
+        "nosotros.artists.title2": "contemporanis",
+        "nosotros.artists.title3": "amb col·leccionistes",
+        "nosotros.artists.subtitle": "que busquen peces úniques, autèntiques i amb valor emocional i artístic",
+    },
+    en: {
+        "nav.nosotros": "About",
+        "nav.artistas": "Artists",
+        "nav.agenda": "Agenda",
+        "nav.noticias": "News",
+        "nav.contacto": "Contact",
+        "footer.tagline": "We discover and promote artists with exceptional talent.",
+        "footer.menu": "Menu",
+        "footer.contacto": "Contact",
+        "footer.girona": "Girona",
+        "footer.london": "London",
+        "footer.copyright": "© 2026 Victoria Taylor · Global Brands Europe, SL",
+        "footer.legal.aviso": "Legal notice",
+        "footer.legal.privacidad": "Privacy",
+        "footer.legal.cookies": "Cookies",
+        "footer.legal.accesibilidad": "Accessibility",
+        "contact.title": "Contact",
+        "contact.girona": "Carrer Pic de Peguera, 11 17003 GIRONA",
+        "contact.london": "VICTORIA TAYLOR<br>112 Whitechapel High Street E1 7AQ LONDON",
+        "contact.subtitle": "Register to stay<br>informed about our<br>activities",
+        "contact.form.name": "Name",
+        "contact.form.email": "Email address",
+        "contact.form.message": "Leave a message",
+        "contact.form.submit": "Submit",
+        "contact.form.privacy": 'I have read and accept the <a href="privacidad.html" target="_blank">privacy policy</a>. *',
+        "contact.form.marketing": "I agree to receive information about GLOBAL BRANDS EUROPE, SL activities, services and products.",
+        "contact.form.disclaimer": "We will get back to you shortly. We do not share your data with third parties.",
+        "nosotros.hero.title": "Victoria Taylor",
+        "nosotros.hero.text1": "Victoria Taylor is born as a meeting space between creation and appreciation. We are not a traditional gallery. We are a curatorial platform that selects, promotes and positions contemporary artists within an environment where their work can be seen, understood and valued. We believe in art as a form of universal language, capable of conveying identity, emotion and thought.",
+        "nosotros.hero.text2": "We work with a clear vision: to give real value to artistic talent through careful selection and impeccable presentation.",
+        "nosotros.hero.cta1": "View Collection",
+        "nosotros.hero.cta2": "Become an Artist",
+        "nosotros.artists.title1": "We bring contemporary",
+        "nosotros.artists.title2": "artists together",
+        "nosotros.artists.title3": "with collectors",
+        "nosotros.artists.subtitle": "who seek unique, authentic pieces with emotional and artistic value",
+    }
+};
+
+let vtCurrentLang = localStorage.getItem("vt-lang") || "es";
+
+function setVTLang(lang) {
+    if (!i18n[lang]) return;
+    vtCurrentLang = lang;
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll("[data-i18n]").forEach((el) => {
+        const key = el.getAttribute("data-i18n");
+        if (!i18n[lang] || !i18n[lang][key]) return;
+        const isNavLink = el.classList.contains("nav-link") || el.classList.contains("mobile-link");
+        if (isNavLink && el.querySelector(".split-mask")) {
+            const original = el.querySelector(".txt-original");
+            const clone = el.querySelector(".txt-clone");
+            if (original && clone) {
+                original.textContent = i18n[lang][key];
+                clone.textContent = i18n[lang][key];
+                return;
+            }
+        }
+        el.innerHTML = i18n[lang][key];
+    });
+
+    document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+        const key = el.getAttribute("data-i18n-placeholder");
+        if (i18n[lang] && i18n[lang][key]) {
+            el.placeholder = i18n[lang][key];
+        }
+    });
+
+    document.querySelectorAll(".lang-btn, .mobile-lang-btn").forEach((btn) => {
+        btn.classList.toggle("lang-btn--active", btn.getAttribute("data-lang") === lang);
+        btn.classList.toggle("mobile-lang-btn--active", btn.getAttribute("data-lang") === lang);
+    });
+
+    const currentFlag = document.getElementById("current-flag");
+    if (currentFlag) {
+        currentFlag.className = `lang-switcher__flag lang-switcher__flag--${lang}`;
+    }
+
+    localStorage.setItem("vt-lang", lang);
+}
+
+document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-lang]");
+    if (btn) setVTLang(btn.getAttribute("data-lang"));
+});
+
 // Inicialitzem tot quan el DOM estigui llist
 document.addEventListener("DOMContentLoaded", () => {
+    // Apliquem l'idioma guardat abans d'inicialitzar res
+    setVTLang(vtCurrentLang);
+
     // Ordre crític: primer preparem l'estructura de hover, després animem l'entrada
     initNavHover(); 
     initHeaderAnimations();

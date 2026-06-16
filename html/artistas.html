@@ -4,6 +4,32 @@
     <script>document.documentElement.classList.add('js-enabled');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Artistes contemporanis representats per Victoria Taylor: Cristina Montero, David Thorne, HUBO, IOL Baques, Juda Munoz, Mohammed Er Rabehy, Rosa Martin.">
+    <meta name="keywords" content="artistes contemporanis, Cristina Montero, David Thorne, HUBO, IOL Baques, Juda Munoz, Mohammed Er Rabehy, Rosa Martin, galeria d'art">
+    <meta name="author" content="Victoria Taylor - Global Brands Europe, SL">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://victoriataylor.art/html/artistas.html">
+    <meta property="og:title" content="Artistas | Victoria Taylor">
+    <meta property="og:description" content="Artistes contemporanis representats per Victoria Taylor: Cristina Montero, David Thorne, HUBO, IOL Baques, Juda Munoz, Mohammed Er Rabehy, Rosa Martin.">
+    <meta property="og:image" content="https://victoriataylor.art/img/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Artistas | Victoria Taylor">
+    <meta name="twitter:description" content="Artistes contemporanis representats per Victoria Taylor: Cristina Montero, David Thorne, HUBO, IOL Baques, Juda Munoz, Mohammed Er Rabehy, Rosa Martin.">
+    <meta name="twitter:image" content="https://victoriataylor.art/img/og-image.jpg">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://victoriataylor.art/html/artistas.html">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/avif" href="../img/logo.avif">
+    <link rel="apple-touch-icon" href="../img/logo.avif">
+
     <title>Victoria Taylor | Artistas</title>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/style.css">
@@ -20,14 +46,28 @@
             </div>
             <nav class="desktop-nav" aria-label="Navegació de sobretaula">
                 <ul class="nav-list">
-                    <li><a href="nosotros.html" class="nav-link">Nosotros</a></li>
-                    <li><a href="artistas.html" class="nav-link active">Artistas</a></li>
-                    <li><a href="agencias.html" class="nav-link">Agenda</a></li>
-                    <li><a href="noticias.html" class="nav-link">Noticias</a></li>
-                    <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+                    <li><a href="nosotros.html" class="nav-link" data-i18n="nav.nosotros">Nosotros</a></li>
+                    <li><a href="artistas.html" class="nav-link active" data-i18n="nav.artistas">Artistas</a></li>
+                    <li><a href="agencias.html" class="nav-link" data-i18n="nav.agenda">Agenda</a></li>
+                    <li><a href="noticias.html" class="nav-link" data-i18n="nav.noticias">Noticias</a></li>
+                    <li><a href="contacto.html" class="nav-link" data-i18n="nav.contacto">Contacto</a></li>
                 </ul>
             </nav>
-            <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Obrir menú">
+
+        <!-- Selector d'idioma -->
+        <div class="lang-dropdown">
+            <button class="lang-dropdown__trigger" aria-label="Seleccionar idioma">
+                <span class="lang-switcher__flag lang-switcher__flag--es" id="current-flag"></span>
+                <span class="lang-dropdown__arrow">▼</span>
+            </button>
+            <ul class="lang-dropdown__list">
+                <li><button class="lang-btn lang-btn--active" data-lang="es" aria-label="Español"><span class="lang-switcher__flag lang-switcher__flag--es"></span>ES</button></li>
+                <li><button class="lang-btn" data-lang="ca" aria-label="Català"><span class="lang-switcher__flag lang-switcher__flag--ca"></span>CA</button></li>
+                <li><button class="lang-btn" data-lang="en" aria-label="English"><span class="lang-switcher__flag lang-switcher__flag--en"></span>EN</button></li>
+            </ul>
+        </div>
+
+        <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Obrir menú">
                 <span class="hamburger-line line-1"></span>
                 <span class="hamburger-line line-2"></span>
             </button>
@@ -39,12 +79,18 @@
                 </a>
             </div>
             <ul class="mobile-nav-list">
-                <li><a href="nosotros.html" class="mobile-link">Nosotros</a></li>
-                <li><a href="artistas.html" class="mobile-link active">Artistas</a></li>
-                <li><a href="agencias.html" class="mobile-link">Agenda</a></li>
-                <li><a href="noticias.html" class="mobile-link">Noticias</a></li>
-                <li><a href="contacto.html" class="mobile-link">Contacto</a></li>
+                <li><a href="nosotros.html" class="mobile-link" data-i18n="nav.nosotros">Nosotros</a></li>
+                <li><a href="artistas.html" class="mobile-link active" data-i18n="nav.artistas">Artistas</a></li>
+                <li><a href="agencias.html" class="mobile-link" data-i18n="nav.agenda">Agenda</a></li>
+                <li><a href="noticias.html" class="mobile-link" data-i18n="nav.noticias">Noticias</a></li>
+                <li><a href="contacto.html" class="mobile-link" data-i18n="nav.contacto">Contacto</a></li>
             </ul>
+
+            <div class="mobile-lang">
+                <button class="mobile-lang-btn mobile-lang-btn--active" data-lang="es"><span class="lang-switcher__flag lang-switcher__flag--es"></span>ES</button>
+                <button class="mobile-lang-btn" data-lang="ca"><span class="lang-switcher__flag lang-switcher__flag--ca"></span>CA</button>
+                <button class="mobile-lang-btn" data-lang="en"><span class="lang-switcher__flag lang-switcher__flag--en"></span>EN</button>
+            </div>
         </nav>
     </header>
 
@@ -136,7 +182,7 @@
         <div class="footer-grid">
             <div class="footer-brand">
                 <img src="../img/logo.avif" alt="Victoria Taylor" class="footer-logo-img">
-                <p class="footer-tagline">Descubrimos y promovemos artistas con un talento excepcional.</p>
+                <p class="footer-tagline" data-i18n="footer.tagline">Descubrimos y promovemos artistas con un talento excepcional.</p>
                 <div class="footer-social">
                     <a href="https://www.instagram.com/victoriataylor.art/" target="_blank" rel="noopener" class="footer-social-link" aria-label="Instagram Victoria Taylor">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
@@ -144,7 +190,7 @@
                 </div>
             </div>
             <div class="footer-nav-col">
-                <h4 class="footer-col-title">Menú</h4>
+                <h4 class="footer-col-title" data-i18n="footer.menu">Menú</h4>
                 <ul class="footer-nav">
                     <li><a href="nosotros.html">Nosotros</a></li>
                     <li><a href="artistas.html">Artistas</a></li>
@@ -154,14 +200,14 @@
                 </ul>
             </div>
             <div class="footer-contact-col">
-                <h4 class="footer-col-title">Contacto</h4>
+                <h4 class="footer-col-title" data-i18n="footer.contacto">Contacto</h4>
                 <div class="footer-offices">
                     <div class="footer-office">
-                        <span class="footer-city">Girona</span>
+                        <span class="footer-city" data-i18n="footer.girona">Girona</span>
                         <p>Carrer Pic de Peguera, 11<br>17003 GIRONA</p>
                     </div>
                     <div class="footer-office">
-                        <span class="footer-city">London</span>
+                        <span class="footer-city" data-i18n="footer.london">London</span>
                         <p>112 Whitechapel High St<br>E1 7AQ LONDON</p>
                     </div>
                 </div>
@@ -169,12 +215,12 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p class="footer-copy">© 2026 Victoria Taylor · Global Brands Europe, SL</p>
+            <p class="footer-copy" data-i18n="footer.copyright">© 2026 Victoria Taylor · Global Brands Europe, SL</p>
             <ul class="footer-legal">
-                <li><a href="#">Aviso legal</a></li>
-                <li><a href="#">Privacidad</a></li>
-                <li><a href="#">Cookies</a></li>
-                <li><a href="#">Accesibilidad</a></li>
+                <li><a href="avisolegal.html" data-i18n="footer.legal.aviso">Aviso legal</a></li>
+                <li><a href="privacidad.html" data-i18n="footer.legal.privacidad">Privacidad</a></li>
+                <li><a href="cookies.html" data-i18n="footer.legal.cookies">Cookies</a></li>
+                <li><a href="accesibilidad.html" data-i18n="footer.legal.accesibilidad">Accesibilidad</a></li>
             </ul>
         </div>
     </footer>

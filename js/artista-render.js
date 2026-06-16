@@ -1,13 +1,22 @@
-/* ----- INICI RENDER ARTISTA ----- */
+/* ===========================================================
+   artista-render.js — Pàgina individual d'artista
+   ===========================================================
+   Renderitza la fitxa completa d'un artista: hero, bio,
+   timeline de logros, galeria d'obres + lightbox modal.
+
+   Les dades provenen de l'objecte global 'artistas' (artistas.js).
+   L'ID de l'artista es llegeix de la URL: artista.html?id=xxx
+   =========================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
     const main = document.getElementById('artist-content');
     if (!main) return;
 
-    // Llegir id de la URL
+    /* ----- INICI SECCIÓ LECTURA ID ----- */
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
 
+    /* Si no hi ha ID o l'artista no existeix, mostrem error */
     if (!id || !artistas[id]) {
         main.innerHTML = `
             <section class="artist-hero">
@@ -23,7 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const a = artistas[id];
     document.title = `Victoria Taylor | ${a.nombre}`;
 
-    // Construir timeline de logros
+    /* ----- INICI SECCIÓ CONSTRUCCIÓ HTML ----- */
+    /* Timeline: any per any amb texts descriptius */
     let logrosHTML = '';
     if (a.logros && a.logros.length) {
         logrosHTML = a.logros.map(l => `
@@ -36,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
     }
 
-    // Construir galeria
+    /* Galeria: graella d'obres clicables */
     let galeriaHTML = '';
     if (a.obras && a.obras.length) {
         galeriaHTML = a.obras.map((o, i) => `
@@ -49,9 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
     }
 
-    // Montar HTML completo
+    /* Muntatge del HTML complet al contenidor principal */
     main.innerHTML = `
-        <!-- Hero -->
+        <!-- Hero: imatge fons + títol + rol + Instagram -->
         <section class="artist-hero" aria-label="${a.nombre}">
             <div class="artist-hero-bg" style="background-image: url('${a.heroImg}');${a.bgPosition ? ` background-position: ${a.bgPosition};` : ''}"></div>
             <div class="artist-hero-overlay"></div>
@@ -65,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         </section>
 
-        <!-- Bio -->
+        <!-- Bio: text descriptiu de l'artista -->
         ${a.bio ? `
         <section class="artist-bio">
             <div class="artist-bio-inner">
@@ -76,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         </section>` : ''}
 
-        <!-- Logros / Timeline -->
+        <!-- Logros / Timeline: línia temporal amb fites -->
         ${logrosHTML ? `
         <section class="artist-logros">
             <div class="artist-logros-inner">
@@ -87,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         </section>` : ''}
 
-        <!-- Galeria -->
+        <!-- Galeria: graella d'obres -->
         ${galeriaHTML ? `
         <section class="artist-galeria">
             <div class="artist-galeria-inner">
@@ -99,101 +109,68 @@ document.addEventListener('DOMContentLoaded', () => {
         </section>` : ''}
     `;
 
-    // --- Animacions GSAP ---
-    // Hero title reveal
+    /* ===========================================================
+       ANIMACIONS GSAP
+       =========================================================== */
+
+    /* Hero: el títol entra amb split chars 3D */
     const heroTitle = document.querySelector('.artist-hero-title');
     if (heroTitle) {
-        // Usamos type: 'words,chars' para que GSAP envuelva cada palabra en un div.
-        // Esto le avisa al navegador dónde están los límites de la palabra y evita que se partan en móvil.
         const split = new SplitText(heroTitle, { type: 'words,chars' });
         gsap.from(split.chars, {
-            opacity: 0,
-            y: 80,
-            rotateX: -90,
-            stagger: 0.04,
-            duration: 1,
-            ease: 'power4.out',
-            delay: 0.3
+            opacity: 0, y: 80, rotateX: -90, stagger: 0.04,
+            duration: 1, ease: 'power4.out', delay: 0.3
         });
     }
 
-    // Hero subtitle/rol reveal
+    /* Rol i enllaç Instagram: fade + slide up */
     gsap.from('.artist-hero-rol, .artist-hero-ig', {
-        opacity: 0,
-        y: 30,
-        duration: 1,
-        ease: 'power3.out',
-        delay: 0.8,
-        stagger: 0.15
+        opacity: 0, y: 30, duration: 1, ease: 'power3.out',
+        delay: 0.8, stagger: 0.15
     });
+
+    /* Bio: les línies de text es revelen en fer scroll */
     gsap.set('.artist-bio-text p', { perspective: '800px', transformStyle: 'preserve-3d' });
     let bio = new SplitText('.artist-bio-text p', { type: 'lines', mask: "lines" });
-    // Bio reveal
     gsap.from(bio.lines, {
-        opacity: 0,
-        y: 40,
-        duration: 1,
-        ease: 'power3.out',
-        stagger: 0.2,
-        scrollTrigger: {
-            trigger: '.artist-bio',
-            start: 'top 60%',
-            toggleActions: 'play none none reverse'
-        }
+        opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.2,
+        scrollTrigger: { trigger: '.artist-bio', start: 'top 60%', toggleActions: 'play none none reverse' }
     });
 
-    // Timeline reveal (cada logro)
+    /* Timeline: cada logro entra desde l'esquerra */
     gsap.from('.artist-logro', {
-        opacity: 0,
-        x: -60,
-        duration: 0.8,
-        ease: 'power3.out',
-        stagger: 0.3,
-        scrollTrigger: {
-            trigger: '.artist-logros',
-            start: 'top 65%',
-            toggleActions: 'play none none reverse'
-        }
+        opacity: 0, x: -60, duration: 0.8, ease: 'power3.out', stagger: 0.3,
+        scrollTrigger: { trigger: '.artist-logros', start: 'top 65%', toggleActions: 'play none none reverse' }
     });
 
-    // Galeria reveal
+    /* Galeria: les obres apareixen amb fade + slide up */
     gsap.from('.artist-obra', {
-        opacity: 0,
-        y: 60,
-        duration: 0.8,
-        ease: 'power3.out',
-        stagger: 0.2,
-        scrollTrigger: {
-            trigger: '.artist-galeria',
-            start: 'top 60%',
-            toggleActions: 'play none none reverse'
-        }
+        opacity: 0, y: 60, duration: 0.8, ease: 'power3.out', stagger: 0.2,
+        scrollTrigger: { trigger: '.artist-galeria', start: 'top 60%', toggleActions: 'play none none reverse' }
     });
 
-    // Parallax hero bg
+    /* Parallax del fons del hero */
     const heroBg = document.querySelector('.artist-hero-bg');
     if (heroBg) {
         gsap.to(heroBg, {
-            yPercent: 15,
-            ease: 'none',
-            scrollTrigger: {
-                trigger: '.artist-hero',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: 1
-            }
+            yPercent: 15, ease: 'none',
+            scrollTrigger: { trigger: '.artist-hero', start: 'top top', end: 'bottom top', scrub: 1 }
         });
     }
 
-    // Refresh ScrollTrigger per si de cas
     ScrollTrigger.refresh();
 
-    // --- MODAL/LIGHTBOX ---
+    /* ===========================================================
+       MODAL / LIGHTBOX
+       ===========================================================
+       En clicar una obra, s'obre un visor a pantalla completa
+       amb navegació (anterior/següent) i tancament amb Escape.
+       =========================================================== */
     const obraEls = document.querySelectorAll('.artist-obra');
     const obras = a.obras;
 
     if (obraEls.length && obras.length) {
-        // Inject modal HTML
+        /* Injectem l'HTML del modal al final del body */
         const modalHTML = `
             <div class="artista-modal" aria-hidden="true" role="dialog" aria-label="Visor d'obra">
                 <div class="artista-modal-overlay"></div>
@@ -222,12 +199,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const modalNext = modal.querySelector('.artista-modal-next');
         let currentIdx = 0;
 
-        // Obrir modal
+        /* Assignem click a cada obra per obrir el modal */
         obraEls.forEach((el, i) => {
             el.style.cursor = 'pointer';
             el.addEventListener('click', () => openModal(i));
         });
 
+        /* Obre el modal amb animació GSAP */
         function openModal(idx) {
             currentIdx = idx;
             modalImg.src = obras[idx].img;
@@ -243,10 +221,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        /* Tanca el modal amb animació inversa */
         function closeModal() {
-            gsap.to(modalImg.parentElement, {
-                scale: 0.85, opacity: 0, duration: 0.3, ease: 'power2.in'
-            });
+            gsap.to(modalImg.parentElement, { scale: 0.85, opacity: 0, duration: 0.3, ease: 'power2.in' });
             gsap.to(modal, {
                 opacity: 0, duration: 0.3, ease: 'power2.in',
                 onComplete: () => {
@@ -257,6 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        /* Navega entre obres (amb wrap around) */
         function navigate(dir) {
             currentIdx = (currentIdx + dir + obras.length) % obras.length;
             modalImg.src = obras[currentIdx].img;
@@ -268,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
             );
         }
 
-        // Events
+        /* Events: botons, overlay i teclat */
         modalClose.addEventListener('click', closeModal);
         modal.addEventListener('click', (e) => {
             if (e.target === modal || e.target.classList.contains('artista-modal-overlay')) closeModal();

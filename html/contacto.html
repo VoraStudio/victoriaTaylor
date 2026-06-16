@@ -4,7 +4,33 @@
     <script>document.documentElement.classList.add('js-enabled');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Victoria Taylor | Nosotros</title>
+    <meta name="description" content="Contacta amb Victoria Taylor. Ens trobares a Girona i London.">
+    <meta name="keywords" content="contacte, galeria d'art Girona, Victoria Taylor London, informacio">
+    <meta name="author" content="Victoria Taylor - Global Brands Europe, SL">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://victoriataylor.art/html/contacto.html">
+    <meta property="og:title" content="Contacto | Victoria Taylor">
+    <meta property="og:description" content="Contacta amb Victoria Taylor. Ens trobares a Girona i London.">
+    <meta property="og:image" content="https://victoriataylor.art/img/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contacto | Victoria Taylor">
+    <meta name="twitter:description" content="Contacta amb Victoria Taylor. Ens trobares a Girona i London.">
+    <meta name="twitter:image" content="https://victoriataylor.art/img/og-image.jpg">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://victoriataylor.art/html/contacto.html">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/avif" href="../img/logo.avif">
+    <link rel="apple-touch-icon" href="../img/logo.avif">
+
+    <title>Victoria Taylor | Contacto</title>
 
     <!-- Custom CSS: El nostre sistema de disseny i estils personalitzats -->
     <link rel="stylesheet" href="../css/style.css">
@@ -30,13 +56,26 @@
             <!-- Navegació Desktop -->
             <nav class="desktop-nav" aria-label="Navegació de sobretaula">
                 <ul class="nav-list">
-                    <li><a href="nosotros.html" class="nav-link">Nosotros</a></li>
-                    <li><a href="artistas.html" class="nav-link">Artistas</a></li>
-                    <li><a href="agencias.html" class="nav-link">Agenda</a></li>
-                    <li><a href="noticias.html" class="nav-link">Noticias</a></li>
-                    <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+                    <li><a href="nosotros.html" class="nav-link" data-i18n="nav.nosotros">Nosotros</a></li>
+                    <li><a href="artistas.html" class="nav-link" data-i18n="nav.artistas">Artistas</a></li>
+                    <li><a href="agencias.html" class="nav-link" data-i18n="nav.agenda">Agenda</a></li>
+                    <li><a href="noticias.html" class="nav-link" data-i18n="nav.noticias">Noticias</a></li>
+                    <li><a href="contacto.html" class="nav-link" data-i18n="nav.contacto">Contacto</a></li>
                 </ul>
             </nav>
+
+            <!-- Selector d'idioma -->
+            <div class="lang-dropdown">
+                <button class="lang-dropdown__trigger" aria-label="Seleccionar idioma">
+                    <span class="lang-switcher__flag lang-switcher__flag--es" id="current-flag"></span>
+                    <span class="lang-dropdown__arrow">▼</span>
+                </button>
+                <ul class="lang-dropdown__list">
+                    <li><button class="lang-btn lang-btn--active" data-lang="es" aria-label="Español"><span class="lang-switcher__flag lang-switcher__flag--es"></span>ES</button></li>
+                    <li><button class="lang-btn" data-lang="ca" aria-label="Català"><span class="lang-switcher__flag lang-switcher__flag--ca"></span>CA</button></li>
+                    <li><button class="lang-btn" data-lang="en" aria-label="English"><span class="lang-switcher__flag lang-switcher__flag--en"></span>EN</button></li>
+                </ul>
+            </div>
 
             <!-- Botó Menú Hamburguesa per a mòbils -->
             <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Obrir menú">
@@ -53,12 +92,18 @@
                 </a>
             </div>
             <ul class="mobile-nav-list">
-                <li><a href="nosotros.html" class="mobile-link">Nosotros</a></li>
-                <li><a href="artistas.html" class="mobile-link">Artistas</a></li>
-                <li><a href="agencias.html" class="mobile-link">Agenda</a></li>
-                <li><a href="noticias.html" class="mobile-link">Noticias</a></li>
-                <li><a href="contacto.html" class="mobile-link">Contacto</a></li>
+                <li><a href="nosotros.html" class="mobile-link" data-i18n="nav.nosotros">Nosotros</a></li>
+                <li><a href="artistas.html" class="mobile-link" data-i18n="nav.artistas">Artistas</a></li>
+                <li><a href="agencias.html" class="mobile-link" data-i18n="nav.agenda">Agenda</a></li>
+                <li><a href="noticias.html" class="mobile-link" data-i18n="nav.noticias">Noticias</a></li>
+                <li><a href="contacto.html" class="mobile-link" data-i18n="nav.contacto">Contacto</a></li>
             </ul>
+
+            <div class="mobile-lang">
+                <button class="mobile-lang-btn mobile-lang-btn--active" data-lang="es"><span class="lang-switcher__flag lang-switcher__flag--es"></span>ES</button>
+                <button class="mobile-lang-btn" data-lang="ca"><span class="lang-switcher__flag lang-switcher__flag--ca"></span>CA</button>
+                <button class="mobile-lang-btn" data-lang="en"><span class="lang-switcher__flag lang-switcher__flag--en"></span>EN</button>
+            </div>
         </nav>
     </header>
 
@@ -66,24 +111,17 @@
         <section class="contact-page" aria-label="Contacto">
             <div class="contact-container">
                 <div class="contact-top">
-                    <h1 class="contact-title">Contacto</h1>
+                    <h1 class="contact-title" data-i18n="contact.title">Contacto</h1>
                     
                     <div class="contact-details">
-                        <p>Carrer Pic de Peguera, 11 17003 GIRONA<br>123-456-7890</p>
+                        <p data-i18n="contact.girona">Carrer Pic de Peguera, 11 17003 GIRONA</p>
+                        <p data-i18n="contact.london">VICTORIA TAYLOR<br>112 Whitechapel High Street E1 7AQ LONDON</p>
                         <a href="mailto:info@victoriataylor.art" class="contact-email">info@victoriataylor.art</a>
                     </div>
                     
                     <div class="contact-socials">
-                        <!-- Facebook -->
-                        <a href="#" aria-label="Facebook">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
-                        </a>
-                        <!-- Twitter -->
-                        <a href="#" aria-label="Twitter">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M23.954 4.569a10 10 0 0 1-2.825.775 4.958 4.958 0 0 0 2.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 0 0-8.384 4.482C7.69 8.094 4.066 6.13 1.64 3.161a4.822 4.822 0 0 0-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 0 1-2.228-.616v.061a4.923 4.923 0 0 0 3.946 4.827 4.996 4.996 0 0 1-2.212.085 4.937 4.937 0 0 0 4.604 3.417 9.868 9.868 0 0 1-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 0 0 7.557 2.209c9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63a9.936 9.936 0 0 0 2.46-2.548l-.047-.02z"/></svg>
-                        </a>
                         <!-- Instagram -->
-                        <a href="#" aria-label="Instagram">
+                        <a href="https://www.instagram.com/victoriataylor.art/" target="_blank" rel="noopener" aria-label="Instagram">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
                         </a>
                     </div>
@@ -91,24 +129,36 @@
 
                 <div class="contact-grid">
                     <div class="contact-form-col">
-                        <h2 class="contact-subtitle">Regístrate para mantenerte<br>informado de nuestras<br>actividades</h2>
+                        <h2 class="contact-subtitle" data-i18n="contact.subtitle">Regístrate para mantenerte<br>informado de nuestras<br>actividades</h2>
                         
                         <div class="contact-form-wrapper">
-                            <form class="contact-form" action="#" method="POST">
+                            <form id="contact-form" class="contact-form" action="#" method="POST">
                                 <div class="form-group">
-                                    <label for="name">Name</label>
+                                    <label for="name" data-i18n="contact.form.name">Name</label>
                                     <input type="text" id="name" name="name" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="email">Email address</label>
+                                    <label for="email" data-i18n="contact.form.email">Email address</label>
                                     <input type="email" id="email" name="email" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="message">Leave a message</label>
+                                    <label for="message" data-i18n="contact.form.message">Leave a message</label>
                                     <textarea id="message" name="message" rows="4" required></textarea>
                                 </div>
-                                <button type="submit" class="submit-btn">Submit</button>
-                                <p class="form-disclaimer">Es compartirà el nom del teu perfil de Canva. No enviïs mai contrasenyes.</p>
+                                <div class="form-group form-checkbox">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="privacy" required>
+                                        <span data-i18n="contact.form.privacy">He leído y acepto la <a href="privacidad.html" target="_blank">política de privacidad</a>. *</span>
+                                    </label>
+                                </div>
+                                <div class="form-group form-checkbox">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="marketing">
+                                        <span data-i18n="contact.form.marketing">Acepto recibir información sobre las actividades, servicios y productos de GLOBAL BRANDS EUROPE, SL.</span>
+                                    </label>
+                                </div>
+                                <button type="submit" class="submit-btn" data-i18n="contact.form.submit">Submit</button>
+                                <p class="form-disclaimer" data-i18n="contact.form.disclaimer">Ens posarem en contacte amb tu en breu. No compartim les teves dades amb tercers.</p>
                             </form>
                         </div>
                     </div>
@@ -131,7 +181,7 @@
         <div class="footer-grid">
             <div class="footer-brand">
                 <img src="../img/logo.avif" alt="Victoria Taylor" class="footer-logo-img">
-                <p class="footer-tagline">Descubrimos y promovemos artistas con un talento excepcional.</p>
+                <p class="footer-tagline" data-i18n="footer.tagline">Descubrimos y promovemos artistas con un talento excepcional.</p>
                 <div class="footer-social">
                     <a href="https://www.instagram.com/victoriataylor.art/" target="_blank" rel="noopener" class="footer-social-link" aria-label="Instagram Victoria Taylor">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
@@ -139,7 +189,7 @@
                 </div>
             </div>
             <div class="footer-nav-col">
-                <h4 class="footer-col-title">Menú</h4>
+                <h4 class="footer-col-title" data-i18n="footer.menu">Menú</h4>
                 <ul class="footer-nav">
                     <li><a href="nosotros.html">Nosotros</a></li>
                     <li><a href="artistas.html">Artistas</a></li>
@@ -149,14 +199,14 @@
                 </ul>
             </div>
             <div class="footer-contact-col">
-                <h4 class="footer-col-title">Contacto</h4>
+                <h4 class="footer-col-title" data-i18n="footer.contacto">Contacto</h4>
                 <div class="footer-offices">
                     <div class="footer-office">
-                        <span class="footer-city">Girona</span>
+                        <span class="footer-city" data-i18n="footer.girona">Girona</span>
                         <p>Carrer Pic de Peguera, 11<br>17003 GIRONA</p>
                     </div>
                     <div class="footer-office">
-                        <span class="footer-city">London</span>
+                        <span class="footer-city" data-i18n="footer.london">London</span>
                         <p>112 Whitechapel High St<br>E1 7AQ LONDON</p>
                     </div>
                 </div>
@@ -164,12 +214,12 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p class="footer-copy">© 2026 Victoria Taylor · Global Brands Europe, SL</p>
+            <p class="footer-copy" data-i18n="footer.copyright">© 2026 Victoria Taylor · Global Brands Europe, SL</p>
             <ul class="footer-legal">
-                <li><a href="#">Aviso legal</a></li>
-                <li><a href="#">Privacidad</a></li>
-                <li><a href="#">Cookies</a></li>
-                <li><a href="#">Accesibilidad</a></li>
+                <li><a href="avisolegal.html" data-i18n="footer.legal.aviso">Aviso legal</a></li>
+                <li><a href="privacidad.html" data-i18n="footer.legal.privacidad">Privacidad</a></li>
+                <li><a href="cookies.html" data-i18n="footer.legal.cookies">Cookies</a></li>
+                <li><a href="accesibilidad.html" data-i18n="footer.legal.accesibilidad">Accesibilidad</a></li>
             </ul>
         </div>
     </footer>

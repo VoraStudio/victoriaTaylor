@@ -4,46 +4,38 @@
     <script>document.documentElement.classList.add('js-enabled');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Proxims esdeveniments, exposicions i inauguracions. Consulta l'agenda cultural d'art contemporani.">
-    <meta name="keywords" content="agenda cultural, esdeveniments art, exposicions, inauguracions, art contemporani Girona">
+    <meta name="description" content="Declaració d'accessibilitat del lloc web de Victoria Taylor.">
+    <meta name="keywords" content="accessibilitat, WCAG, declaracio accessibilitat, inclusio, Victoria Taylor">
     <meta name="author" content="Victoria Taylor - Global Brands Europe, SL">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://victoriataylor.art/html/agencias.html">
-    <meta property="og:title" content="Agenda | Victoria Taylor">
-    <meta property="og:description" content="Proxims esdeveniments, exposicions i inauguracions. Consulta l'agenda cultural d'art contemporani.">
+    <meta property="og:url" content="https://victoriataylor.art/html/accesibilidad.html">
+    <meta property="og:title" content="Accessibilitat | Victoria Taylor">
+    <meta property="og:description" content="Declaració d'accessibilitat del lloc web de Victoria Taylor.">
     <meta property="og:image" content="https://victoriataylor.art/img/og-image.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Agenda | Victoria Taylor">
-    <meta name="twitter:description" content="Proxims esdeveniments, exposicions i inauguracions. Consulta l'agenda cultural d'art contemporani.">
+    <meta name="twitter:title" content="Accessibilitat | Victoria Taylor">
+    <meta name="twitter:description" content="Declaració d'accessibilitat del lloc web de Victoria Taylor.">
     <meta name="twitter:image" content="https://victoriataylor.art/img/og-image.jpg">
 
     <!-- Canonical -->
-    <link rel="canonical" href="https://victoriataylor.art/html/agencias.html">
+    <link rel="canonical" href="https://victoriataylor.art/html/accesibilidad.html">
 
     <!-- Favicon -->
     <link rel="icon" type="image/avif" href="../img/logo.avif">
     <link rel="apple-touch-icon" href="../img/logo.avif">
 
-    <title>Victoria Taylor | Agenda</title>
+    <title>Victoria Taylor | Accessibilitat</title>
 
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/agenda.css">
-
-    <!-- GSAP Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/SplitText.min.js"></script>
 </head>
 <body class="page-body">
 
-    <!-- Header -->
     <header id="header" class="main-header" aria-label="Navegació principal">
         <div class="header-container">
             <div class="logo">
@@ -55,7 +47,7 @@
                 <ul class="nav-list">
                     <li><a href="nosotros.html" class="nav-link" data-i18n="nav.nosotros">Nosotros</a></li>
                     <li><a href="artistas.html" class="nav-link" data-i18n="nav.artistas">Artistas</a></li>
-                    <li><a href="agencias.html" class="nav-link active" data-i18n="nav.agenda">Agenda</a></li>
+                    <li><a href="agencias.html" class="nav-link" data-i18n="nav.agenda">Agenda</a></li>
                     <li><a href="noticias.html" class="nav-link" data-i18n="nav.noticias">Noticias</a></li>
                     <li><a href="contacto.html" class="nav-link" data-i18n="nav.contacto">Contacto</a></li>
                 </ul>
@@ -88,7 +80,7 @@
             <ul class="mobile-nav-list">
                 <li><a href="nosotros.html" class="mobile-link" data-i18n="nav.nosotros">Nosotros</a></li>
                 <li><a href="artistas.html" class="mobile-link" data-i18n="nav.artistas">Artistas</a></li>
-                <li><a href="agencias.html" class="mobile-link active" data-i18n="nav.agenda">Agenda</a></li>
+                <li><a href="agencias.html" class="mobile-link" data-i18n="nav.agenda">Agenda</a></li>
                 <li><a href="noticias.html" class="mobile-link" data-i18n="nav.noticias">Noticias</a></li>
                 <li><a href="contacto.html" class="mobile-link" data-i18n="nav.contacto">Contacto</a></li>
             </ul>
@@ -102,40 +94,29 @@
     </header>
 
     <main>
-        <!-- Hero + Llistat sobre la imatge -->
-        <section class="agenda-hero" aria-label="Agenda d'events">
-            <div class="agenda-hero-bg" style="background-image: url('../img/slide1.webp');"></div>
-            <div class="agenda-hero-overlay"></div>
-            <div class="agenda-hero-content">
-                <span class="agenda-hero-label">Agenda</span>
-                <h1 class="agenda-hero-title" style="visibility:hidden;">Pròxims Events</h1>
-                <p class="agenda-hero-subtitle">Descobreix les exposicions, inauguracions i esdeveniments on podràs viure l'art en primera persona.</p>
-            </div>
+        <section class="legal-page" aria-label="Accessibilitat">
+            <div class="legal-container">
+                <h1>Declaració d'Accessibilitat</h1>
+                <p>A Victoria Taylor ens comprometem a fer el nostre lloc web accessible per a totes les persones, independentment de les seves capacitats.</p>
 
-            <!-- Tabs + Llistat (dins del hero, sobre la imatge) -->
-            <div class="agenda-list-wrap">
-                <div class="agenda-tabs" role="tablist" aria-label="Filtrar events">
-                    <button id="agenda-tab-upcoming" class="agenda-tab is-active" role="tab" aria-selected="true" aria-controls="agenda-list" type="button">
-                        Pròxims <span id="agenda-count-upcoming" class="agenda-tab-count"></span>
-                    </button>
-                    <button id="agenda-tab-historical" class="agenda-tab" role="tab" aria-selected="false" aria-controls="agenda-list" type="button">
-                        Històric <span id="agenda-count-historical" class="agenda-tab-count"></span>
-                    </button>
-                </div>
+                <h2>Compliment normatiu</h2>
+                <p>Aquest lloc web s'ha dissenyat seguint les pautes WCAG 2.1 (Web Content Accessibility Guidelines) nivell AA, amb l'objectiu de garantir una experiència inclusiva.</p>
 
-                <div id="agenda-list" class="agenda-list" role="tabpanel">
-                    <div class="agenda-loading">
-                        Carregant events
-                        <span class="agenda-loading-dot"></span>
-                        <span class="agenda-loading-dot"></span>
-                        <span class="agenda-loading-dot"></span>
-                    </div>
-                </div>
+                <h2>Mesures adoptades</h2>
+                <ul>
+                    <li>Ús d'etiquetes semàntiques HTML5 per a una navegació amb lectors de pantalla.</li>
+                    <li>Atributs ARIA per a elements interactius sense text visible.</li>
+                    <li>Contrast de color suficient entre text i fons.</li>
+                    <li>Navegació per teclat completa.</li>
+                    <li>Textos alternatius descriptius a les imatges.</li>
+                </ul>
+
+                <h2>Contacte</h2>
+                <p>Si trobes alguna barrera d'accessibilitat, si us plau contacta'ns a info@victoriataylor.art per informar-nos i millorar l'experiència.</p>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
     <footer class="main-footer">
         <div class="footer-grid">
             <div class="footer-brand">
@@ -183,9 +164,6 @@
         </div>
     </footer>
 
-    <!-- Custom JS -->
     <script src="../js/script.js"></script>
-    <script src="../js/cms.js"></script>
-    <script src="../js/agenda.js"></script>
 </body>
 </html>

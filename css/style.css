@@ -339,6 +339,7 @@ html {
 .page-html {
     height: auto;
     overflow: visible;
+    scroll-behavior: smooth;
 }
 
 /* ----- INICI SECCIÓ ABOUT HERO (mobile-first) ----- */
@@ -1522,6 +1523,91 @@ html.js-enabled .contact-title {
     visibility: hidden;
 }
 
+/* ----- INICI SECCIÓ LEGAL ----- */
+
+.legal-page {
+    width: 100%;
+    min-height: 100svh;
+    background-color: var(--color-black);
+    color: var(--color-white);
+    padding: calc(var(--header-height) + var(--space-xxl)) var(--space-m) var(--space-xxl);
+    display: flex;
+    justify-content: center;
+}
+
+.legal-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.legal-title {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 0.9;
+    margin: 0 0 var(--space-xl);
+    text-transform: uppercase;
+}
+
+.legal-content h2 {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    margin: var(--space-l) 0 var(--space-s);
+    color: var(--color-white);
+}
+
+.legal-content h3 {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    margin: var(--space-m) 0 var(--space-xs);
+    color: var(--color-white);
+}
+
+.legal-content p {
+    font-family: var(--font-secondary);
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
+    line-height: 1.7;
+    margin: 0 0 var(--space-m);
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.legal-content ul,
+.legal-content ol {
+    font-family: var(--font-secondary);
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.85);
+    padding-left: var(--space-l);
+    margin: 0 0 var(--space-m);
+}
+
+.legal-content li {
+    margin-bottom: var(--space-xs);
+}
+
+.legal-content a {
+    color: var(--color-white);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.legal-content a:hover {
+    opacity: 0.7;
+}
+
+.legal-content .legal-meta {
+    font-size: clamp(0.8rem, 1vw, 0.9rem);
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: var(--space-l);
+}
+
+html.js-enabled .legal-title {
+    visibility: hidden;
+}
+
 /* ----- INICI SECCIÓ CONTACTO ----- */
 
 .contact-page {
@@ -1583,7 +1669,7 @@ html.js-enabled .contact-title {
 }
 
 .contact-details p {
-    margin: 0 0 var(--space-xs);
+    margin: 0 0 var(--space-s);
 }
 
 .contact-email {
@@ -1671,6 +1757,45 @@ html.js-enabled .contact-title {
     border-color: var(--color-white);
 }
 
+.form-checkbox {
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-s);
+    cursor: pointer;
+    line-height: 1.4;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    margin-top: 2px;
+    accent-color: var(--color-white);
+    cursor: pointer;
+}
+
+.checkbox-label span {
+    font-family: var(--font-secondary);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 400;
+}
+
+.checkbox-label span a {
+    color: var(--color-white);
+    text-decoration: underline;
+    transition: var(--transition-smooth);
+}
+
+.checkbox-label span a:hover {
+    opacity: 0.7;
+}
+
 .submit-btn {
     background-color: var(--color-white);
     color: var(--color-black);
@@ -1726,4 +1851,170 @@ html.js-enabled .contact-title {
     object-fit: cover;
     display: block;
     transform: scale(1.05); /* Slight scale to ensure full coverage */
+}
+
+/* ----- INICI SECCIÓ LANG SELECTOR ----- */
+
+.lang-dropdown {
+    position: relative;
+    display: inline-block;
+    margin-left: var(--space-m);
+}
+
+.lang-dropdown__trigger {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+    color: var(--color-white);
+    font-family: var(--font-secondary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transition: border-color var(--transition-smooth);
+    min-height: 36px;
+}
+
+.lang-dropdown__trigger:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.lang-dropdown__arrow {
+    font-size: 0.6rem;
+    transition: transform var(--transition-smooth);
+}
+
+.lang-dropdown:hover .lang-dropdown__arrow {
+    transform: rotate(180deg);
+}
+
+.lang-dropdown__list {
+    position: absolute;
+    top: calc(100% - 1px);
+    left: 0;
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    display: none;
+    min-width: 130px;
+    z-index: var(--z-mobile-nav);
+    padding: 4px;
+}
+
+.lang-dropdown__list::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background: transparent;
+}
+
+.lang-dropdown:hover .lang-dropdown__list {
+    display: block;
+}
+
+.lang-dropdown__list li {
+    list-style: none;
+}
+
+.lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 12px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-secondary);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 3px;
+    transition: background var(--transition-smooth), color var(--transition-smooth);
+    text-align: left;
+}
+
+.lang-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-white);
+}
+
+.lang-btn--active {
+    color: var(--color-white);
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.lang-switcher__flag {
+    display: inline-block;
+    width: 18px;
+    height: 12px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 2px;
+}
+
+.lang-switcher__flag--es {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 750 500'%3E%3Crect fill='%23AA151B' width='750' height='500'/%3E%3Crect fill='%23F1BF00' y='125' width='750' height='250'/%3E%3C/svg%3E");
+}
+
+.lang-switcher__flag--ca {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 600'%3E%3Crect fill='%23FCD116' width='900' height='600'/%3E%3Cpath stroke='%23DA121A' stroke-width='60' d='M0,90H900m0,120H0m0,120H900m0,120H0m0,120H900'/%3E%3C/svg%3E");
+}
+
+.lang-switcher__flag--en {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3CclipPath id='s'%3E%3Cpath d='M0,0 v30 h60 v-30 z'/%3E%3C/clipPath%3E%3CclipPath id='t'%3E%3Cpath d='M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z'/%3E%3C/clipPath%3E%3Cg clip-path='url(%23s)'%3E%3Cpath d='M0,0 v30 h60 v-30 z' fill='%23012169'/%3E%3Cpath d='M0,0 L60,30 M60,0 L0,30' stroke='%23fff' stroke-width='6'/%3E%3Cpath d='M0,0 L60,30 M60,0 L0,30' clip-path='url(%23t)' stroke='%23C8102E' stroke-width='4'/%3E%3Cpath d='M30,0 v30 M0,15 h60' stroke='%23fff' stroke-width='10'/%3E%3Cpath d='M30,0 v30 M0,15 h60' stroke='%23C8102E' stroke-width='6'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Lang selector en móvil */
+.mobile-lang {
+    padding: var(--space-m) var(--space-xl);
+    display: flex;
+    gap: var(--space-xs);
+}
+
+.mobile-lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: var(--font-secondary);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: border-color var(--transition-smooth), color var(--transition-smooth);
+}
+
+.mobile-lang-btn:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    color: var(--color-white);
+}
+
+.mobile-lang-btn--active {
+    color: var(--color-white);
+    border-color: rgba(255, 255, 255, 0.3);
+    font-weight: 600;
+}
+
+/* Amaguem el selector d'idioma del header en mòbil (ja está al menú) */
+@media (max-width: 768px) {
+    .lang-dropdown {
+        display: none;
+    }
 }

@@ -1,197 +1,270 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="cat">
-<head>
-    <script>document.documentElement.classList.add('js-enabled');</script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Victoria Taylor | Premium Slider</title>
-    
+  <head>
+    <script>
+      document.documentElement.classList.add("js-enabled");
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Galeria d'art contemporani a Girona. Descobreix artistes, exposicions i esdeveniments. Victoria Taylor selecciona i impulsa talent artistic."
+    />
+    <meta name="keywords" content="galeria d'art, art contemporani, Girona, artistes, exposicions, galeria art Girona" />
+    <meta name="author" content="Victoria Taylor - Global Brands Europe, SL" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://victoriataylor.art/" />
+    <meta property="og:title" content="Inicio | Victoria Taylor" />
+    <meta
+      property="og:description"
+      content="Galeria d'art contemporani a Girona. Descobreix artistes, exposicions i esdeveniments. Victoria Taylor selecciona i impulsa talent artistic."
+    />
+    <meta property="og:image" content="https://victoriataylor.art/img/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Inicio | Victoria Taylor" />
+    <meta
+      name="twitter:description"
+      content="Galeria d'art contemporani a Girona. Descobreix artistes, exposicions i esdeveniments. Victoria Taylor selecciona i impulsa talent artistic."
+    />
+    <meta name="twitter:image" content="https://victoriataylor.art/img/og-image.jpg" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://victoriataylor.art/" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/avif" href="img/logo.avif" />
+    <link rel="apple-touch-icon" href="img/logo.avif" />
+
+    <title>Inicio | Victoria Taylor</title>
+
     <!-- Swiper CSS: Estils base per al slider -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    
+
     <!-- Custom CSS: El nostre sistema de disseny i estils personalitzats -->
-    <link rel="stylesheet" href="css/style.css">
-    
+    <link rel="stylesheet" href="css/style.css" />
+
     <!-- GSAP Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/SplitText.min.js"></script>
-</head>
-<body>
-
+  </head>
+  <body>
     <!-- Header premium amb navegació i menú hamburguesa -->
-    <header if="header" class="main-header" aria-label="Navegació principal">
-        <div class="header-container">
-            <!-- Logo Victoria Taylor -->
-            <div class="logo">
-                <a href="#header" aria-label="Inici Victoria Taylor">
-                    <img src="img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
-                </a>
-            </div>
-
-            <!-- Navegació Desktop -->
-            <nav class="desktop-nav" aria-label="Navegació de sobretaula">
-                <ul class="nav-list">
-                    <li><a href="html/nosotros.html" class="nav-link">Nosotros</a></li>
-                    <li><a href="html/artistas.html" class="nav-link">Artistas</a></li>
-                    <li><a href="html/agencias.html" class="nav-link">Agenda</a></li>
-                    <li><a href="html/contacto.html" class="nav-link">Noticias</a></li>
-                    <li><a href="html/contacto.html" class="nav-link">Contacto</a></li>
-                </ul>
-            </nav>
-
-            <!-- Botó Menú Hamburguesa per a mòbils -->
-            <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Obrir menú">
-                <span class="hamburger-line line-1"></span>
-                <span class="hamburger-line line-2"></span>
-            </button>   
+    <header id="header" class="main-header" aria-label="Navegació principal">
+      <div class="header-container">
+        <!-- Logo Victoria Taylor -->
+        <div class="logo">
+          <a href="#header" aria-label="Inici Victoria Taylor">
+            <img src="img/logo.avif" alt="Victoria Taylor Logo" class="header-logo" />
+          </a>
         </div>
 
-        <!-- Navegació Mòbil (Full Screen Overlay) -->
-        <nav id="mobile-nav" class="mobile-nav" aria-label="Navegació mòbil">
-        <div class="logo">
-        <a href="#header" aria-label="Inici Victoria Taylor">
-            <img src="img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
-        </a>
-    </div>
-            <ul class="mobile-nav-list">
-                <li><a href="html/nosotros.html" class="mobile-link">Nosotros</a></li>
-                <li><a href="html/artistas.html" class="mobile-link">Artistas</a></li>
-                <li><a href="html/agencias.html" class="mobile-link">Agenda</a></li>
-                <li><a href="html/contacto.html" class="mobile-link">Noticias</a></li>
-                <li><a href="html/contacto.html" class="mobile-link">Contacto</a></li>
-            </ul>
+        <!-- Navegació Desktop -->
+        <nav class="desktop-nav" aria-label="Navegació de sobretaula">
+          <ul class="nav-list">
+            <li><a href="html/nosotros.html" class="nav-link" data-i18n="nav.nosotros">Nosotros</a></li>
+            <li><a href="html/artistas.html" class="nav-link" data-i18n="nav.artistas">Artistas</a></li>
+            <li><a href="html/agencias.html" class="nav-link" data-i18n="nav.agenda">Agenda</a></li>
+            <li><a href="html/noticias.html" class="nav-link" data-i18n="nav.noticias">Noticias</a></li>
+            <li><a href="html/contacto.html" class="nav-link" data-i18n="nav.contacto">Contacto</a></li>
+          </ul>
         </nav>
 
+        <!-- Selector d'idioma -->
+        <div class="lang-dropdown">
+            <button class="lang-dropdown__trigger" aria-label="Seleccionar idioma">
+                <span class="lang-switcher__flag lang-switcher__flag--es" id="current-flag"></span>
+                <span class="lang-dropdown__arrow">▼</span>
+            </button>
+            <ul class="lang-dropdown__list">
+                <li><button class="lang-btn lang-btn--active" data-lang="es" aria-label="Español"><span class="lang-switcher__flag lang-switcher__flag--es"></span>ES</button></li>
+                <li><button class="lang-btn" data-lang="ca" aria-label="Català"><span class="lang-switcher__flag lang-switcher__flag--ca"></span>CA</button></li>
+                <li><button class="lang-btn" data-lang="en" aria-label="English"><span class="lang-switcher__flag lang-switcher__flag--en"></span>EN</button></li>
+            </ul>
+        </div>
+
+        <!-- Botó Menú Hamburguesa per a mòbils -->
+        <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Obrir menú">
+          <span class="hamburger-line line-1"></span>
+          <span class="hamburger-line line-2"></span>
+        </button>
+      </div>
+
+      <!-- Navegació Mòbil (Full Screen Overlay) -->
+      <nav id="mobile-nav" class="mobile-nav" aria-label="Navegació mòbil">
+        <div class="logo">
+          <a href="#header" aria-label="Inici Victoria Taylor">
+            <img src="img/logo.avif" alt="Victoria Taylor Logo" class="header-logo" />
+          </a>
+        </div>
+        <ul class="mobile-nav-list">
+          <li><a href="html/nosotros.html" class="mobile-link" data-i18n="nav.nosotros">Nosotros</a></li>
+          <li><a href="html/artistas.html" class="mobile-link" data-i18n="nav.artistas">Artistas</a></li>
+          <li><a href="html/agencias.html" class="mobile-link" data-i18n="nav.agenda">Agenda</a></li>
+          <li><a href="html/noticias.html" class="mobile-link" data-i18n="nav.noticias">Noticias</a></li>
+          <li><a href="html/contacto.html" class="mobile-link" data-i18n="nav.contacto">Contacto</a></li>
+        </ul>
+
+        <div class="mobile-lang">
+          <button class="mobile-lang-btn mobile-lang-btn--active" data-lang="es"><span class="lang-switcher__flag lang-switcher__flag--es"></span>ES</button>
+          <button class="mobile-lang-btn" data-lang="ca"><span class="lang-switcher__flag lang-switcher__flag--ca"></span>CA</button>
+          <button class="mobile-lang-btn" data-lang="en"><span class="lang-switcher__flag lang-switcher__flag--en"></span>EN</button>
+        </div>
+      </nav>
     </header>
 
     <!-- Contenidor principal semàntic -->
     <main>
-        <!-- Secció del slider amb etiqueta d'accessibilitat -->
-        <section class="hero-slider" aria-label="Portfoli de Victoria Taylor">
-            <!-- Estructura principal de Swiper -->
-            <div class="swiper mySwiper">
-                <div class="swiper-wrapper">
-                    <!-- Slide 1 -->
-                    <article class="swiper-slide">
-                        <div class="slide-bg" style="background-image: url('img/slide1.webp');"></div>
-                        <div class="slide-content">
-                            <span class="slide-subtitle"></span>
-                            <h1 class="slide-title">Victoria Taylor</h1>
-                        </div>
-                    </article>
+      <!-- Secció del slider amb etiqueta d'accessibilitat -->
+      <section class="hero-slider" aria-label="Portfoli de Victoria Taylor">
+        <!-- Estructura principal de Swiper -->
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            <!-- Slide 1 -->
+            <article class="swiper-slide">
+              <div class="slide-bg" style="background-image: url(&quot;img/slide1.webp&quot;)"></div>
+              <div class="slide-content">
+                <span class="slide-subtitle"></span>
+                <h1 class="slide-title">Victoria Taylor</h1>
+              </div>
+            </article>
 
-                    <!-- Slide 2 -->
-                    <article class="swiper-slide">
-                        <div class="slide-bg" style="background-image: url('img/slide2.avif');"></div>
-                        <div class="slide-content">
-                            <span class="slide-subtitle">Talento Único</span>
-                            <h1 class="slide-title">Artistas</h1>
-                        </div>
-                    </article>
+            <!-- Slide 2 -->
+            <article class="swiper-slide">
+              <div class="slide-bg" style="background-image: url(&quot;img/slide2.avif&quot;)"></div>
+              <div class="slide-content">
+                <span class="slide-subtitle">Talento Único</span>
+                <h1 class="slide-title">Artistas</h1>
+              </div>
+            </article>
 
-                    <!-- Slide 3 -->
-                    <article class="swiper-slide">
-                        <div class="slide-bg" style="background-image: url('img/slide3.webp');"></div>
-                        <div class="slide-content">
-                            <span class="slide-subtitle">Visión Creativa</span>
-                            <h1 class="slide-title">Expresión</h1>
-                        </div>
-                    </article>
+            <!-- Slide 3 -->
+            <article class="swiper-slide">
+              <div class="slide-bg" style="background-image: url(&quot;img/slide3.webp&quot;)"></div>
+              <div class="slide-content">
+                <span class="slide-subtitle">Visión Creativa</span>
+                <h1 class="slide-title">Expresión</h1>
+              </div>
+            </article>
 
-                    <!-- Slide 4 -->
-                    <article class="swiper-slide">
-                        <div class="slide-bg" style="background-image: url('img/slide4.avif');"></div>
-                        <div class="slide-content">
-                            <span class="slide-subtitle">Obras Selectas</span>
-                            <h1 class="slide-title">Edición Limitada</h1>
-                        </div>
-                    </article>
+            <!-- Slide 4 -->
+            <article class="swiper-slide">
+              <div class="slide-bg" style="background-image: url(&quot;img/slide4.avif&quot;)"></div>
+              <div class="slide-content">
+                <span class="slide-subtitle">Obras Selectas</span>
+                <h1 class="slide-title">Edición Limitada</h1>
+              </div>
+            </article>
 
-                    <!-- Slide 5 -->
-                    <article class="swiper-slide">
-                        <div class="slide-bg" style="background-image: url('img/slide5.webp');"></div>
-                        <div class="slide-content">
-                            <span class="slide-subtitle">Vogue Style</span>
-                            <h1 class="slide-title">Elegant</h1>
-                        </div>
-                    </article>
+            <!-- Slide 5 -->
+            <article class="swiper-slide">
+              <div class="slide-bg" style="background-image: url(&quot;img/slide5.webp&quot;)"></div>
+              <div class="slide-content">
+                <span class="slide-subtitle">Vogue Style</span>
+                <h1 class="slide-title">Elegant</h1>
+              </div>
+            </article>
 
-                    <!-- Slide 6 -->
-                    <article class="swiper-slide">
-                        <div class="slide-bg" style="background-image: url('img/slide6.webp');"></div>
-                        <div class="slide-content">
-                            <span class="slide-subtitle">New Collection</span>
-                            <h1 class="slide-title">Infinite</h1>
-                        </div>
-                    </article>
-                </div>
+            <!-- Slide 6 -->
+            <article class="swiper-slide">
+              <div class="slide-bg" style="background-image: url(&quot;img/slide6.webp&quot;)"></div>
+              <div class="slide-content">
+                <span class="slide-subtitle">New Collection</span>
+                <h1 class="slide-title">Infinite</h1>
+              </div>
+            </article>
+          </div>
 
-                <!-- Paginació (punts horitzontals) -->
-                <div class="swiper-pagination"></div>
-            </div>
+          <!-- Paginació (punts horitzontals) -->
+          <div class="swiper-pagination"></div>
+        </div>
 
-            <!-- Navegació manual (fletxes) amb suport per a lectors de pantalla -->
-            <nav class="nav-arrows" aria-label="Navegació del slider">
-                <button class="nav-arrow prev-btn" aria-label="Anterior slide">anterior</button>
-                <button class="nav-arrow next-btn" aria-label="Següent slide">seguent</button>
-            </nav>
-        </section>
+        <!-- Navegació manual (fletxes) amb suport per a lectors de pantalla -->
+        <nav class="nav-arrows" aria-label="Navegació del slider">
+          <button class="nav-arrow prev-btn" aria-label="Anterior slide">anterior</button>
+          <button class="nav-arrow next-btn" aria-label="Següent slide">seguent</button>
+        </nav>
+      </section>
     </main>
 
     <!-- Swiper JS: Lògica del slider -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    
+
     <!-- Custom JS: La nostra lògica d'animacions i configuració -->
     <script src="js/script.js"></script>
 
     <!-- Footer -->
     <footer class="main-footer">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <img src="img/logo.avif" alt="Victoria Taylor" class="footer-logo-img">
-                <p class="footer-tagline">Descubrimos y promovemos artistas con un talento excepcional.</p>
-                <div class="footer-social">
-                    <a href="https://www.instagram.com/victoriataylor.art/" target="_blank" rel="noopener" class="footer-social-link" aria-label="Instagram Victoria Taylor">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                    </a>
-                </div>
-            </div>
-            <div class="footer-nav-col">
-                <h4 class="footer-col-title">Menú</h4>
-                <ul class="footer-nav">
-                    <li><a href="html/nosotros.html">Nosotros</a></li>
-                    <li><a href="html/artistas.html">Artistas</a></li>
-                    <li><a href="html/agencias.html">Agenda</a></li>
-                    <li><a href="html/noticias.html">Noticias</a></li>
-                    <li><a href="html/contacto.html">Contacto</a></li>
-                </ul>
-            </div>
-            <div class="footer-contact-col">
-                <h4 class="footer-col-title">Contacto</h4>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="img/logo.avif" alt="Victoria Taylor" class="footer-logo-img" />
+                <p class="footer-tagline" data-i18n="footer.tagline">Descubrimos y promovemos artistas con un talento excepcional.</p>
+          <div class="footer-social">
+            <a
+              href="https://www.instagram.com/victoriataylor.art/"
+              target="_blank"
+              rel="noopener"
+              class="footer-social-link"
+              aria-label="Instagram Victoria Taylor"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-nav-col">
+                <h4 class="footer-col-title" data-i18n="footer.menu">Menú</h4>
+          <ul class="footer-nav">
+            <li><a href="html/nosotros.html">Nosotros</a></li>
+            <li><a href="html/artistas.html">Artistas</a></li>
+            <li><a href="html/agencias.html">Agenda</a></li>
+            <li><a href="html/noticias.html">Noticias</a></li>
+            <li><a href="html/contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact-col">
+                <h4 class="footer-col-title" data-i18n="footer.contacto">Contacto</h4>
                 <div class="footer-offices">
-                    <div class="footer-office">
-                        <span class="footer-city">Girona</span>
-                        <p>Carrer Pic de Peguera, 11<br>17003 GIRONA</p>
-                    </div>
-                    <div class="footer-office">
-                        <span class="footer-city">London</span>
-                        <p>112 Whitechapel High St<br>E1 7AQ LONDON</p>
-                    </div>
+                  <div class="footer-office">
+                    <span class="footer-city" data-i18n="footer.girona">Girona</span>
+                    <p>Carrer Pic de Peguera, 11<br />17003 GIRONA</p>
+                  </div>
+                  <div class="footer-office">
+                    <span class="footer-city" data-i18n="footer.london">London</span>
+                    <p>112 Whitechapel High St<br />E1 7AQ LONDON</p>
+                  </div>
                 </div>
-                <a href="mailto:info@victoriataylor.art" class="footer-email">info@victoriataylor.art</a>
-            </div>
+          <a href="mailto:info@victoriataylor.art" class="footer-email">info@victoriataylor.art</a>
         </div>
-        <div class="footer-bottom">
-            <p class="footer-copy">© 2026 Victoria Taylor · Global Brands Europe, SL</p>
-            <ul class="footer-legal">
-                <li><a href="#">Aviso legal</a></li>
-                <li><a href="#">Privacidad</a></li>
-                <li><a href="#">Cookies</a></li>
-                <li><a href="#">Accesibilidad</a></li>
-            </ul>
-        </div>
+      </div>
+      <div class="footer-bottom">
+            <p class="footer-copy" data-i18n="footer.copyright">© 2026 Victoria Taylor · Global Brands Europe, SL</p>
+        <ul class="footer-legal">
+          <li><a href="html/avisolegal.html" data-i18n="footer.legal.aviso">Aviso legal</a></li>
+          <li><a href="html/privacidad.html" data-i18n="footer.legal.privacidad">Privacidad</a></li>
+          <li><a href="html/cookies.html" data-i18n="footer.legal.cookies">Cookies</a></li>
+          <li><a href="html/accesibilidad.html" data-i18n="footer.legal.accesibilidad">Accesibilidad</a></li>
+        </ul>
+      </div>
     </footer>
-</body>
+  </body>
 </html>
