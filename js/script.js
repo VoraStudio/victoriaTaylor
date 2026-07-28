@@ -414,6 +414,17 @@ function initEventoEntrance() {
     var titleEl = document.getElementById('evento-title');
     if (!titleEl) return;
 
+    /* Tracking: registrar vista */
+    var eventoData = document.getElementById('ssr-evento-data');
+    if (eventoData) {
+        try {
+            var ev = JSON.parse(eventoData.textContent);
+            if (ev && ev.id) {
+                navigator.sendBeacon('php/events.php?action=view&id=' + encodeURIComponent(ev.id));
+            }
+        } catch (e) {}
+    }
+
     if (typeof SplitText !== 'undefined') {
         var titleSplit = new SplitText(titleEl, { type: 'words,chars' });
         titleEl.style.visibility = 'visible';
