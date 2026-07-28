@@ -66,14 +66,55 @@ $cms->post('/api/visit', [
     'user_agent'  => $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown',
 ]);
 
+$mockNoticias = [
+    1 => [
+        'id' => 1,
+        'titul' => 'Nova exposició: "Horitzons" de Marta Riera',
+        'subtitol' => 'Una col·lecció d\'obres que exploren els límits entre abstracció i paisatge',
+        'descripcio' => '<p>Victoria Taylor Gallery presenta la nova exposició individual de Marta Riera, "Horitzons".</p>',
+        'data' => '2026-09-10T12:00:00Z',
+        'categoria' => 'Exposició',
+        'imatge' => [['url' => 'https://images.pexels.com/photos/2790294/pexels-photo-2790294.jpeg']],
+    ],
+    2 => [
+        'id' => 2,
+        'titul' => 'Taller d\'art contemporani per a joves',
+        'subtitol' => 'Inscripcions obertes per a l\'edició de tardor',
+        'descripcio' => '<p>El programa educatiu de Victoria Taylor Gallery obre inscripcions per al taller d\'art contemporani.</p>',
+        'data' => '2026-08-20T10:00:00Z',
+        'categoria' => 'Taller',
+        'imatge' => [['url' => 'https://images.pexels.com/photos/542556/pexels-photo-542556.jpeg']],
+    ],
+    3 => [
+        'id' => 3,
+        'titul' => 'El fons permanent s\'amplia amb 5 noves adquisicions',
+        'subtitol' => 'Peces d\'artistes emergents catalans',
+        'descripcio' => '<p>La galeria anuncia l\'adquisició de 5 noves obres per al fons permanent.</p>',
+        'data' => '2026-07-15T09:00:00Z',
+        'categoria' => 'Col·lecció',
+        'imatge' => [['url' => 'https://images.pexels.com/photos/3029682/pexels-photo-3029682.jpeg']],
+    ],
+    4 => [
+        'id' => 4,
+        'titul' => 'Entrevista a l\'artista convidat: Jordi Vilanova',
+        'subtitol' => 'El seu procés creatiu i la nova sèrie',
+        'descripcio' => '<p>Jordi Vilanova ens obre les portes del seu taller.</p>',
+        'data' => '2026-06-28T11:00:00Z',
+        'categoria' => 'Entrevista',
+        'imatge' => [['url' => 'https://images.pexels.com/photos/3014882/pexels-photo-3014882.jpeg']],
+    ],
+];
+
 /* ─── Ferry detall ─── */
 $result = $cms->fetch("/api/public/victoria-taylor/noticia/{$id}");
-$noticia = $result['data'] ?? null;
+if (!$result || !isset($result['data'])) {
+    $noticia = $mockNoticias[(int) $id] ?? null;
+} else {
+    $noticia = $result['data'];
+}
 
 /* ─── Fallback: redirigir si no trobada ─── */
-if (!$noticia) {
-    $noticia = null;
-}
+if (!$noticia) { $noticia = null; }
 
 /* ─── Extreure dades ─── */
 $img = $noticia['imatge'][0] ?? null;
