@@ -132,7 +132,12 @@
                         <h2 class="contact-subtitle" data-i18n="contact.subtitle">Regístrate para mantenerte<br>informado de nuestras<br>actividades</h2>
                         
                         <div class="contact-form-wrapper">
-                            <form id="contact-form" class="contact-form" action="#" method="POST">
+                            <form id="contact-form" class="contact-form" action="javascript:void(0);" method="POST">
+                                <input type="hidden" name="csrf_token" id="csrfToken" value="">
+                                <input type="hidden" name="recaptcha_response" id="recaptchaResponse" value="">
+                                <div style="display:none" aria-hidden="true">
+                                    <input type="text" name="honeypot" tabindex="-1" autocomplete="off">
+                                </div>
                                 <div class="form-group">
                                     <label for="name" data-i18n="contact.form.name">Name</label>
                                     <input type="text" id="name" name="name" required>
@@ -175,6 +180,7 @@
 
     <!-- Custom JS: La nostra lògica d'animacions i configuració -->
     <script src="../js/script.js"></script>
+    <script src="../js/contact-form.js"></script>
 
     <!-- Footer -->
     <footer class="main-footer">
