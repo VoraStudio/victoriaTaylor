@@ -1,7 +1,7 @@
 /* ----- INICI SECCIÓ CÀRREGA AGENDA ----- */
 /* Punt d'entrada: obté tots els events del CMS, els classifica per data i renderitza les pestanyes. */
 async function loadAgenda() {
-  var res = await getCMSData('/api/event');
+  var res = await getCMSData('/api/public/victoria-taylor/event');
   if (!res) return;
 
   var items = res?.data || [];

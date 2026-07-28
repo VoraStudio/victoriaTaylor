@@ -5,7 +5,7 @@ async function loadEvento() {
   var id = params.get('id');
   if (!id) return;
 
-  var res = await getCMSData('/api/event/' + id);
+  var res = await getCMSData('/api/public/victoria-taylor/event/' + id);
   var item = res?.data;
   if (!item) return;
 

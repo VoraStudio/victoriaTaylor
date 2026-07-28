@@ -5,7 +5,7 @@ async function loadNoticia() {
   var id = params.get('id');
   if (!id) return;
 
-  var res = await getCMSData('/api/noticia/' + id);
+  var res = await getCMSData('/api/public/victoria-taylor/noticia/' + id);
   var item = res?.data;
   if (!item) return;
 

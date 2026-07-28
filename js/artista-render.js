@@ -8,6 +8,13 @@
    L'ID de l'artista es llegeix de la URL: artista.html?id=xxx
    =========================================================== */
 
+/* Injectar keyframes per al spinner de loading */
+(function () {
+    var style = document.createElement('style');
+    style.textContent = '@keyframes artistSpin { to { transform: rotate(360deg); } }';
+    document.head.appendChild(style);
+})();
+
 /* ---------- Helpers d'internacionalització ---------- */
 const labels = {
     es: { sobre: 'Sobre el artista', trayectoria: 'Trayectoria', obras: 'Obras' },
@@ -15,11 +22,7 @@ const labels = {
     en: { sobre: 'About the Artist', trayectoria: 'Timeline', obras: 'Works' }
 };
 
-const errLabels = {
-    es: { title: 'Artista no encontrado', back: 'Volver a Artistas' },
-    ca: { title: 'Artista no trobat', back: 'Tornar a Artistes' },
-    en: { title: 'Artist not found', back: 'Back to Artists' }
-};
+
 
 function _t(obj) {
     if (typeof obj === 'string') return obj;
@@ -36,21 +39,13 @@ function renderArtist(lang) {
     if (!main) return;
 
     const currentLabels = labels[lang] || labels.es;
-    const currentErr = errLabels[lang] || errLabels.es;
 
     /* ----- Llegir ID de la URL ----- */
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
 
     if (!id || !artistas[id]) {
-        main.innerHTML = `
-            <section class="artist-hero">
-                <div class="artist-hero-bg" style="background-image: url('../img/slide1.webp');"></div>
-                <div class="artist-hero-content">
-                    <h1 class="artist-hero-title">${currentErr.title}</h1>
-                    <a href="artistas.html" class="btn-cta btn-primary">${currentErr.back}</a>
-                </div>
-            </section>`;
+        /* No mostrar error - api-artistes.js el carregara i cridara el callback */
         return;
     }
 
@@ -294,6 +289,33 @@ function renderArtist(lang) {
 
 window.renderArtist = renderArtist;
 
-document.addEventListener('DOMContentLoaded', () => {
-    renderArtist(localStorage.getItem('vt-lang') || 'es');
+/* Quan api-artistes.js mergeja les dades, crida aquest callback */
+window.__onArtistasReady = function () {
+    var lang = localStorage.getItem('vt-lang') || 'es';
+    renderArtist(lang);
+};
+
+document.addEventListener('DOMContentLoaded', function () {
+    var lang = localStorage.getItem('vt-lang') || 'es';
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get('id');
+
+    /* Si l'artista ja esta a artistas (fix), renderitzar directe */
+    if (id && artistas[id]) {
+        renderArtist(lang);
+        return;
+    }
+
+    /* Mostrar loading mentre api-artistes.js carrega les dades del CMS */
+    if (id) {
+        var main = document.getElementById('artist-content');
+        if (main) {
+            main.innerHTML =
+                '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:1.5rem">' +
+                    '<div class="artist-loading-spinner" style="width:40px;height:40px;border:3px solid rgba(255,255,255,0.15);border-top-color:#fff;border-radius:50%;animation:artistSpin 0.8s linear infinite"></div>' +
+                    '<span style="color:#fff;font-family:var(--font-primary);font-size:0.85rem;letter-spacing:0.2em;text-transform:uppercase;opacity:0.6">Carregant artista...</span>' +
+                '</div>';
+        }
+    }
+    /* api-artistes.js cridara __onArtistasReady quan mergeji */
 });

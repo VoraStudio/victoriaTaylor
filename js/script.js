@@ -344,6 +344,18 @@ function initAboutEntrance() {
                 scrollTrigger: { trigger: '.about-artists', start: 'top 70%', once: true }
             });
         }
+
+        /* Exposar config perque api-artistes.js pugui integrar noves cards al mateix stagger */
+        window.__cardsAnim = {
+            isPastStart: isPastStart,
+            cardCount: cards.length,
+            staggerEach: 0.5,
+            baseDelay: 0.5,
+            duration: 1.2,
+            ease: 'power3.out',
+            scrollTrigger: isPastStart ? null : { trigger: '.about-artists', start: 'top 70%' },
+            animStart: performance.now()
+        };
     }
 }
 
@@ -624,51 +636,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Animació Entrada Contacto
     if (document.querySelector('.contact-page')) {
-        const contactTl = gsap.timeline({ delay: 0.5 });
-        
-        const title = document.querySelector('.contact-title');
-        title.style.visibility = 'visible';
-        const splitTitle = new SplitText(title, { type: "chars" });
-        
-        gsap.set(splitTitle.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: "center bottom" });
-        
-        contactTl.to(splitTitle.chars, {
-            opacity: 1, 
-            yPercent: 0, 
-            scale: 1,
-            rotationX: 0,
-            duration: 1.2, 
-            stagger: { each: 0.04, from: "start" }, 
-            ease: "back.out(1.4)"
-        });
-        
-        contactTl.from('.contact-details, .contact-socials', {
-            opacity: 0, 
-            y: 20, 
-            duration: 0.8, 
-            ease: "power2.out"
-        }, "-=0.6");
-        
-        contactTl.from('.contact-subtitle', {
-            opacity: 0,
-            y: 20,
-            duration: 0.8,
-            ease: "power2.out"
-        }, "-=0.6");
+        document.fonts.ready.then(() => {
+            const contactTl = gsap.timeline({ delay: 0.5 });
+            
+            const title = document.querySelector('.contact-title');
+            title.style.visibility = 'visible';
+            const splitTitle = new SplitText(title, { type: "chars" });
+            
+            gsap.set(splitTitle.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: "center bottom" });
+            
+            contactTl.to(splitTitle.chars, {
+                opacity: 1, 
+                yPercent: 0, 
+                scale: 1,
+                rotationX: 0,
+                duration: 1.2, 
+                stagger: { each: 0.04, from: "start" }, 
+                ease: "back.out(1.4)"
+            });
+            
+            contactTl.from('.contact-details, .contact-socials', {
+                opacity: 0, 
+                y: 20, 
+                duration: 0.8, 
+                ease: "power2.out"
+            }, "-=0.6");
+            
+            contactTl.from('.contact-subtitle', {
+                opacity: 0,
+                y: 20,
+                duration: 0.8,
+                ease: "power2.out"
+            }, "-=0.6");
 
-        contactTl.from('.contact-form-wrapper', {
-            opacity: 0,
-            y: 30,
-            duration: 0.8,
-            ease: "power2.out"
-        }, "-=0.4");
-        
-        contactTl.from('.clover-image', {
-            opacity: 0,
-            scale: 0.8,
-            rotation: 5,
-            duration: 1.2,
-            ease: "power3.out"
-        }, "-=1");
+            contactTl.from('.contact-form-wrapper', {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                ease: "power2.out"
+            }, "-=0.4");
+            
+            contactTl.from('.clover-image', {
+                opacity: 0,
+                scale: 0.8,
+                rotation: 5,
+                duration: 1.2,
+                ease: "power3.out"
+            }, "-=1");
+        });
     }
 });
