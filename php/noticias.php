@@ -32,7 +32,7 @@ function loadEnv($path) {
 /* ─── Boot: carregar .env + inicialitzar CmsClient ─── */
 $env = loadEnv(__DIR__ . '/../.env');
 $cmsUrl = $env['CMS_URL'] ?? 'https://voracms.voradata.cat';
-$origin = $env['SSR_ORIGIN'] ?? 'https://victoriataylor.com';
+$origin = $env['SSR_ORIGIN'] ?? 'https://victoriataylor.art';
 
 $cms = new CmsClient($cmsUrl, $origin);
 

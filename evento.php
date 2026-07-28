@@ -1,6 +1,6 @@
 <?php
 /* ==========================================================================
-   noticia.php — Página SSR del detall de notícia (Victoria Taylor)
+   evento.php — Página SSR del detall d'event (Victoria Taylor)
    ========================================================================== */
 
 require_once __DIR__ . '/includes/CmsClient.php';
@@ -26,12 +26,12 @@ function getVoraMediaUrl($path) {
     return $GLOBALS['cmsUrl'] . $path;
 }
 
-function formatDate($dateString) {
+function formatEventDate($dateString) {
     if (!$dateString) return '';
     $timestamp = strtotime($dateString);
     if (!$timestamp) return '';
     setlocale(LC_TIME, 'ca_ES.UTF-8', 'ca_ES', 'ca');
-    $meses = [
+    $mesos = [
         1 => 'de gener', 2 => 'de febrer', 3 => 'de març',
         4 => 'd\'abril', 5 => 'de maig', 6 => 'de juny',
         7 => 'de juliol', 8 => 'd\'agost', 9 => 'de setembre',
@@ -40,13 +40,13 @@ function formatDate($dateString) {
     $dia = (int) date('j', $timestamp);
     $mes = (int) date('n', $timestamp);
     $any = date('Y', $timestamp);
-    return $dia . ' ' . $meses[$mes] . ' del ' . $any;
+    return $dia . ' ' . $mesos[$mes] . ' del ' . $any;
 }
 
 /* ─── Boot ─── */
 $id = $_GET['id'] ?? 0;
 if (!$id) {
-    header('Location: noticias.php');
+    header('Location: agenda.php');
     exit;
 }
 
@@ -61,25 +61,28 @@ $cms = new CmsClient($cmsUrl, $origin);
 /* ─── Tracking visita ─── */
 $cms->post('/api/visit', [
     'entry_id'    => (int) $id,
-    'path'        => "/noticia/{$id}",
+    'path'        => "/evento/{$id}",
     'client_ip'   => $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1',
     'user_agent'  => $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown',
 ]);
 
 /* ─── Ferry detall ─── */
-$result = $cms->fetch("/api/public/victoria-taylor/noticia/{$id}");
-$noticia = ($result && isset($result['data'])) ? $result['data'] : null;
+$result = $cms->fetch("/api/public/victoria-taylor/event/{$id}");
+$event = ($result && isset($result['data'])) ? $result['data'] : null;
 
 /* ─── Extreure dades ─── */
-$img = $noticia['imatge'][0] ?? null;
+$img = $event['imatge'][0] ?? null;
 $imgUrl = $img ? getVoraMediaUrl($img['url']) : '';
-$titul = htmlspecialchars($noticia['titol'] ?? $noticia['titul'] ?? '', ENT_QUOTES, 'UTF-8');
-$categoria = htmlspecialchars($noticia['categoria'] ?? '', ENT_QUOTES, 'UTF-8');
-$dataFormatada = formatDate($noticia['data'] ?? '');
-$descripcio = $noticia['descripcio'] ?? '';
-$pageTitle = $titul ? $titul . ' | Victoria Taylor' : 'Victoria Taylor | Notícia';
-$subtitol = $noticia['subtitol'] ?? '';
-$metaDesc = $subtitol ? htmlspecialchars(mb_substr(strip_tags($subtitol), 0, 155), ENT_QUOTES, 'UTF-8') : 'Article complet amb detalls de l\'exposicio o esdeveniment artistic.';
+$titul = htmlspecialchars($event['titol'] ?? '', ENT_QUOTES, 'UTF-8');
+$dataFormatada = formatEventDate($event['data'] ?? '');
+$hora = htmlspecialchars($event['hora'] ?? '', ENT_QUOTES, 'UTF-8');
+$ubicacio = htmlspecialchars($event['ubicacio'] ?? '', ENT_QUOTES, 'UTF-8');
+$descripcio = $event['descripcio'] ?? '';
+$ctaUrl = htmlspecialchars($event['cta_url'] ?? '', ENT_QUOTES, 'UTF-8');
+$ctaText = htmlspecialchars($event['cta_text'] ?? 'Més informació', ENT_QUOTES, 'UTF-8');
+$pageTitle = $titul ? $titul . ' | Victoria Taylor' : 'Victoria Taylor | Event';
+$metaDesc = $event['descripcio_curta'] ?? ($event['descripcio'] ?? '');
+$metaDesc = $metaDesc ? htmlspecialchars(mb_substr(strip_tags($metaDesc), 0, 155), ENT_QUOTES, 'UTF-8') : 'Detalls de l\'esdeveniment: data, ubicació, horaris i informació pràctica.';
 $ogImage = $imgUrl ?: 'https://victoriataylor.art/img/og-image.jpg';
 ?>
 <!doctype html>
@@ -89,23 +92,23 @@ $ogImage = $imgUrl ?: 'https://victoriataylor.art/img/og-image.jpg';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="<?= $metaDesc ?>" />
-    <meta name="keywords" content="article art, exposicio, esdeveniment artistic, noticia art contemporani" />
+    <meta name="keywords" content="esdeveniment art, exposició, inauguració, agenda cultural, informació pràctica" />
     <meta name="author" content="Victoria Taylor - Global Brands Europe, SL" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://victoriataylor.art/noticia.php?id=<?= $id ?>" />
-    <meta property="og:title" content="<?= $titul ?: 'Notícia | Victoria Taylor' ?>" />
+    <meta property="og:url" content="https://victoriataylor.art/evento.php?id=<?= $id ?>" />
+    <meta property="og:title" content="<?= $titul ?: 'Event | Victoria Taylor' ?>" />
     <meta property="og:description" content="<?= $metaDesc ?>" />
     <meta property="og:image" content="<?= $ogImage ?>" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="<?= $titul ?: 'Notícia | Victoria Taylor' ?>" />
+    <meta name="twitter:title" content="<?= $titul ?: 'Event | Victoria Taylor' ?>" />
     <meta name="twitter:description" content="<?= $metaDesc ?>" />
     <meta name="twitter:image" content="<?= $ogImage ?>" />
 
-    <link rel="canonical" href="https://victoriataylor.art/noticia.php?id=<?= $id ?>" />
+    <link rel="canonical" href="https://victoriataylor.art/evento.php?id=<?= $id ?>" />
 
     <link rel="icon" type="image/avif" href="img/logo.avif" />
     <link rel="apple-touch-icon" href="img/logo.avif" />
@@ -113,7 +116,7 @@ $ogImage = $imgUrl ?: 'https://victoriataylor.art/img/og-image.jpg';
     <title><?= $pageTitle ?></title>
 
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/noticia.css" />
+    <link rel="stylesheet" href="css/evento.css" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -180,62 +183,76 @@ $ogImage = $imgUrl ?: 'https://victoriataylor.art/img/og-image.jpg';
     </header>
 
     <!-- Main -->
-    <main id="noticia-main">
-        <?php if ($noticia): ?>
-            <section class="noticia-hero" id="noticia-hero">
-                <div class="noticia-hero-bg" id="noticia-hero-bg" style="background-image: url('<?= htmlspecialchars($imgUrl, ENT_QUOTES, 'UTF-8') ?>');"></div>
-                <div class="noticia-hero-overlay"></div>
-                <div class="noticia-hero-content">
-                    <span class="noticia-section-label" data-i18n="nav.noticias">Notícies</span>
-                    <?php if ($categoria): ?>
-                        <span class="noticia-cat"><?= $categoria ?></span>
-                    <?php endif; ?>
-                    <h1 class="noticia-title" id="noticia-title"><?= $titul ?></h1>
-                    <div class="noticia-meta" id="noticia-meta">
+    <main id="evento-main">
+        <?php if ($event): ?>
+            <section class="evento-hero" id="evento-hero">
+                <div class="evento-hero-bg" id="evento-hero-bg" style="background-image: url('<?= htmlspecialchars($imgUrl, ENT_QUOTES, 'UTF-8') ?>');"></div>
+                <div class="evento-hero-overlay"></div>
+                <div class="evento-hero-content">
+                    <span class="evento-label" id="evento-label">Event</span>
+                    <h1 class="evento-title" id="evento-title" style="visibility:hidden;"><?= $titul ?></h1>
+                    <div class="evento-meta" id="evento-meta">
                         <?php if ($dataFormatada): ?>
-                            <span class="noticia-date" id="noticia-date"><?= htmlspecialchars($dataFormatada, ENT_QUOTES, 'UTF-8') ?></span>
+                            <span class="evento-date" id="evento-date"><?= htmlspecialchars($dataFormatada, ENT_QUOTES, 'UTF-8') ?></span>
+                        <?php endif; ?>
+                        <?php if ($hora && $dataFormatada): ?>
+                            <span class="evento-meta-sep"></span>
+                        <?php endif; ?>
+                        <?php if ($hora): ?>
+                            <span class="evento-time" id="evento-time"><?= htmlspecialchars($hora, ENT_QUOTES, 'UTF-8') ?></span>
+                        <?php endif; ?>
+                        <?php if ($ubicacio && ($dataFormatada || $hora)): ?>
+                            <span class="evento-meta-sep"></span>
+                        <?php endif; ?>
+                        <?php if ($ubicacio): ?>
+                            <span class="evento-location" id="evento-location"><?= htmlspecialchars($ubicacio, ENT_QUOTES, 'UTF-8') ?></span>
                         <?php endif; ?>
                     </div>
                 </div>
             </section>
 
-            <article class="noticia-content" id="noticia-content">
-                <div class="noticia-content-inner">
-                    <a href="noticias.php" class="noticia-back">
+            <article class="evento-content" id="evento-content">
+                <div class="evento-content-inner">
+                    <a href="agenda.php" class="evento-back" id="evento-back">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="19" y1="12" x2="5" y2="12" />
                             <polyline points="12 19 5 12 12 5" />
                         </svg>
-                        Todas les notícies
+                        Tornar a l'agenda
                     </a>
-                    <div class="noticia-body" id="noticia-body">
+                    <div class="evento-body" id="evento-body">
                         <?= $descripcio ?>
                     </div>
+                    <?php if ($ctaUrl): ?>
+                        <div class="evento-cta-wrap" id="evento-cta-wrap">
+                            <a href="<?= $ctaUrl ?>" class="evento-cta" id="evento-cta-link" target="_blank" rel="noopener"><?= $ctaText ?></a>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </article>
         <?php else: ?>
-            <section class="noticia-hero" id="noticia-hero">
-                <div class="noticia-hero-bg" style="background-image: url('img/slide1.webp');"></div>
-                <div class="noticia-hero-overlay"></div>
-                <div class="noticia-hero-content">
-                    <h1 class="noticia-title" id="noticia-title" style="visibility: hidden">Notícia no trobada</h1>
+            <section class="evento-hero" id="evento-hero">
+                <div class="evento-hero-bg" style="background-image: url('img/slide1.webp');"></div>
+                <div class="evento-hero-overlay"></div>
+                <div class="evento-hero-content">
+                    <h1 class="evento-title" id="evento-title" style="visibility:hidden;">Event no trobat</h1>
                 </div>
             </section>
 
-            <article class="noticia-content" id="noticia-content">
-                <div class="noticia-content-inner noticia-404">
-                    <p class="noticia-404-text">La notícia que busques no existeix o ha estat eliminada.</p>
-                    <a href="noticias.php" class="noticia-back noticia-404-btn">
+            <article class="evento-content" id="evento-content">
+                <div class="evento-content-inner" style="text-align:center;padding:var(--space-xxl) 0;">
+                    <p style="font-family:var(--font-secondary);font-size:1rem;color:rgba(0,0,0,0.5);">L'esdeveniment que busques no existeix o ha estat eliminat.</p>
+                    <a href="agenda.php" class="evento-back" style="margin-top:var(--space-l);">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="19" y1="12" x2="5" y2="12" />
                             <polyline points="12 19 5 12 12 5" />
                         </svg>
-                        Tornar a notícies
+                        Tornar a l'agenda
                     </a>
                 </div>
             </article>
 
-            <script id="ssr-noticia-data" type="application/json">null</script>
+            <script id="ssr-evento-data" type="application/json">null</script>
         <?php endif; ?>
     </main>
 
@@ -288,9 +305,9 @@ $ogImage = $imgUrl ?: 'https://victoriataylor.art/img/og-image.jpg';
         </div>
     </footer>
 
-    <?php if ($noticia): ?>
-    <script id="ssr-noticia-data" type="application/json">
-        <?= json_encode($noticia, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>
+    <?php if ($event): ?>
+    <script id="ssr-evento-data" type="application/json">
+        <?= json_encode($event, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>
     </script>
     <?php endif; ?>
 

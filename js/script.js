@@ -359,6 +359,86 @@ function initAboutEntrance() {
     }
 }
 
+/* ----- INICI ANIMACIÓ DETALL NOTÍCIA (SSR) ----- */
+function initNoticiaEntrance() {
+    const noticiaData = document.getElementById('ssr-noticia-data');
+    if (!noticiaData) return;
+
+    let noticia;
+    try { noticia = JSON.parse(noticiaData.textContent); } catch (e) { return; }
+    if (!noticia) return;
+
+    /* Tracking */
+    if (noticia.id) {
+        navigator.sendBeacon('php/noticias.php?action=view&id=' + encodeURIComponent(noticia.id));
+    }
+
+    /* ===== HERO ENTRANCE (com initAboutEntrance) ===== */
+    const labelEl = document.querySelector('.noticia-section-label');
+    let labelSplit = null;
+    if (labelEl) {
+        labelSplit = new SplitText(labelEl, { type: 'chars' });
+        gsap.set(labelSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
+    }
+
+    const titleEl = document.getElementById('noticia-title');
+    let titleSplit = null;
+    if (titleEl) {
+        titleSplit = new SplitText(titleEl, { type: 'words,chars' });
+        gsap.set(titleSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
+    }
+
+    gsap.set('.noticia-body', { opacity: 0, y: 20 });
+
+    const tl = gsap.timeline({ delay: 0.5 });
+
+    if (labelSplit) {
+        tl.to(labelSplit.chars, {
+            opacity: 1, yPercent: 0, scale: 1, rotationX: 0,
+            duration: 1.2, stagger: { each: 0.04, from: 'start' }, ease: 'back.out(1.4)'
+        }, 0);
+    }
+
+    if (titleSplit) {
+        tl.to(titleSplit.chars, {
+            opacity: 1, yPercent: 0, scale: 1, rotationX: 0,
+            duration: 1.2, stagger: { each: 0.04, from: 'start' }, ease: 'back.out(1.4)'
+        }, '-=0.3');
+    }
+
+    tl.to('.noticia-body', { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.4');
+}
+
+/* ----- INICI ANIMACIÓ DETALL EVENT (SSR) ----- */
+function initEventoEntrance() {
+    var titleEl = document.getElementById('evento-title');
+    if (!titleEl) return;
+
+    if (typeof SplitText !== 'undefined') {
+        var titleSplit = new SplitText(titleEl, { type: 'words,chars' });
+        titleEl.style.visibility = 'visible';
+        gsap.set(titleSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
+
+        var tl = gsap.timeline({ delay: 0.5 });
+
+        tl.to(titleSplit.chars, {
+            opacity: 1, yPercent: 0, scale: 1, rotationX: 0,
+            duration: 1.2, stagger: { each: 0.04, from: 'start' }, ease: 'back.out(1.4)'
+        }, 0);
+
+        var labelEl = document.getElementById('evento-label');
+        var metaEl = document.getElementById('evento-meta');
+        gsap.set([labelEl, metaEl].filter(Boolean), { opacity: 0, y: 20 });
+        tl.to(labelEl, { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.8');
+        tl.to(metaEl, { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.6');
+
+        gsap.set('.evento-body, .evento-back, .evento-cta-wrap', { opacity: 0, y: 20 });
+        tl.to('.evento-body, .evento-back, .evento-cta-wrap', { autoAlpha: 1, y: 0, duration: 1, stagger: 0.15, ease: 'power3.out' }, '-=0.4');
+    } else {
+        titleEl.style.visibility = 'visible';
+    }
+}
+
 /* ----- INICI SECCIÓ I18N (idiomes) ----- */
 
 const i18n = {
@@ -601,6 +681,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // About entrance (nosotros.html hero + artists section)
     if (document.querySelector('.about-hero') || document.querySelector('.about-artists')) {
         initAboutEntrance();
+    }
+
+    // Noticia entrance (noticia.php hero)
+    if (document.querySelector('.noticia-hero') && typeof initNoticiaEntrance === 'function') {
+        initNoticiaEntrance();
+    }
+
+    // Evento entrance (evento.php hero)
+    if (document.querySelector('.evento-hero') && typeof initEventoEntrance === 'function') {
+        initEventoEntrance();
     }
 
     // Footer reveal animation

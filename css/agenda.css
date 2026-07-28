@@ -181,16 +181,22 @@
     flex-direction: column;
     text-decoration: none;
     color: inherit;
+    background: #121212; /* Fondo gris muy oscuro */
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease;
+    overflow: hidden;
     will-change: transform;
+}
+
+.agenda-card:hover {
+    background: #1a1a1a;
+    transform: translateY(-4px);
 }
 
 .agenda-card-img {
     position: relative;
     aspect-ratio: 16 / 10;
     overflow: hidden;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.03);
-    margin-bottom: var(--space-xs);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .agenda-card-img img {
@@ -202,14 +208,14 @@
 }
 
 .agenda-card:hover .agenda-card-img img {
-    transform: scale(1.05);
+    transform: scale(1.03);
 }
 
 .agenda-card-body {
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    padding: 0;
+    gap: 6px;
+    padding: var(--space-s);
 }
 
 .agenda-card-date {
