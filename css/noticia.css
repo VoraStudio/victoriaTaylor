@@ -190,6 +190,21 @@
     margin-bottom: var(--space-xs);
 }
 
+/* 404 */
+.noticia-404 {
+    text-align: center;
+}
+
+.noticia-404-text {
+    font-size: clamp(1rem, calc(0.5vw + 1rem), 1.25rem);
+    opacity: 0.6;
+    margin-bottom: var(--space-l);
+}
+
+.noticia-404-btn {
+    margin-bottom: 0;
+}
+
 /* Responsive */
 @media (min-width: 769px) {
     .noticia-content {
