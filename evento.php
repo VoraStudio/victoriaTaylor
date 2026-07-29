@@ -43,6 +43,16 @@ function formatEventDate($dateString) {
     return $dia . ' ' . $mesos[$mes] . ' del ' . $any;
 }
 
+function cleanRichText($html) {
+    if (empty($html)) return '';
+    $html = preg_replace('/<p>\s*(<br\s*\/?>|&nbsp;|\s*)\s*<\/p>/i', '<!--PX_BR-->', $html);
+    $html = preg_replace('/([\.!\?\:"])\s*<\/p>\s*<p([^>]*)>/i', '$1</p><!--REAL_BR--><p$2>', $html);
+    $html = preg_replace('/<\/p>\s*<p([^>]*)>/i', ' ', $html);
+    $html = str_replace('<!--REAL_BR-->', '', $html);
+    $html = str_replace('<!--PX_BR-->', '<p><br></p>', $html);
+    return $html;
+}
+
 /* ─── Boot ─── */
 $id = $_GET['id'] ?? 0;
 if (!$id) {
@@ -61,7 +71,7 @@ $cms = new CmsClient($cmsUrl, $origin);
 /* ─── Tracking visita ─── */
 $cms->post('/api/visit', [
     'entry_id'    => (int) $id,
-    'path'        => "/evento/{$id}",
+    'path'        => "/event/{$id}",
     'client_ip'   => $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1',
     'user_agent'  => $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown',
 ]);
@@ -77,7 +87,10 @@ $titul = htmlspecialchars($event['titol'] ?? '', ENT_QUOTES, 'UTF-8');
 $dataFormatada = formatEventDate($event['data'] ?? '');
 $hora = htmlspecialchars($event['hora'] ?? '', ENT_QUOTES, 'UTF-8');
 $ubicacio = htmlspecialchars($event['ubicacio'] ?? '', ENT_QUOTES, 'UTF-8');
-$descripcio = $event['descripcio'] ?? '';
+$descripcio = cleanRichText($event['descripcio'] ?? '');
+if ($descripcio) {
+    $descripcio = str_replace('src="/', 'src="' . $cmsUrl . '/', $descripcio);
+}
 $ctaUrl = htmlspecialchars($event['cta_url'] ?? '', ENT_QUOTES, 'UTF-8');
 $ctaText = htmlspecialchars($event['cta_text'] ?? 'Més informació', ENT_QUOTES, 'UTF-8');
 $pageTitle = $titul ? $titul . ' | Victoria Taylor' : 'Victoria Taylor | Event';
@@ -121,7 +134,6 @@ $ogImage = $imgUrl ?: 'https://victoriataylor.art/img/og-image.jpg';
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/SplitText.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 </head>
 <body class="page-body">
 
@@ -135,8 +147,8 @@ $ogImage = $imgUrl ?: 'https://victoriataylor.art/img/og-image.jpg';
             </div>
             <nav class="desktop-nav" aria-label="Navegació de sobretaula">
                 <ul class="nav-list">
-                    <li><a href="html/nosotros.html" class="nav-link" data-i18n="nav.nosotros">Nosotros</a></li>
-                    <li><a href="html/artistas.html" class="nav-link" data-i18n="nav.artistas">Artistas</a></li>
+                    <li><a href="nosotros.php" class="nav-link" data-i18n="nav.nosotros">Nosotros</a></li>
+                    <li><a href="artistas.php" class="nav-link" data-i18n="nav.artistas">Artistas</a></li>
                     <li><a href="agenda.php" class="nav-link" data-i18n="nav.agenda">Agenda</a></li>
                     <li><a href="noticias.php" class="nav-link" data-i18n="nav.noticias">Noticias</a></li>
                     <li><a href="html/contacto.html" class="nav-link" data-i18n="nav.contacto">Contacto</a></li>
@@ -167,8 +179,8 @@ $ogImage = $imgUrl ?: 'https://victoriataylor.art/img/og-image.jpg';
                 </a>
             </div>
             <ul class="mobile-nav-list">
-                <li><a href="html/nosotros.html" class="mobile-link" data-i18n="nav.nosotros">Nosotros</a></li>
-                <li><a href="html/artistas.html" class="mobile-link" data-i18n="nav.artistas">Artistas</a></li>
+                <li><a href="nosotros.php" class="mobile-link" data-i18n="nav.nosotros">Nosotros</a></li>
+                <li><a href="artistas.php" class="mobile-link" data-i18n="nav.artistas">Artistas</a></li>
                 <li><a href="agenda.php" class="mobile-link" data-i18n="nav.agenda">Agenda</a></li>
                 <li><a href="noticias.php" class="mobile-link" data-i18n="nav.noticias">Noticias</a></li>
                 <li><a href="html/contacto.html" class="mobile-link" data-i18n="nav.contacto">Contacto</a></li>
@@ -189,7 +201,6 @@ $ogImage = $imgUrl ?: 'https://victoriataylor.art/img/og-image.jpg';
                 <div class="evento-hero-bg" id="evento-hero-bg" style="background-image: url('<?= htmlspecialchars($imgUrl, ENT_QUOTES, 'UTF-8') ?>');"></div>
                 <div class="evento-hero-overlay"></div>
                 <div class="evento-hero-content">
-                    <span class="evento-label" id="evento-label">Event</span>
                     <h1 class="evento-title" id="evento-title" style="visibility:hidden;"><?= $titul ?></h1>
                     <div class="evento-meta" id="evento-meta">
                         <?php if ($dataFormatada): ?>
@@ -226,6 +237,22 @@ $ogImage = $imgUrl ?: 'https://victoriataylor.art/img/og-image.jpg';
                     <?php if ($ctaUrl): ?>
                         <div class="evento-cta-wrap" id="evento-cta-wrap">
                             <a href="<?= $ctaUrl ?>" class="evento-cta" id="evento-cta-link" target="_blank" rel="noopener"><?= $ctaText ?></a>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (!empty($event['galeria'])): ?>
+                        <div class="evento-gallery">
+                            <div class="evento-gallery-grid">
+                                <?php foreach ($event['galeria'] as $gImg): ?>
+                                    <?php 
+                                        $gImgUrl = getVoraMediaUrl($gImg['url']); 
+                                        $gImgAlt = htmlspecialchars($gImg['name'] ?? '', ENT_QUOTES, 'UTF-8');
+                                    ?>
+                                    <div class="evento-gallery-item">
+                                        <img src="<?= htmlspecialchars($gImgUrl, ENT_QUOTES, 'UTF-8') ?>" alt="<?= $gImgAlt ?>" loading="lazy" />
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -271,8 +298,8 @@ $ogImage = $imgUrl ?: 'https://victoriataylor.art/img/og-image.jpg';
             <div class="footer-nav-col">
                 <h4 class="footer-col-title" data-i18n="footer.menu">Menú</h4>
                 <ul class="footer-nav">
-                    <li><a href="html/nosotros.html" data-i18n="nav.nosotros">Nosotros</a></li>
-                    <li><a href="html/artistas.html" data-i18n="nav.artistas">Artistas</a></li>
+                    <li><a href="nosotros.php" data-i18n="nav.nosotros">Nosotros</a></li>
+                    <li><a href="artistas.php" data-i18n="nav.artistas">Artistas</a></li>
                     <li><a href="agenda.php" data-i18n="nav.agenda">Agenda</a></li>
                     <li><a href="noticias.php" data-i18n="nav.noticias">Noticias</a></li>
                     <li><a href="html/contacto.html" data-i18n="nav.contacto">Contacto</a></li>
@@ -313,9 +340,142 @@ $ogImage = $imgUrl ?: 'https://victoriataylor.art/img/og-image.jpg';
 
     <script src="js/script.js"></script>
     <script>
-        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
+        document.addEventListener('DOMContentLoaded', () => {
+            // Create Modal HTML dynamically and append to body
+            const modalHTML = `
+                <div class="artista-modal" aria-hidden="true" role="dialog" aria-label="Visor d'imatges" style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0;">
+                    <div class="artista-modal-overlay" style="position:absolute;inset:0;background:rgba(0,0,0,0.92);backdrop-filter:blur(8px);"></div>
+                    <button class="artista-modal-close" aria-label="Tancar" style="position:absolute;top:30px;right:30px;background:none;border:none;color:#fff;font-size:35px;cursor:pointer;z-index:2;">&times;</button>
+                    <button class="artista-modal-prev" aria-label="Anterior" style="position:absolute;top:50%;left:30px;transform:translateY(-50%);background:none;border:none;color:#fff;cursor:pointer;z-index:2;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button class="artista-modal-next" aria-label="Següent" style="position:absolute;top:50%;right:30px;transform:translateY(-50%);background:none;border:none;color:#fff;cursor:pointer;z-index:2;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                    <div class="artista-modal-content" style="position:relative;z-index:1;max-width:85vw;max-height:85vh;display:flex;flex-direction:column;align-items:center;">
+                        <img class="artista-modal-img" src="" alt="" style="max-width:100%;max-height:75vh;object-fit:contain;display:block;border-radius:4px;">
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            const modal = document.querySelector('.artista-modal');
+            const modalImg = modal.querySelector('.artista-modal-img');
+            const modalClose = modal.querySelector('.artista-modal-close');
+            const modalPrev = modal.querySelector('.artista-modal-prev');
+            const modalNext = modal.querySelector('.artista-modal-next');
+            
+            let currentIdx = 0;
+            let imageList = [];
+            
+            function openModal(idx) {
+                currentIdx = idx;
+                modalImg.src = imageList[currentIdx].src;
+                modalImg.alt = imageList[currentIdx].alt || '';
+                
+                if (imageList.length <= 1) {
+                    modalPrev.style.display = 'none';
+                    modalNext.style.display = 'none';
+                } else {
+                    modalPrev.style.display = 'block';
+                    modalNext.style.display = 'block';
+                }
+                
+                gsap.set(modal, { visibility: 'visible' });
+                gsap.to(modal, { opacity: 1, duration: 0.4, ease: 'power2.out' });
+                gsap.fromTo(modalImg, { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'power2.out' });
+                modal.setAttribute('aria-hidden', 'false');
+            }
+            
+            function closeModal() {
+                gsap.to(modal, { opacity: 0, duration: 0.3, ease: 'power2.in', onComplete: () => {
+                    gsap.set(modal, { visibility: 'hidden' });
+                    modal.setAttribute('aria-hidden', 'true');
+                }});
+            }
+            
+            function navigate(direction) {
+                currentIdx = (currentIdx + direction + imageList.length) % imageList.length;
+                gsap.fromTo(modalImg, { opacity: 0, scale: 0.95 }, {
+                    opacity: 1, scale: 1, duration: 0.3, ease: 'power2.out',
+                    onStart: () => {
+                        modalImg.src = imageList[currentIdx].src;
+                        modalImg.alt = imageList[currentIdx].alt || '';
+                    }
+                });
+            }
+            
+            const targetSelectors = '.evento-gallery-item img, .evento-body img';
+            
+            function updateImageList() {
+                imageList = Array.from(document.querySelectorAll(targetSelectors));
+            }
+            updateImageList();
+            
+            document.addEventListener('click', (e) => {
+                if (e.target.matches(targetSelectors)) {
+                    updateImageList();
+                    const idx = imageList.indexOf(e.target);
+                    if (idx !== -1) {
+                        openModal(idx);
+                    }
+                }
+            });
+            
+            modalClose.addEventListener('click', closeModal);
+            modalPrev.addEventListener('click', () => navigate(-1));
+            modalNext.addEventListener('click', () => navigate(1));
+            modal.querySelector('.artista-modal-overlay').addEventListener('click', closeModal);
+            document.addEventListener('keydown', (e) => {
+                if (modal.getAttribute('aria-hidden') === 'false') {
+                    if (e.key === 'Escape') closeModal();
+                    if (e.key === 'ArrowLeft') navigate(-1);
+                    if (e.key === 'ArrowRight') navigate(1);
+                }
+            });
+
+            // --- ANIMACIONS GSAP (Idénticas a la ficha de artista) ---
+            const heroTitle = document.querySelector('.evento-title');
+            if (heroTitle && typeof SplitText !== 'undefined') {
+                const split = new SplitText(heroTitle, { type: 'words,chars' });
+                heroTitle.style.visibility = 'visible';
+                gsap.from(split.chars, {
+                    opacity: 0, y: 80, rotateX: -90, stagger: 0.04,
+                    duration: 1, ease: 'power4.out', delay: 0.3
+                });
+            }
+
+            gsap.from('.evento-label, .evento-meta', {
+                opacity: 0, y: 30, duration: 1, ease: 'power3.out',
+                delay: 0.8, stagger: 0.15
+            });
+
+            const heroBg = document.querySelector('.evento-hero-bg');
+            if (heroBg) {
+                gsap.to(heroBg, {
+                    yPercent: 15, ease: 'none',
+                    scrollTrigger: { trigger: '.evento-hero', start: 'top top', end: 'bottom top', scrub: 1 }
+                });
+            }
+
+            const bioParas = document.querySelectorAll('.evento-body p');
+            if (bioParas.length && typeof SplitText !== 'undefined') {
+                gsap.set('.evento-body p', { perspective: '800px', transformStyle: 'preserve-3d' });
+                const bioSplit = new SplitText('.evento-body p', { type: 'lines', mask: 'lines' });
+                gsap.from(bioSplit.lines, {
+                    opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.2,
+                    scrollTrigger: { trigger: '.evento-content', start: 'top 60%', toggleActions: 'play none none reverse' }
+                });
+            }
+
+            const galleryGrid = document.querySelector('.evento-gallery');
+            if (galleryGrid) {
+                gsap.from('.evento-gallery-item', {
+                    opacity: 0, y: 60, duration: 0.8, ease: 'power3.out', stagger: 0.2,
+                    scrollTrigger: { trigger: '.evento-gallery', start: 'top 60%', toggleActions: 'play none none reverse' }
+                });
+            }
+        });
     </script>
 </body>
 </html>

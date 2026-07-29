@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   gsap.set(".news-hero-subtitle", { y: 20 });
 
-  const heroTl = gsap.timeline({ delay: 0.5 });
+  const heroTl = gsap.timeline({});
   if (heroSplit) {
     heroTl.to(
       heroSplit.chars,
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       0,
     );
-    heroTl.to(".news-hero-subtitle", { autoAlpha: 0.65, y: 0, duration: 1, ease: "power3.out" }, ">-0.2");
+    heroTl.to(".news-hero-subtitle", { autoAlpha: 0.65, y: 0, duration: 3, ease: "power3.out" }, ">-0.8");
   } else {
     heroTl.to(".news-hero-subtitle", { autoAlpha: 0.65, y: 0, duration: 1, ease: "power3.out" });
   }
@@ -76,10 +76,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (cards.length && typeof gsap !== "undefined") {
           gsap.fromTo(
             cards,
-            { opacity: 0, y: 50 },
+            { opacity: 0 },
             {
               opacity: 1,
-              y: 0,
               duration: 1.5,
               ease: "power3.inOut",
               stagger: 0.35,

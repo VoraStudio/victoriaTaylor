@@ -450,6 +450,62 @@ function initEventoEntrance() {
     }
 }
 
+/* ----- INICI ANIMACIÓ DETALL ARTISTA (SSR) ----- */
+function initArtistaEntrance() {
+    var titleEl = document.getElementById('artista-title');
+    if (!titleEl) return;
+
+    /* ===== HERO ===== */
+    if (typeof SplitText !== 'undefined') {
+        var heroSplit = new SplitText(titleEl, { type: 'words,chars' });
+        titleEl.style.visibility = 'visible';
+        gsap.set(heroSplit.chars, { opacity: 0, y: 80, rotateX: -90, transformOrigin: 'center bottom' });
+        gsap.to(heroSplit.chars, {
+            opacity: 1, y: 0, rotateX: 0,
+            duration: 1, stagger: 0.04, ease: 'power4.out', delay: 0.3
+        });
+    }
+
+    gsap.set('.artist-hero-rol, .artist-hero-ig', { opacity: 0, y: 30 });
+    gsap.to('.artist-hero-rol, .artist-hero-ig', {
+        opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+        delay: 0.8, stagger: 0.15
+    });
+
+    /* ===== BIO ===== */
+    var bioText = document.querySelector('#artista-bio-text p');
+    if (bioText && typeof SplitText !== 'undefined') {
+        var bioSplit = new SplitText('#artista-bio-text p', { type: 'lines', mask: 'lines' });
+        gsap.from(bioSplit.lines, {
+            opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.2,
+            scrollTrigger: { trigger: '.artist-bio', start: 'top 60%', toggleActions: 'play none none reverse' }
+        });
+    }
+
+    /* ===== LOGROS ===== */
+    gsap.from('.artist-logro', {
+        opacity: 0, x: -60, duration: 0.8, ease: 'power3.out', stagger: 0.3,
+        scrollTrigger: { trigger: '.artist-logros', start: 'top 65%', toggleActions: 'play none none reverse' }
+    });
+
+    /* ===== OBRAS ===== */
+    gsap.from('.artist-obra', {
+        opacity: 0, y: 60, duration: 0.8, ease: 'power3.out', stagger: 0.2,
+        scrollTrigger: { trigger: '.artist-galeria', start: 'top 60%', toggleActions: 'play none none reverse' }
+    });
+
+    /* ===== PARALLAX HERO BG ===== */
+    var heroBg = document.querySelector('.artist-hero-bg');
+    if (heroBg && typeof ScrollTrigger !== 'undefined') {
+        gsap.to(heroBg, {
+            yPercent: 15, ease: 'none',
+            scrollTrigger: { trigger: '.artist-hero', start: 'top top', end: 'bottom top', scrub: 1 }
+        });
+    }
+
+    ScrollTrigger.refresh();
+}
+
 /* ----- INICI SECCIÓ I18N (idiomes) ----- */
 
 const i18n = {
@@ -702,6 +758,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Evento entrance (evento.php hero)
     if (document.querySelector('.evento-hero') && typeof initEventoEntrance === 'function') {
         initEventoEntrance();
+    }
+
+    // Artista entrance (artista.php hero)
+    if (document.getElementById('artista-title') && typeof initArtistaEntrance === 'function') {
+        initArtistaEntrance();
     }
 
     // Footer reveal animation

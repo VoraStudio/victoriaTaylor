@@ -32,7 +32,7 @@ function formatEventDate($dateString) {
     if (!$timestamp) return '';
     setlocale(LC_TIME, 'ca_ES.UTF-8', 'ca_ES', 'ca');
     $mesos = [
-        1 => 'de gener', 2 => 'de febrer', 3 => 'de març',
+        1 => 'de gener', 2 => 'de febrer', 3 => 'de mar&ccedil;',
         4 => 'd\'abril', 5 => 'de maig', 6 => 'de juny',
         7 => 'de juliol', 8 => 'd\'agost', 9 => 'de setembre',
         10 => 'd\'octubre', 11 => 'de novembre', 12 => 'de desembre'
@@ -134,8 +134,8 @@ foreach ($events as $ev) {
             </div>
             <nav class="desktop-nav" aria-label="Navegació de sobretaula">
                 <ul class="nav-list">
-                    <li><a href="html/nosotros.html" class="nav-link" data-i18n="nav.nosotros">Nosotros</a></li>
-                    <li><a href="html/artistas.html" class="nav-link" data-i18n="nav.artistas">Artistas</a></li>
+                    <li><a href="nosotros.php" class="nav-link" data-i18n="nav.nosotros">Nosotros</a></li>
+                    <li><a href="artistas.php" class="nav-link" data-i18n="nav.artistas">Artistas</a></li>
                     <li><a href="agenda.php" class="nav-link active" data-i18n="nav.agenda">Agenda</a></li>
                     <li><a href="noticias.php" class="nav-link" data-i18n="nav.noticias">Noticias</a></li>
                     <li><a href="html/contacto.html" class="nav-link" data-i18n="nav.contacto">Contacto</a></li>
@@ -166,8 +166,8 @@ foreach ($events as $ev) {
                 </a>
             </div>
             <ul class="mobile-nav-list">
-                <li><a href="html/nosotros.html" class="mobile-link" data-i18n="nav.nosotros">Nosotros</a></li>
-                <li><a href="html/artistas.html" class="mobile-link" data-i18n="nav.artistas">Artistas</a></li>
+                <li><a href="nosotros.php" class="mobile-link" data-i18n="nav.nosotros">Nosotros</a></li>
+                <li><a href="artistas.php" class="mobile-link" data-i18n="nav.artistas">Artistas</a></li>
                 <li><a href="agenda.php" class="mobile-link active" data-i18n="nav.agenda">Agenda</a></li>
                 <li><a href="noticias.php" class="mobile-link" data-i18n="nav.noticias">Noticias</a></li>
                 <li><a href="html/contacto.html" class="mobile-link" data-i18n="nav.contacto">Contacto</a></li>
@@ -187,18 +187,19 @@ foreach ($events as $ev) {
             <div class="agenda-hero-bg" style="background-image: url('img/slide1.webp');"></div>
             <div class="agenda-hero-overlay"></div>
             <div class="agenda-hero-content">
-                <span class="agenda-hero-label">Agenda</span>
-                <h1 class="agenda-hero-title" style="visibility:hidden;">Pròxims Events</h1>
-                <p class="agenda-hero-subtitle">Descobreix les exposicions, inauguracions i esdeveniments on podràs viure l'art en primera persona.</p>
+                <h1 class="agenda-hero-title" style="visibility:hidden;">Agenda</h1>
+                <p class="agenda-hero-subtitle">Descobreix les exposicions, inauguracions i esdeveniments on podr&agrave;s viure l'art en primera persona.</p>
             </div>
+        </section>
 
+        <section class="agenda-section" aria-label="Agenda">
             <div class="agenda-list-wrap">
                 <div class="agenda-tabs" role="tablist" aria-label="Filtrar events">
                     <button id="agenda-tab-upcoming" class="agenda-tab is-active" role="tab" aria-selected="true" aria-controls="agenda-list" type="button">
-                        Pròxims <span id="agenda-count-upcoming" class="agenda-tab-count">(<?= count($upcoming) ?>)</span>
+                        Pr&ograve;xims <span id="agenda-count-upcoming" class="agenda-tab-count">(<?= count($upcoming) ?>)</span>
                     </button>
                     <button id="agenda-tab-historical" class="agenda-tab" role="tab" aria-selected="false" aria-controls="agenda-list" type="button">
-                        Històric <span id="agenda-count-historical" class="agenda-tab-count">(<?= count($historical) ?>)</span>
+                        Hist&ograve;ric <span id="agenda-count-historical" class="agenda-tab-count">(<?= count($historical) ?>)</span>
                     </button>
                 </div>
 
@@ -207,10 +208,10 @@ foreach ($events as $ev) {
                         <div class="agenda-empty">No hi ha events programats actualment.</div>
                     <?php else: ?>
                         <?php if (empty($upcoming)): ?>
-                            <div id="agenda-empty-upcoming" class="agenda-empty" style="display:none;">No hi ha pròxims events programats.</div>
+                            <div id="agenda-empty-upcoming" class="agenda-empty" style="display:none;">No hi ha pr&ograve;xims events programats.</div>
                         <?php endif; ?>
                         <?php if (empty($historical)): ?>
-                            <div id="agenda-empty-historical" class="agenda-empty" style="display:none;">No hi ha events històrics.</div>
+                            <div id="agenda-empty-historical" class="agenda-empty" style="display:none;">No hi ha events hist&ograve;rics.</div>
                         <?php endif; ?>
                         <?php foreach ($events as $ev):
                             $evImg = $ev['imatge'][0] ?? null;
@@ -219,8 +220,10 @@ foreach ($events as $ev) {
                             $evTitul = htmlspecialchars($ev['titol'] ?? '', ENT_QUOTES, 'UTF-8');
                             $evLocation = htmlspecialchars($ev['ubicacio'] ?? '', ENT_QUOTES, 'UTF-8');
                             $evTime = htmlspecialchars($ev['hora'] ?? '', ENT_QUOTES, 'UTF-8');
-                            $evDesc = htmlspecialchars($ev['descripcio_curta'] ?? ($ev['descripcio'] ?? ''), ENT_QUOTES, 'UTF-8');
+                            $rawDesc = $ev['descripcio_curta'] ?? ($ev['descripcio'] ?? '');
+                            $evDesc = strip_tags($rawDesc);
                             $evDesc = mb_strlen($evDesc) > 120 ? mb_substr($evDesc, 0, 120) . '...' : $evDesc;
+                            $evDesc = htmlspecialchars($evDesc, ENT_QUOTES, 'UTF-8');
                             $category = isUpcoming($ev['data'] ?? '') ? 'upcoming' : 'historical';
                         ?>
                         <a href="evento.php?id=<?= $ev['id'] ?>" class="agenda-card" data-category="<?= $category ?>">
@@ -240,14 +243,14 @@ foreach ($events as $ev) {
                                 <h3 class="agenda-card-title"><?= $evTitul ?></h3>
                                 <div class="agenda-card-meta">
                                     <?php if ($evLocation): ?>
-                                        <span class="agenda-card-location"><?= htmlspecialchars($evLocation, ENT_QUOTES, 'UTF-8') ?></span>
+                                        <span class="agenda-card-location"><?= $evLocation ?></span>
                                     <?php endif; ?>
                                     <?php if ($evTime): ?>
-                                        <span class="agenda-card-time"><?= htmlspecialchars($evTime, ENT_QUOTES, 'UTF-8') ?></span>
+                                        <span class="agenda-card-time"><?= $evTime ?></span>
                                     <?php endif; ?>
                                 </div>
                                 <?php if ($evDesc): ?>
-                                    <p class="agenda-card-desc"><?= htmlspecialchars($evDesc, ENT_QUOTES, 'UTF-8') ?></p>
+                                    <p class="agenda-card-desc"><?= $evDesc ?></p>
                                 <?php endif; ?>
                             </div>
                         </a>
@@ -273,8 +276,8 @@ foreach ($events as $ev) {
             <div class="footer-nav-col">
                 <h4 class="footer-col-title" data-i18n="footer.menu">Menú</h4>
                 <ul class="footer-nav">
-                    <li><a href="html/nosotros.html" data-i18n="nav.nosotros">Nosotros</a></li>
-                    <li><a href="html/artistas.html" data-i18n="nav.artistas">Artistas</a></li>
+                    <li><a href="nosotros.php" data-i18n="nav.nosotros">Nosotros</a></li>
+                    <li><a href="artistas.php" data-i18n="nav.artistas">Artistas</a></li>
                     <li><a href="agenda.php" data-i18n="nav.agenda">Agenda</a></li>
                     <li><a href="noticias.php" data-i18n="nav.noticias">Noticias</a></li>
                     <li><a href="html/contacto.html" data-i18n="nav.contacto">Contacto</a></li>

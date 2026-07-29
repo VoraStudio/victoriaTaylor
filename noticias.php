@@ -32,7 +32,7 @@ function formatDate($dateString) {
     if (!$timestamp) return '';
     setlocale(LC_TIME, 'ca_ES.UTF-8', 'ca_ES', 'ca');
     $meses = [
-        1 => 'de gener', 2 => 'de febrer', 3 => 'de març',
+        1 => 'de gener', 2 => 'de febrer', 3 => 'de mar&ccedil;',
         4 => 'd\'abril', 5 => 'de maig', 6 => 'de juny',
         7 => 'de juliol', 8 => 'd\'agost', 9 => 'de setembre',
         10 => 'd\'octubre', 11 => 'de novembre', 12 => 'de desembre'
@@ -118,8 +118,8 @@ $sections = $cms->fetch('/api/sections?active=true');
             </div>
             <nav class="desktop-nav" aria-label="Navegació de sobretaula">
                 <ul class="nav-list">
-                    <li><a href="html/nosotros.html" class="nav-link" data-i18n="nav.nosotros">Nosotros</a></li>
-                    <li><a href="html/artistas.html" class="nav-link" data-i18n="nav.artistas">Artistas</a></li>
+                    <li><a href="nosotros.php" class="nav-link" data-i18n="nav.nosotros">Nosotros</a></li>
+                    <li><a href="artistas.php" class="nav-link" data-i18n="nav.artistas">Artistas</a></li>
                     <li><a href="agenda.php" class="nav-link" data-i18n="nav.agenda">Agenda</a></li>
                     <li><a href="noticias.php" class="nav-link" data-i18n="nav.noticias">Noticias</a></li>
                     <li><a href="html/contacto.html" class="nav-link" data-i18n="nav.contacto">Contacto</a></li>
@@ -150,8 +150,8 @@ $sections = $cms->fetch('/api/sections?active=true');
                 </a>
             </div>
             <ul class="mobile-nav-list">
-                <li><a href="html/nosotros.html" class="mobile-link" data-i18n="nav.nosotros">Nosotros</a></li>
-                <li><a href="html/artistas.html" class="mobile-link" data-i18n="nav.artistas">Artistas</a></li>
+                <li><a href="nosotros.php" class="mobile-link" data-i18n="nav.nosotros">Nosotros</a></li>
+                <li><a href="artistas.php" class="mobile-link" data-i18n="nav.artistas">Artistas</a></li>
                 <li><a href="agenda.php" class="mobile-link" data-i18n="nav.agenda">Agenda</a></li>
                 <li><a href="noticias.php" class="mobile-link" data-i18n="nav.noticias">Noticias</a></li>
                 <li><a href="html/contacto.html" class="mobile-link" data-i18n="nav.contacto">Contacto</a></li>
@@ -167,21 +167,22 @@ $sections = $cms->fetch('/api/sections?active=true');
 
     <!-- Main -->
     <main>
-        <section class="news-hero" aria-label="Notícies">
-            <div class="news-hero-bg" style="background-image: url('img/slide1.webp');"></div>
+        <section class="news-hero" aria-label="Not&iacute;cies">
+            <div class="news-hero-bg" style="background-image: url('img/slide3.webp');"></div>
+            <div class="news-hero-overlay"></div>
             <div class="news-hero-content">
-                <h1 class="news-hero-title" style="visibility:hidden;">Notícies</h1>
-                <p class="news-hero-subtitle">Tota l'actualitat de Victoria Taylor: exposicions, entrevistes i novetats del món de l'art contemporani.</p>
+                <h1 class="news-hero-title" style="visibility:hidden;">Not&iacute;cies</h1>
+                <p class="news-hero-subtitle">Tota l'actualitat de Victoria Taylor: exposicions, entrevistes i novetats del m&oacute;n de l'art contemporani.</p>
             </div>
         </section>
 
-        <section class="news-section" aria-label="Notícies">
-                <div class="news-tabs" role="tablist" aria-label="Filtrar notícies">
+        <section class="news-section" aria-label="Not&iacute;cies">
+                <div class="news-tabs" role="tablist" aria-label="Filtrar not&iacute;cies">
                     <button id="news-tab-latest" class="news-tab is-active" role="tab" aria-selected="true" aria-controls="news-list" type="button">
-                        Últimes <span id="news-count-latest" class="news-tab-count">(<?= count($latest) ?>)</span>
+                        &Uacute;ltimes <span id="news-count-latest" class="news-tab-count">(<?= count($latest) ?>)</span>
                     </button>
                     <button id="news-tab-historical" class="news-tab" role="tab" aria-selected="false" aria-controls="news-list" type="button">
-                        Històric <span id="news-count-historical" class="news-tab-count">(<?= count($historical) ?>)</span>
+                        Hist&ograve;ric <span id="news-count-historical" class="news-tab-count">(<?= count($historical) ?>)</span>
                     </button>
                 </div>
 
@@ -189,7 +190,7 @@ $sections = $cms->fetch('/api/sections?active=true');
                     <!-- Latest news list -->
                     <div id="news-latest" class="news-grid-inner">
                         <?php if (empty($latest)): ?>
-                            <div class="news-empty">No hi ha notícies recents actualment.</div>
+                            <div class="news-empty">No hi ha not&iacute;cies recents actualment.</div>
                         <?php else: ?>
                             <?php foreach ($latest as $item): ?>
                                 <?php
@@ -198,7 +199,10 @@ $sections = $cms->fetch('/api/sections?active=true');
                                     $categoria = $item['categoria'] ?? '';
                                     $dataFormatada = formatDate($item['data'] ?? '');
                                     $titul = htmlspecialchars($item['titol'] ?? $item['titul'] ?? '', ENT_QUOTES, 'UTF-8');
-                                    $excerpt = htmlspecialchars($item['subtitol'] ?? '', ENT_QUOTES, 'UTF-8');
+                                    $rawDesc = $item['descripcio'] ?? '';
+                                    $excerpt = strip_tags($rawDesc);
+                                    $excerpt = mb_strlen($excerpt) > 120 ? mb_substr($excerpt, 0, 120) . '...' : $excerpt;
+                                    $excerpt = htmlspecialchars($excerpt, ENT_QUOTES, 'UTF-8');
                                 ?>
                                 <a href="noticia.php?id=<?= $item['id'] ?>" class="news-card">
                                     <div class="news-card-img">
@@ -219,7 +223,7 @@ $sections = $cms->fetch('/api/sections?active=true');
                                         <?php endif; ?>
                                         <h3 class="news-card-title"><?= $titul ?></h3>
                                         <?php if ($excerpt): ?>
-                                            <p class="news-card-excerpt"><?= htmlspecialchars(mb_strlen($excerpt) > 95 ? mb_substr($excerpt, 0, 95) . '...' : $excerpt) ?></p>
+                                            <p class="news-card-excerpt"><?= $excerpt ?></p>
                                         <?php endif; ?>
                                     </div>
                                 </a>
@@ -286,8 +290,8 @@ $sections = $cms->fetch('/api/sections?active=true');
             <div class="footer-nav-col">
                 <h4 class="footer-col-title" data-i18n="footer.menu">Menú</h4>
                 <ul class="footer-nav">
-                    <li><a href="html/nosotros.html" data-i18n="nav.nosotros">Nosotros</a></li>
-                    <li><a href="html/artistas.html" data-i18n="nav.artistas">Artistas</a></li>
+                    <li><a href="nosotros.php" data-i18n="nav.nosotros">Nosotros</a></li>
+                    <li><a href="artistas.php" data-i18n="nav.artistas">Artistas</a></li>
                     <li><a href="agenda.php" data-i18n="nav.agenda">Agenda</a></li>
                     <li><a href="noticias.php" data-i18n="nav.noticias">Noticias</a></li>
                     <li><a href="html/contacto.html" data-i18n="nav.contacto">Contacto</a></li>

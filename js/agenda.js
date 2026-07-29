@@ -9,17 +9,20 @@ document.addEventListener('DOMContentLoaded', function() {
         gsap.set(heroSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
     }
 
+    gsap.set('.agenda-hero-label', { opacity: 0, y: 20 });
+    gsap.set('.agenda-hero-subtitle', { y: 20 });
+
     var heroTl = gsap.timeline({ delay: 0.5 });
     if (heroSplit) {
         heroTl.to(heroSplit.chars, {
             opacity: 1, yPercent: 0, scale: 1, rotationX: 0,
             duration: 1.2, stagger: { each: 0.04, from: 'start' }, ease: 'back.out(1.4)'
         }, 0);
+        heroTl.to('.agenda-hero-subtitle', { autoAlpha: 0.65, y: 0, duration: 3, ease: 'power3.out' }, '>-0.8');
+    } else {
+        heroTl.to('.agenda-hero-subtitle', { autoAlpha: 0.65, y: 0, duration: 1, ease: 'power3.out' });
     }
-
-    gsap.set('.agenda-hero-label, .agenda-hero-subtitle', { opacity: 0, y: 20 });
     heroTl.to('.agenda-hero-label', { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.8');
-    heroTl.to('.agenda-hero-subtitle', { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.6');
 
     /* ===== PESTANTES: Pròxims / Històric ===== */
     var tabUp = document.getElementById('agenda-tab-upcoming');
