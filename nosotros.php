@@ -1,3 +1,91 @@
+<?php
+/* ==========================================================================
+   nosotros.php — Página SSR "Nosotros" amb grid d'artistes dinàmic
+   ========================================================================== */
+
+require_once __DIR__ . '/includes/CmsClient.php';
+require_once __DIR__ . '/includes/helpers.php';
+require_once __DIR__ . '/includes/artistas-data.php';
+
+/* ─── Boot ─── */
+$env = loadEnv(__DIR__ . '/.env');
+$cmsUrl = $env['CMS_URL'] ?? 'https://voracms.voradata.cat';
+$origin = $env['SSR_ORIGIN'] ?? 'https://victoriataylor.art';
+
+if (!session_id()) session_start();
+
+$cms = new CmsClient($cmsUrl, $origin);
+$GLOBALS['cmsUrl'] = $cmsUrl;
+
+/* ─── Tracking visita ─── */
+$cms->post('/api/visit', [
+    'entry_id'    => 0,
+    'path'        => '/nosotros',
+    'client_ip'   => $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1',
+    'user_agent'  => $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown',
+]);
+
+/* ─── Merge artistes (fijos + CMS) com a artistas.php ─── */
+$result = $cms->fetch('/api/public/victoria-taylor/artistes_victoria_taylor');
+$cmsArtists = $result['data'] ?? [];
+
+$artistas = $ARTISTAS_FIJOS;
+
+$fijosSlugs = array_keys($ARTISTAS_FIJOS);
+$fijosBaseSlugs = [];
+foreach ($fijosSlugs as $s) {
+    $fijosBaseSlugs[slugify($s)] = true;
+}
+
+foreach ($cmsArtists as $entry) {
+    $titol = $entry['titol'] ?? '';
+    $baseSlug = slugify($titol);
+    $slug = $baseSlug . '-' . $entry['id'];
+
+    if (isset($artistas[$slug]) || isset($fijosBaseSlugs[$baseSlug])) continue;
+
+    $imgUrl = null;
+    if (!empty($entry['imatge'][0]['url'])) {
+        $imgUrl = getVoraMediaUrl($entry['imatge'][0]['url']);
+    }
+
+    $bio = $entry['descripcio']
+        ? array_values(array_filter(explode("\n", $entry['descripcio']), fn($p) => trim($p) !== ''))
+        : [];
+
+    $logros = [];
+    foreach (($entry['logros'] ?? []) as $l) {
+        $textos = $l['texto']
+            ? array_values(array_filter(explode("\n", $l['texto']), fn($t) => trim($t) !== ''))
+            : [];
+        $logros[] = [
+            'año' => $l['año'] ?? '',
+            'textos' => toLang($textos)
+        ];
+    }
+
+    $obras = [];
+    foreach (($entry['galeria'] ?? []) as $o) {
+        $obraImg = $o['url'] ? getVoraMediaUrl($o['url']) : '';
+        $obras[] = [
+            'img' => $obraImg,
+            'titulo' => toLang($o['name'] ?? '')
+        ];
+    }
+
+    $artistas[$slug] = [
+        'id' => $slug,
+        'nombre' => $titol,
+        'rol' => toLang($entry['subtitol'] ?? ''),
+        'cardImg' => $imgUrl,
+        'heroImg' => $imgUrl,
+        'instagram' => null,
+        'bio' => toLang($bio),
+        'logros' => $logros,
+        'obras' => $obras
+    ];
+}
+?>
 <!DOCTYPE html>
 <html lang="cat" class="page-html">
 <head>
@@ -10,7 +98,7 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://victoriataylor.art/html/nosotros.html">
+    <meta property="og:url" content="https://victoriataylor.art/nosotros.php">
     <meta property="og:title" content="Nosotros | Victoria Taylor">
     <meta property="og:description" content="Plataforma curatorial que selecciona i impulsa artistes contemporanis. Descobreix la nostra visio i missio.">
     <meta property="og:image" content="https://victoriataylor.art/img/og-image.jpg">
@@ -24,16 +112,16 @@
     <meta name="twitter:image" content="https://victoriataylor.art/img/og-image.jpg">
 
     <!-- Canonical -->
-    <link rel="canonical" href="https://victoriataylor.art/html/nosotros.html">
+    <link rel="canonical" href="https://victoriataylor.art/nosotros.php">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/avif" href="../img/logo.avif">
-    <link rel="apple-touch-icon" href="../img/logo.avif">
+    <link rel="icon" type="image/avif" href="img/logo.avif">
+    <link rel="apple-touch-icon" href="img/logo.avif">
 
     <title>Victoria Taylor | Nosotros</title>
 
-    <!-- Custom CSS: El nostre sistema de disseny i estils personalitzats -->
-    <link rel="stylesheet" href="../css/style.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
 
     <!-- GSAP Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -43,24 +131,23 @@
 </head>
 <body class="page-body">
 
-    <!-- Header premium amb navegació i menú hamburguesa -->
+    <!-- Header -->
     <header id="header" class="main-header" aria-label="Navegació principal">
         <div class="header-container">
-            <!-- Logo Victoria Taylor -->
             <div class="logo">
-                <a href="../index.html" aria-label="Inici Victoria Taylor">
-                    <img src="../img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
+                <a href="index.html" aria-label="Inici Victoria Taylor">
+                    <img src="img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
                 </a>
             </div>
 
             <!-- Navegació Desktop -->
             <nav class="desktop-nav" aria-label="Navegació de sobretaula">
                 <ul class="nav-list">
-                    <li><a href="../nosotros.php" class="nav-link" data-i18n="nav.nosotros">Nosotros</a></li>
-                    <li><a href="../artistas.php" class="nav-link" data-i18n="nav.artistas">Artistas</a></li>
-                    <li><a href="../agenda.php" class="nav-link" data-i18n="nav.agenda">Agenda</a></li>
-                    <li><a href="../noticias.php" class="nav-link" data-i18n="nav.noticias">Noticias</a></li>
-                    <li><a href="contacto.html" class="nav-link" data-i18n="nav.contacto">Contacto</a></li>
+                    <li><a href="nosotros.php" class="nav-link active" data-i18n="nav.nosotros">Nosotros</a></li>
+                    <li><a href="artistas.php" class="nav-link" data-i18n="nav.artistas">Artistas</a></li>
+                    <li><a href="agenda.php" class="nav-link" data-i18n="nav.agenda">Agenda</a></li>
+                    <li><a href="noticias.php" class="nav-link" data-i18n="nav.noticias">Noticias</a></li>
+                    <li><a href="html/contacto.html" class="nav-link" data-i18n="nav.contacto">Contacto</a></li>
                 </ul>
             </nav>
 
@@ -77,26 +164,26 @@
                 </ul>
             </div>
 
-            <!-- Botó Menú Hamburguesa per a mòbils -->
+            <!-- Botó Menú Hamburguesa -->
             <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Obrir menú">
                 <span class="hamburger-line line-1"></span>
                 <span class="hamburger-line line-2"></span>
             </button>
         </div>
 
-        <!-- Navegació Mòbil (Full Screen Overlay) -->
+        <!-- Navegació Mòbil -->
         <nav id="mobile-nav" class="mobile-nav" aria-label="Navegació mòbil">
             <div class="logo">
-                <a href="../index.html" aria-label="Inici Victoria Taylor">
-                    <img src="../img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
+                <a href="index.html" aria-label="Inici Victoria Taylor">
+                    <img src="img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
                 </a>
             </div>
             <ul class="mobile-nav-list">
-                <li><a href="../nosotros.php" class="mobile-link" data-i18n="nav.nosotros">Nosotros</a></li>
-                <li><a href="../artistas.php" class="mobile-link" data-i18n="nav.artistas">Artistas</a></li>
-                <li><a href="../agenda.php" class="mobile-link" data-i18n="nav.agenda">Agenda</a></li>
-                <li><a href="../noticias.php" class="mobile-link" data-i18n="nav.noticias">Noticias</a></li>
-                <li><a href="contacto.html" class="mobile-link" data-i18n="nav.contacto">Contacto</a></li>
+                <li><a href="nosotros.php" class="mobile-link active" data-i18n="nav.nosotros">Nosotros</a></li>
+                <li><a href="artistas.php" class="mobile-link" data-i18n="nav.artistas">Artistas</a></li>
+                <li><a href="agenda.php" class="mobile-link" data-i18n="nav.agenda">Agenda</a></li>
+                <li><a href="noticias.php" class="mobile-link" data-i18n="nav.noticias">Noticias</a></li>
+                <li><a href="html/contacto.html" class="mobile-link" data-i18n="nav.contacto">Contacto</a></li>
             </ul>
 
             <div class="mobile-lang">
@@ -107,11 +194,10 @@
         </nav>
     </header>
 
-    <!-- Contenidor principal semàntic -->
     <main>
-        <!-- Secció única: títol + columnes + botons en 100vh -->
+        <!-- Hero -->
         <section class="about-hero" aria-label="Sobre Nosaltres">
-            <div class="about-hero-bg" style="background-image: url('../img/slide1.webp');"></div>
+            <div class="about-hero-bg" style="background-image: url('img/slide1.webp');"></div>
             <div class="about-hero-content">
                 <h1 class="about-hero-title" data-i18n="nosotros.hero.title">Victoria Taylor</h1>
                 <div class="about-grid">
@@ -122,19 +208,19 @@
                         <p data-i18n="nosotros.hero.text2">Treballem amb una visió clara: donar valor real al talent artístic a través d'una selecció cuidada i una presentació impecable.</p>
                         <div class="about-ctas">
                             <a href="#about-artists" class="btn-cta btn-primary" data-i18n="nosotros.hero.cta1">Ver Colección</a>
-                            <a href="contacto.html#contact-form" class="btn-cta btn-secondary" data-i18n="nosotros.hero.cta2">Ser Artista</a>
+                            <a href="html/contacto.html#contact-form" class="btn-cta btn-secondary" data-i18n="nosotros.hero.cta2">Ser Artista</a>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Secció parallax -->
+        <!-- Parallax -->
         <section class="about-parallax" aria-label="Secció parallax decorativa">
-            <div class="about-parallax-bg" style="background-image: url('../img/slide1.webp');"></div>
+            <div class="about-parallax-bg" style="background-image: url('img/slide1.webp');"></div>
         </section>
 
-        <!-- Nova secció: Artistes i Col·leccionistes -->
+        <!-- Artistes i Col·leccionistes -->
         <section id="about-artists" class="about-artists" aria-labelledby="about-artists-title">
             <div class="about-artists-header">
                 <h2 id="about-artists-title" class="about-artists-title"><span class="about-artists-line1" data-i18n="nosotros.artists.title1">Unimos artistas</span> <span data-i18n="nosotros.artists.title2">contemporáneos</span>
@@ -142,89 +228,37 @@
                     <span data-i18n="nosotros.artists.title3">con coleccionistas</span></h2>
                 <p class="about-artists-subtitle" data-i18n="nosotros.artists.subtitle">que buscan piezas únicas, auténticas y con valor emocional y artístico</p>
             </div>
-            
+
             <div class="about-artists-grid">
-                <!-- Card 1 -->
-                    <a href="../artista.php?id=cristina-montero" class="artist-card-link">
+                <?php foreach ($artistas as $slug => $a):
+                    $nombre = $a['nombre'];
+                    $cardImg = $a['cardImg'] ?? '';
+                    $heroImg = $a['heroImg'] ?? '';
+                    $imgSrc = $cardImg ?: $heroImg;
+                    $imgAlt = htmlspecialchars(is_string($nombre) ? $nombre : ($nombre['ca'] ?? $nombre['es'] ?? ''), ENT_QUOTES, 'UTF-8');
+                ?>
+                <a href="artista.php?id=<?= htmlspecialchars($slug, ENT_QUOTES, 'UTF-8') ?>" class="artist-card-link">
                     <article class="artist-card">
                         <div class="artist-card-img">
-                            <img src="../img/artistes/2024-vallviva.avif" alt="Cristina Montero" loading="lazy">
+                            <?php if ($imgSrc): ?>
+                                <img src="<?= htmlspecialchars($imgSrc, ENT_QUOTES, 'UTF-8') ?>" alt="<?= $imgAlt ?>" loading="lazy">
+                            <?php else: ?>
+                                <div class="artist-card-placeholder"></div>
+                            <?php endif; ?>
                         </div>
-                        <h3 class="artist-card-name">CRISTINA MONTERO</h3>
+                        <h3 class="artist-card-name"><?= strtoupper($imgAlt) ?></h3>
                     </article>
                 </a>
-
-                <!-- Card 2 -->
-                <a href="../artista.php?id=david-thorne" class="artist-card-link">
-                    <article class="artist-card">
-                        <div class="artist-card-img">
-                            <img src="../img/artistes/thorne-1.avif" alt="David Thorne" loading="lazy">
-                        </div>
-                        <h3 class="artist-card-name">DAVID THORNE</h3>
-                    </article>
-                </a>
-
-                <!-- Card 3 -->
-                <a href="../artista.php?id=hubo" class="artist-card-link">
-                    <article class="artist-card">
-                        <div class="artist-card-img">
-                            <img src="../img/artistes/hubo.avif" alt="HUBO" loading="lazy">
-                        </div>
-                        <h3 class="artist-card-name">HUBO</h3>
-                    </article>
-                </a>
-
-                <!-- Card 4 -->
-                <a href="../artista.php?id=iol-baques" class="artist-card-link">
-                    <article class="artist-card">
-                        <div class="artist-card-img">
-                            <img src="../img/artistes/iol-baques-1.avif" alt="IOL Baqués" loading="lazy">
-                        </div>
-                        <h3 class="artist-card-name">IOL BAQUÉS</h3>
-                    </article>
-                </a>
-
-                <!-- Card 5 -->
-                <a href="../artista.php?id=juda-munoz" class="artist-card-link">
-                    <article class="artist-card">
-                        <div class="artist-card-img">
-                            <img src="../img/artistes/juda-4.avif" alt="Judà Muñoz" loading="lazy">
-                        </div>
-                        <h3 class="artist-card-name">JUDÀ MUÑOZ</h3>
-                    </article>
-                </a>
-
-                <!-- Card 6 -->
-                <a href="../artista.php?id=mohammed-er-rabehy" class="artist-card-link">
-                    <article class="artist-card">
-                        <div class="artist-card-img">
-                            <img src="../img/artistes/muha3.avif" alt="Mohammed Er Rabehy" loading="lazy">
-                        </div>
-                        <h3 class="artist-card-name">MOHAMMED ER RABEHY</h3>
-                    </article>
-                </a>
-
-                <!-- Card 7 -->
-                <a href="../artista.php?id=rosa-martin" class="artist-card-link">
-                    <article class="artist-card">
-                        <div class="artist-card-img">
-                            <img src="../img/artistes/rosa2.avif" alt="Rosa Martín" loading="lazy">
-                        </div>
-                        <h3 class="artist-card-name">ROSA MARTÍN</h3>
-                    </article>
-                </a>
+                <?php endforeach; ?>
             </div>
         </section>
     </main>
-
-    <!-- Custom JS: La nostra lògica d'animacions i configuració -->
-    <script src="../js/script.js"></script>
 
     <!-- Footer -->
     <footer class="main-footer">
         <div class="footer-grid">
             <div class="footer-brand">
-                <img src="../img/logo.avif" alt="Victoria Taylor" class="footer-logo-img">
+                <img src="img/logo.avif" alt="Victoria Taylor" class="footer-logo-img">
                 <p class="footer-tagline" data-i18n="footer.tagline">Descubrimos y promovemos artistas con un talento excepcional.</p>
                 <div class="footer-social">
                     <a href="https://www.instagram.com/victoriataylor.art/" target="_blank" rel="noopener" class="footer-social-link" aria-label="Instagram Victoria Taylor">
@@ -235,11 +269,11 @@
             <div class="footer-nav-col">
                 <h4 class="footer-col-title" data-i18n="footer.menu">Menú</h4>
                 <ul class="footer-nav">
-                    <li><a href="../nosotros.php" data-i18n="nav.nosotros">Nosotros</a></li>
-                    <li><a href="../artistas.php" data-i18n="nav.artistas">Artistas</a></li>
-                    <li><a href="../agenda.php" data-i18n="nav.agenda">Agenda</a></li>
-                    <li><a href="../noticias.php" data-i18n="nav.noticias">Noticias</a></li>
-                    <li><a href="contacto.html" data-i18n="nav.contacto">Contacto</a></li>
+                    <li><a href="nosotros.php" data-i18n="nav.nosotros">Nosotros</a></li>
+                    <li><a href="artistas.php" data-i18n="nav.artistas">Artistas</a></li>
+                    <li><a href="agenda.php" data-i18n="nav.agenda">Agenda</a></li>
+                    <li><a href="noticias.php" data-i18n="nav.noticias">Noticias</a></li>
+                    <li><a href="html/contacto.html" data-i18n="nav.contacto">Contacto</a></li>
                 </ul>
             </div>
             <div class="footer-contact-col">
@@ -259,14 +293,20 @@
         </div>
         <div class="footer-bottom">
             <p class="footer-copy" data-i18n="footer.copyright">© 2026 Victoria Taylor · Global Brands Europe, SL</p>
-                <p class="footer-developed"><span data-i18n="footer.developed">Desarrollado por</span> <a href="https://vorastudio.cat" target="_blank" rel="noopener noreferrer" class="footer-vora-link"><img src="../img/logoVora.png" alt="Vora Studio" class="footer-vora-logo" height="16" /></a></p>
+            <p class="footer-developed"><span data-i18n="footer.developed">Desarrollado por</span> <a href="https://vorastudio.cat" target="_blank" rel="noopener noreferrer" class="footer-vora-link"><img src="img/logoVora.png" alt="Vora Studio" class="footer-vora-logo" height="16" /></a></p>
             <ul class="footer-legal">
-                <li><a href="avisolegal.html" data-i18n="footer.legal.aviso">Aviso legal</a></li>
-                <li><a href="privacidad.html" data-i18n="footer.legal.privacidad">Privacidad</a></li>
-                <li><a href="cookies.html" data-i18n="footer.legal.cookies">Cookies</a></li>
-                <li><a href="accesibilidad.html" data-i18n="footer.legal.accesibilidad">Accesibilidad</a></li>
+                <li><a href="html/avisolegal.html" data-i18n="footer.legal.aviso">Aviso legal</a></li>
+                <li><a href="html/privacidad.html" data-i18n="footer.legal.privacidad">Privacidad</a></li>
+                <li><a href="html/cookies.html" data-i18n="footer.legal.cookies">Cookies</a></li>
+                <li><a href="html/accesibilidad.html" data-i18n="footer.legal.accesibilidad">Accesibilidad</a></li>
             </ul>
         </div>
     </footer>
+
+    <script id="ssr-artistas-data" type="application/json">
+        <?= json_encode($artistas, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>
+    </script>
+
+    <script src="js/script.js"></script>
 </body>
 </html>

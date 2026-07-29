@@ -1,36 +1,51 @@
-/* ----- INICI SECCIÓ CÀRREGA DE NOTÍCIA INDIVIDUAL ----- */
-/* Llegeix ?id= de la URL, obté la notícia del CMS i omple hero + metadades + cos. */
-async function loadNoticia() {
-  var params = new URLSearchParams(window.location.search);
-  var id = params.get('id');
-  if (!id) return;
+/* ----- INICI ANIMACIÓ DETALL NOTÍCIA (SSR) ----- */
+function initNoticiaEntrance() {
+    const noticiaData = document.getElementById('ssr-noticia-data');
+    if (!noticiaData) return;
 
-  var res = await getCMSData('/api/noticia/' + id);
-  var item = res?.data;
-  if (!item) return;
+    let noticia;
+    try { noticia = JSON.parse(noticiaData.textContent); } catch (e) { return; }
+    if (!noticia) return;
 
-  /* ----- INICI SECCIÓ HERO (fons + títol + data + ubicació) ----- */
-  var img = item.imatge?.[0];
-  var imgUrl = img ? getVoraMediaUrl(img.url) : '';
-  var date = item.data
-    ? new Date(item.data).toLocaleDateString('ca-ES', { day: 'numeric', month: 'long', year: 'numeric' })
-    : '';
+    /* Tracking */
+    if (noticia.id) {
+        navigator.sendBeacon('php/noticias.php?action=view&id=' + encodeURIComponent(noticia.id));
+    }
 
-  var heroBg = document.getElementById('noticia-hero-bg');
-  if (heroBg && imgUrl) heroBg.style.backgroundImage = 'url(' + imgUrl + ')';
+    /* ===== HERO ENTRANCE (com initAboutEntrance) ===== */
+    const labelEl = document.querySelector('.noticia-section-label');
+    let labelSplit = null;
+    if (labelEl) {
+        labelSplit = new SplitText(labelEl, { type: 'chars' });
+        gsap.set(labelSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
+    }
 
-  var titleEl = document.getElementById('noticia-title');
-  if (titleEl) { titleEl.textContent = item.titul; titleEl.style.visibility = 'visible'; }
+    const titleEl = document.getElementById('noticia-title');
+    let titleSplit = null;
+    if (titleEl) {
+        titleSplit = new SplitText(titleEl, { type: 'words,chars' });
+        gsap.set(titleSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
+    }
 
-  var dateEl = document.getElementById('noticia-date');
-  if (dateEl) dateEl.textContent = date;
+    gsap.set('.noticia-body', { opacity: 0, y: 20 });
 
-  var locEl = document.getElementById('noticia-location');
-  if (locEl) locEl.textContent = item.location || '';
+    const tl = gsap.timeline({ delay: 0.5 });
 
-  /* ----- INICI SECCIÓ COS (contingut HTML) ----- */
-  var bodyEl = document.getElementById('noticia-body');
-  if (bodyEl) bodyEl.innerHTML = item.descripcio || '';
+    if (labelSplit) {
+        tl.to(labelSplit.chars, {
+            opacity: 1, yPercent: 0, scale: 1, rotationX: 0,
+            duration: 1.2, stagger: { each: 0.04, from: 'start' }, ease: 'back.out(1.4)'
+        }, 0);
+    }
+
+    if (titleSplit) {
+        tl.to(titleSplit.chars, {
+            opacity: 1, yPercent: 0, scale: 1, rotationX: 0,
+            duration: 1.2, stagger: { each: 0.04, from: 'start' }, ease: 'back.out(1.4)'
+        }, '-=0.3');
+    }
+
+    tl.to('.noticia-body', { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.4');
 }
 
-document.addEventListener('DOMContentLoaded', loadNoticia);
+

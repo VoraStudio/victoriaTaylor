@@ -344,7 +344,166 @@ function initAboutEntrance() {
                 scrollTrigger: { trigger: '.about-artists', start: 'top 70%', once: true }
             });
         }
+
+        /* Exposar config perque api-artistes.js pugui integrar noves cards al mateix stagger */
+        window.__cardsAnim = {
+            isPastStart: isPastStart,
+            cardCount: cards.length,
+            staggerEach: 0.5,
+            baseDelay: 0.5,
+            duration: 1.2,
+            ease: 'power3.out',
+            scrollTrigger: isPastStart ? null : { trigger: '.about-artists', start: 'top 70%' },
+            animStart: performance.now()
+        };
     }
+}
+
+/* ----- INICI ANIMACIÓ DETALL NOTÍCIA (SSR) ----- */
+function initNoticiaEntrance() {
+    const noticiaData = document.getElementById('ssr-noticia-data');
+    if (!noticiaData) return;
+
+    let noticia;
+    try { noticia = JSON.parse(noticiaData.textContent); } catch (e) { return; }
+    if (!noticia) return;
+
+    /* Tracking */
+    if (noticia.id) {
+        navigator.sendBeacon('php/noticias.php?action=view&id=' + encodeURIComponent(noticia.id));
+    }
+
+    /* ===== HERO ENTRANCE (com initAboutEntrance) ===== */
+    const labelEl = document.querySelector('.noticia-section-label');
+    let labelSplit = null;
+    if (labelEl) {
+        labelSplit = new SplitText(labelEl, { type: 'chars' });
+        gsap.set(labelSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
+    }
+
+    const titleEl = document.getElementById('noticia-title');
+    let titleSplit = null;
+    if (titleEl) {
+        titleSplit = new SplitText(titleEl, { type: 'words,chars' });
+        gsap.set(titleSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
+    }
+
+    gsap.set('.noticia-body', { opacity: 0, y: 20 });
+
+    const tl = gsap.timeline({ delay: 0.5 });
+
+    if (labelSplit) {
+        tl.to(labelSplit.chars, {
+            opacity: 1, yPercent: 0, scale: 1, rotationX: 0,
+            duration: 1.2, stagger: { each: 0.04, from: 'start' }, ease: 'back.out(1.4)'
+        }, 0);
+    }
+
+    if (titleSplit) {
+        tl.to(titleSplit.chars, {
+            opacity: 1, yPercent: 0, scale: 1, rotationX: 0,
+            duration: 1.2, stagger: { each: 0.04, from: 'start' }, ease: 'back.out(1.4)'
+        }, '-=0.3');
+    }
+
+    tl.to('.noticia-body', { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.4');
+}
+
+/* ----- INICI ANIMACIÓ DETALL EVENT (SSR) ----- */
+function initEventoEntrance() {
+    var titleEl = document.getElementById('evento-title');
+    if (!titleEl) return;
+
+    /* Tracking: registrar vista */
+    var eventoData = document.getElementById('ssr-evento-data');
+    if (eventoData) {
+        try {
+            var ev = JSON.parse(eventoData.textContent);
+            if (ev && ev.id) {
+                navigator.sendBeacon('php/events.php?action=view&id=' + encodeURIComponent(ev.id));
+            }
+        } catch (e) {}
+    }
+
+    if (typeof SplitText !== 'undefined') {
+        var titleSplit = new SplitText(titleEl, { type: 'words,chars' });
+        titleEl.style.visibility = 'visible';
+        gsap.set(titleSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
+
+        var tl = gsap.timeline({ delay: 0.5 });
+
+        tl.to(titleSplit.chars, {
+            opacity: 1, yPercent: 0, scale: 1, rotationX: 0,
+            duration: 1.2, stagger: { each: 0.04, from: 'start' }, ease: 'back.out(1.4)'
+        }, 0);
+
+        var labelEl = document.getElementById('evento-label');
+        var metaEl = document.getElementById('evento-meta');
+        gsap.set([labelEl, metaEl].filter(Boolean), { opacity: 0, y: 20 });
+        tl.to(labelEl, { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.8');
+        tl.to(metaEl, { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.6');
+
+        gsap.set('.evento-body, .evento-back, .evento-cta-wrap', { opacity: 0, y: 20 });
+        tl.to('.evento-body, .evento-back, .evento-cta-wrap', { autoAlpha: 1, y: 0, duration: 1, stagger: 0.15, ease: 'power3.out' }, '-=0.4');
+    } else {
+        titleEl.style.visibility = 'visible';
+    }
+}
+
+/* ----- INICI ANIMACIÓ DETALL ARTISTA (SSR) ----- */
+function initArtistaEntrance() {
+    var titleEl = document.getElementById('artista-title');
+    if (!titleEl) return;
+
+    /* ===== HERO ===== */
+    if (typeof SplitText !== 'undefined') {
+        var heroSplit = new SplitText(titleEl, { type: 'words,chars' });
+        titleEl.style.visibility = 'visible';
+        gsap.set(heroSplit.chars, { opacity: 0, y: 80, rotateX: -90, transformOrigin: 'center bottom' });
+        gsap.to(heroSplit.chars, {
+            opacity: 1, y: 0, rotateX: 0,
+            duration: 1, stagger: 0.04, ease: 'power4.out', delay: 0.3
+        });
+    }
+
+    gsap.set('.artist-hero-rol, .artist-hero-ig', { opacity: 0, y: 30 });
+    gsap.to('.artist-hero-rol, .artist-hero-ig', {
+        opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+        delay: 0.8, stagger: 0.15
+    });
+
+    /* ===== BIO ===== */
+    var bioText = document.querySelector('#artista-bio-text p');
+    if (bioText && typeof SplitText !== 'undefined') {
+        var bioSplit = new SplitText('#artista-bio-text p', { type: 'lines', mask: 'lines' });
+        gsap.from(bioSplit.lines, {
+            opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.2,
+            scrollTrigger: { trigger: '.artist-bio', start: 'top 60%', toggleActions: 'play none none reverse' }
+        });
+    }
+
+    /* ===== LOGROS ===== */
+    gsap.from('.artist-logro', {
+        opacity: 0, x: -60, duration: 0.8, ease: 'power3.out', stagger: 0.3,
+        scrollTrigger: { trigger: '.artist-logros', start: 'top 65%', toggleActions: 'play none none reverse' }
+    });
+
+    /* ===== OBRAS ===== */
+    gsap.from('.artist-obra', {
+        opacity: 0, y: 60, duration: 0.8, ease: 'power3.out', stagger: 0.2,
+        scrollTrigger: { trigger: '.artist-galeria', start: 'top 60%', toggleActions: 'play none none reverse' }
+    });
+
+    /* ===== PARALLAX HERO BG ===== */
+    var heroBg = document.querySelector('.artist-hero-bg');
+    if (heroBg && typeof ScrollTrigger !== 'undefined') {
+        gsap.to(heroBg, {
+            yPercent: 15, ease: 'none',
+            scrollTrigger: { trigger: '.artist-hero', start: 'top top', end: 'bottom top', scrub: 1 }
+        });
+    }
+
+    ScrollTrigger.refresh();
 }
 
 /* ----- INICI SECCIÓ I18N (idiomes) ----- */
@@ -591,6 +750,21 @@ document.addEventListener("DOMContentLoaded", () => {
         initAboutEntrance();
     }
 
+    // Noticia entrance (noticia.php hero)
+    if (document.querySelector('.noticia-hero') && typeof initNoticiaEntrance === 'function') {
+        initNoticiaEntrance();
+    }
+
+    // Evento entrance (evento.php hero)
+    if (document.querySelector('.evento-hero') && typeof initEventoEntrance === 'function') {
+        initEventoEntrance();
+    }
+
+    // Artista entrance (artista.php hero)
+    if (document.getElementById('artista-title') && typeof initArtistaEntrance === 'function') {
+        initArtistaEntrance();
+    }
+
     // Footer reveal animation
     if (document.querySelector('.main-footer')) {
         const footerCols = document.querySelectorAll('.footer-grid > div');
@@ -624,51 +798,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Animació Entrada Contacto
     if (document.querySelector('.contact-page')) {
-        const contactTl = gsap.timeline({ delay: 0.5 });
-        
-        const title = document.querySelector('.contact-title');
-        title.style.visibility = 'visible';
-        const splitTitle = new SplitText(title, { type: "chars" });
-        
-        gsap.set(splitTitle.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: "center bottom" });
-        
-        contactTl.to(splitTitle.chars, {
-            opacity: 1, 
-            yPercent: 0, 
-            scale: 1,
-            rotationX: 0,
-            duration: 1.2, 
-            stagger: { each: 0.04, from: "start" }, 
-            ease: "back.out(1.4)"
-        });
-        
-        contactTl.from('.contact-details, .contact-socials', {
-            opacity: 0, 
-            y: 20, 
-            duration: 0.8, 
-            ease: "power2.out"
-        }, "-=0.6");
-        
-        contactTl.from('.contact-subtitle', {
-            opacity: 0,
-            y: 20,
-            duration: 0.8,
-            ease: "power2.out"
-        }, "-=0.6");
+        document.fonts.ready.then(() => {
+            const contactTl = gsap.timeline({ delay: 0.5 });
+            
+            const title = document.querySelector('.contact-title');
+            title.style.visibility = 'visible';
+            const splitTitle = new SplitText(title, { type: "chars" });
+            
+            gsap.set(splitTitle.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: "center bottom" });
+            
+            contactTl.to(splitTitle.chars, {
+                opacity: 1, 
+                yPercent: 0, 
+                scale: 1,
+                rotationX: 0,
+                duration: 1.2, 
+                stagger: { each: 0.04, from: "start" }, 
+                ease: "back.out(1.4)"
+            });
+            
+            contactTl.from('.contact-details, .contact-socials', {
+                opacity: 0, 
+                y: 20, 
+                duration: 0.8, 
+                ease: "power2.out"
+            }, "-=0.6");
+            
+            contactTl.from('.contact-subtitle', {
+                opacity: 0,
+                y: 20,
+                duration: 0.8,
+                ease: "power2.out"
+            }, "-=0.6");
 
-        contactTl.from('.contact-form-wrapper', {
-            opacity: 0,
-            y: 30,
-            duration: 0.8,
-            ease: "power2.out"
-        }, "-=0.4");
-        
-        contactTl.from('.clover-image', {
-            opacity: 0,
-            scale: 0.8,
-            rotation: 5,
-            duration: 1.2,
-            ease: "power3.out"
-        }, "-=1");
+            contactTl.from('.contact-form-wrapper', {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                ease: "power2.out"
+            }, "-=0.4");
+            
+            contactTl.from('.clover-image', {
+                opacity: 0,
+                scale: 0.8,
+                rotation: 5,
+                duration: 1.2,
+                ease: "power3.out"
+            }, "-=1");
+        });
     }
 });

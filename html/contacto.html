@@ -56,10 +56,10 @@
             <!-- Navegació Desktop -->
             <nav class="desktop-nav" aria-label="Navegació de sobretaula">
                 <ul class="nav-list">
-                    <li><a href="nosotros.html" class="nav-link" data-i18n="nav.nosotros">Nosotros</a></li>
-                    <li><a href="artistas.html" class="nav-link" data-i18n="nav.artistas">Artistas</a></li>
-                    <li><a href="agencias.html" class="nav-link" data-i18n="nav.agenda">Agenda</a></li>
-                    <li><a href="noticias.html" class="nav-link" data-i18n="nav.noticias">Noticias</a></li>
+                    <li><a href="../nosotros.php" class="nav-link" data-i18n="nav.nosotros">Nosotros</a></li>
+                    <li><a href="../artistas.php" class="nav-link" data-i18n="nav.artistas">Artistas</a></li>
+                    <li><a href="../agenda.php" class="nav-link" data-i18n="nav.agenda">Agenda</a></li>
+                    <li><a href="../noticias.php" class="nav-link" data-i18n="nav.noticias">Noticias</a></li>
                     <li><a href="contacto.html" class="nav-link" data-i18n="nav.contacto">Contacto</a></li>
                 </ul>
             </nav>
@@ -92,10 +92,10 @@
                 </a>
             </div>
             <ul class="mobile-nav-list">
-                <li><a href="nosotros.html" class="mobile-link" data-i18n="nav.nosotros">Nosotros</a></li>
-                <li><a href="artistas.html" class="mobile-link" data-i18n="nav.artistas">Artistas</a></li>
-                <li><a href="agencias.html" class="mobile-link" data-i18n="nav.agenda">Agenda</a></li>
-                <li><a href="noticias.html" class="mobile-link" data-i18n="nav.noticias">Noticias</a></li>
+                <li><a href="../nosotros.php" class="mobile-link" data-i18n="nav.nosotros">Nosotros</a></li>
+                <li><a href="../artistas.php" class="mobile-link" data-i18n="nav.artistas">Artistas</a></li>
+                <li><a href="../agenda.php" class="mobile-link" data-i18n="nav.agenda">Agenda</a></li>
+                <li><a href="../noticias.php" class="mobile-link" data-i18n="nav.noticias">Noticias</a></li>
                 <li><a href="contacto.html" class="mobile-link" data-i18n="nav.contacto">Contacto</a></li>
             </ul>
 
@@ -132,7 +132,12 @@
                         <h2 class="contact-subtitle" data-i18n="contact.subtitle">Regístrate para mantenerte<br>informado de nuestras<br>actividades</h2>
                         
                         <div class="contact-form-wrapper">
-                            <form id="contact-form" class="contact-form" action="#" method="POST">
+                            <form id="contact-form" class="contact-form" action="javascript:void(0);" method="POST">
+                                <input type="hidden" name="csrf_token" id="csrfToken" value="">
+                                <input type="hidden" name="recaptcha_response" id="recaptchaResponse" value="">
+                                <div style="display:none" aria-hidden="true">
+                                    <input type="text" name="honeypot" tabindex="-1" autocomplete="off">
+                                </div>
                                 <div class="form-group">
                                     <label for="name" data-i18n="contact.form.name">Name</label>
                                     <input type="text" id="name" name="name" required>
@@ -175,6 +180,7 @@
 
     <!-- Custom JS: La nostra lògica d'animacions i configuració -->
     <script src="../js/script.js"></script>
+    <script src="../js/contact-form.js"></script>
 
     <!-- Footer -->
     <footer class="main-footer">
@@ -191,10 +197,10 @@
             <div class="footer-nav-col">
                 <h4 class="footer-col-title" data-i18n="footer.menu">Menú</h4>
                 <ul class="footer-nav">
-                    <li><a href="nosotros.html" data-i18n="nav.nosotros">Nosotros</a></li>
-                    <li><a href="artistas.html" data-i18n="nav.artistas">Artistas</a></li>
-                    <li><a href="agencias.html" data-i18n="nav.agenda">Agenda</a></li>
-                    <li><a href="noticias.html" data-i18n="nav.noticias">Noticias</a></li>
+                    <li><a href="../nosotros.php" data-i18n="nav.nosotros">Nosotros</a></li>
+                    <li><a href="../artistas.php" data-i18n="nav.artistas">Artistas</a></li>
+                    <li><a href="../agenda.php" data-i18n="nav.agenda">Agenda</a></li>
+                    <li><a href="../noticias.php" data-i18n="nav.noticias">Noticias</a></li>
                     <li><a href="contacto.html" data-i18n="nav.contacto">Contacto</a></li>
                 </ul>
             </div>
