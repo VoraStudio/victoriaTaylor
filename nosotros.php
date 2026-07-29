@@ -135,7 +135,7 @@ foreach ($cmsArtists as $entry) {
     <header id="header" class="main-header" aria-label="Navegació principal">
         <div class="header-container">
             <div class="logo">
-                <a href="index.html" aria-label="Inici Victoria Taylor">
+                <a href="index.php" aria-label="Inici Victoria Taylor">
                     <img src="img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
                 </a>
             </div>
@@ -174,7 +174,7 @@ foreach ($cmsArtists as $entry) {
         <!-- Navegació Mòbil -->
         <nav id="mobile-nav" class="mobile-nav" aria-label="Navegació mòbil">
             <div class="logo">
-                <a href="index.html" aria-label="Inici Victoria Taylor">
+                <a href="index.php" aria-label="Inici Victoria Taylor">
                     <img src="img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
                 </a>
             </div>

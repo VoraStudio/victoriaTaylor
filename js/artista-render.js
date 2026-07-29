@@ -292,7 +292,9 @@ window.renderArtist = renderArtist;
 /* Quan api-artistes.js mergeja les dades, crida aquest callback */
 window.__onArtistasReady = function () {
     var lang = localStorage.getItem('vt-lang') || 'es';
-    renderArtist(lang);
+    document.fonts.ready.then(function () {
+        renderArtist(lang);
+    });
 };
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -302,7 +304,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* Si l'artista ja esta a artistas (fix), renderitzar directe */
     if (id && artistas[id]) {
-        renderArtist(lang);
+        document.fonts.ready.then(function () {
+            renderArtist(lang);
+        });
         return;
     }
 

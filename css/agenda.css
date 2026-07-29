@@ -9,7 +9,7 @@
   justify-content: flex-start;
   background-color: var(--color-black);
   overflow: hidden;
-  min-height: 100svh;
+  min-height: 90svh;
 }
 
 .agenda-hero-bg {
@@ -40,7 +40,7 @@
   position: relative;
   z-index: 2;
   text-align: center;
-  padding: 13vh var(--space-s) var(--space-xl);
+  padding: 18vh var(--space-s) var(--space-xl);
   max-width: 900px;
   margin: 0 auto;
   width: 100%;
@@ -81,7 +81,7 @@
   color: var(--color-white);
   opacity: 0;
   visibility: hidden;
-  max-width: 60%;
+  max-width: 90%;
   line-height: 1.8;
 }
 
@@ -338,7 +338,7 @@
 
 @media (min-width: 769px) {
   .agenda-hero {
-    min-height: 100svh;
+    min-height: 90svh;
   }
 
   .agenda-hero-content {
@@ -347,5 +347,9 @@
 
   .agenda-list-wrap {
     padding: 0 var(--space-xl);
+  }
+
+  .agenda-hero-subtitle {
+    max-width: 60%;
   }
 }

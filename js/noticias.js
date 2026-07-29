@@ -2,13 +2,13 @@
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Animació d'entrada del Hero de Notícies (estil Nosotros)
   const heroTitle = document.querySelector(".news-hero-title");
+  if (heroTitle) heroTitle.style.visibility = "visible";
   let heroSplit = null;
-  if (heroTitle && typeof SplitText !== "undefined") {
-    heroSplit = new SplitText(heroTitle, { type: "words,chars" });
-    heroTitle.style.visibility = "visible";
-    gsap.set(heroSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: "center bottom" });
-  } else if (heroTitle) {
-    heroTitle.style.visibility = "visible";
+  if (heroTitle && typeof vtSplit !== "undefined") {
+    heroSplit = vtSplit(heroTitle, { type: "words,chars" });
+    if (heroSplit) {
+      gsap.set(heroSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: "center bottom" });
+    }
   }
 
   gsap.set(".news-hero-subtitle", { y: 20 });

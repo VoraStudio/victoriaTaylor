@@ -99,7 +99,7 @@ $sections = $cms->fetch('/api/sections?active=true');
 
     <title>Victoria Taylor | Notícies</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=2">
     <link rel="stylesheet" href="css/noticias.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -112,7 +112,7 @@ $sections = $cms->fetch('/api/sections?active=true');
     <header id="header" class="main-header" aria-label="Navegació principal">
         <div class="header-container">
             <div class="logo">
-                <a href="index.html" aria-label="Inici Victoria Taylor">
+                <a href="index.php" aria-label="Inici Victoria Taylor">
                     <img src="img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
                 </a>
             </div>
@@ -145,7 +145,7 @@ $sections = $cms->fetch('/api/sections?active=true');
         </div>
         <nav id="mobile-nav" class="mobile-nav" aria-label="Navegació mòbil">
             <div class="logo">
-                <a href="index.html" aria-label="Inici Victoria Taylor">
+                <a href="index.php" aria-label="Inici Victoria Taylor">
                     <img src="img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
                 </a>
             </div>
@@ -171,8 +171,8 @@ $sections = $cms->fetch('/api/sections?active=true');
             <div class="news-hero-bg" style="background-image: url('img/slide3.webp');"></div>
             <div class="news-hero-overlay"></div>
             <div class="news-hero-content">
-                <h1 class="news-hero-title" style="visibility:hidden;">Not&iacute;cies</h1>
-                <p class="news-hero-subtitle">Tota l'actualitat de Victoria Taylor: exposicions, entrevistes i novetats del m&oacute;n de l'art contemporani.</p>
+                <h1 class="news-hero-title" style="visibility:hidden;" data-i18n="noticias.hero.title">Notícies</h1>
+                <p class="news-hero-subtitle" data-i18n="noticias.hero.subtitle">Tota l'actualitat de Victoria Taylor: exposicions, entrevistes i novetats del món de l'art contemporani.</p>
             </div>
         </section>
 

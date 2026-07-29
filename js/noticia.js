@@ -16,15 +16,19 @@ function initNoticiaEntrance() {
     const labelEl = document.querySelector('.noticia-section-label');
     let labelSplit = null;
     if (labelEl) {
-        labelSplit = new SplitText(labelEl, { type: 'chars' });
-        gsap.set(labelSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
+        labelSplit = vtSplit(labelEl, { type: 'chars' });
+        if (labelSplit) {
+            gsap.set(labelSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
+        }
     }
 
     const titleEl = document.getElementById('noticia-title');
     let titleSplit = null;
     if (titleEl) {
-        titleSplit = new SplitText(titleEl, { type: 'words,chars' });
-        gsap.set(titleSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
+        titleSplit = vtSplit(titleEl, { type: 'words,chars' });
+        if (titleSplit) {
+            gsap.set(titleSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
+        }
     }
 
     gsap.set('.noticia-body', { opacity: 0, y: 20 });

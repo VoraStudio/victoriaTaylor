@@ -107,7 +107,7 @@ $nombre = $artista ? _t_ssr($artista['nombre'], $lang) : '';
 $nombreUpper = mb_strtoupper($nombre, 'UTF-8');
 $rol = $artista ? _t_ssr($artista['rol'], $lang) : '';
 $heroImg = $artista ? ($artista['heroImg'] ?? '') : '';
-$instagram = $artista ? ($artista['instagram'] ?? '') : '';
+
 $bgPosition = $artista ? ($artista['bgPosition'] ?? '') : '';
 $bio = $artista ? _t_ssr($artista['bio'], $lang) : [];
 $logros = $artista ? ($artista['logros'] ?? []) : [];
@@ -170,7 +170,7 @@ if ($artista) {
     <header id="header" class="main-header" aria-label="Navegació principal">
         <div class="header-container">
             <div class="logo">
-                <a href="index.html" aria-label="Inici Victoria Taylor">
+                <a href="index.php" aria-label="Inici Victoria Taylor">
                     <img src="img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
                 </a>
             </div>
@@ -203,7 +203,7 @@ if ($artista) {
         </div>
         <nav id="mobile-nav" class="mobile-nav" aria-label="Navegació mòbil">
             <div class="logo">
-                <a href="index.html" aria-label="Inici Victoria Taylor">
+                <a href="index.php" aria-label="Inici Victoria Taylor">
                     <img src="img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
                 </a>
             </div>
@@ -256,12 +256,7 @@ if ($artista) {
                     <span class="artist-hero-rol" id="artista-rol"><?= htmlspecialchars($rol, ENT_QUOTES, 'UTF-8') ?></span>
                 <?php endif; ?>
                 <h1 class="artist-hero-title" id="artista-title"><?= htmlspecialchars($nombre, ENT_QUOTES, 'UTF-8') ?></h1>
-                <?php if ($instagram): ?>
-                    <a href="<?= htmlspecialchars($instagram, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener" class="artist-hero-ig" id="artista-ig" aria-label="<?= htmlspecialchars($nombre, ENT_QUOTES, 'UTF-8') ?>">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                        <span>Instagram</span>
-                    </a>
-                <?php endif; ?>
+
             </div>
         </section>
 
@@ -312,8 +307,10 @@ if ($artista) {
                 <div class="artist-obras-grid">
                     <?php foreach ($obras as $i => $o):
                         $titulo = isset($o['titulo']) ? _t_ssr($o['titulo'], $lang) : '';
+                        // Si el título parece un nombre de archivo (termina en extensión de imagen), lo tratamos como vacío
+                        if (preg_match('/\.(jpg|jpeg|png|gif|webp|avif)$/i', $titulo)) $titulo = '';
                     ?>
-                    <article class="artist-obra">
+                    <article class="artist-obra" data-index="<?= $i ?>">
                         <div class="artist-obra-img">
                             <img src="<?= htmlspecialchars($o['img'] ?? '', ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($titulo ?: "Obra " . ($i + 1), ENT_QUOTES, 'UTF-8') ?>" loading="lazy">
                         </div>
@@ -326,6 +323,24 @@ if ($artista) {
             </div>
         </section>
         <?php endif; ?>
+
+        <!-- Modal Lightbox -->
+        <div class="artista-modal" id="artista-modal" role="dialog" aria-modal="true" aria-label="Visor d'obres">
+            <div class="artista-modal-overlay" id="artista-modal-overlay"></div>
+            <button class="artista-modal-close" id="artista-modal-close" aria-label="Tancar visor">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <button class="artista-modal-prev" id="artista-modal-prev" aria-label="Anterior obra">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button class="artista-modal-next" id="artista-modal-next" aria-label="Següent obra">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div class="artista-modal-content">
+                <img class="artista-modal-img" id="artista-modal-img" src="" alt="">
+                <p class="artista-modal-titulo" id="artista-modal-titulo"></p>
+            </div>
+        </div>
     </main>
 
     <script id="ssr-artista-data" type="application/json">
@@ -383,6 +398,6 @@ if ($artista) {
         </div>
     </footer>
 
-    <script src="js/script.js"></script>
+    <script src="js/script.js?v=2"></script>
 </body>
 </html>

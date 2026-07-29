@@ -1,3 +1,10 @@
+/* ----- HELPER: SplitText sense warning de fonts ----- */
+function vtSplit(textEl, opts) {
+    if (typeof SplitText === 'undefined') return null;
+    if (document.fonts && document.fonts.status !== 'loaded') return null;
+    try { return new SplitText(textEl, opts); } catch(e) { return null; }
+}
+
 /* ----- INICI SECCIÓ HEADER ANIMATIONS ----- */
 // Animacions Header
 function initHeaderAnimations() {
@@ -14,7 +21,7 @@ function initHeaderAnimations() {
     // Seleccionem el text original i el que es crea dinamicament
     const navLinks = document.querySelectorAll(".nav-link .txt-original");
     navLinks.forEach((link, index) => {
-        const split = new SplitText(link, { type: "chars", mask: "lines" });
+        const split = vtSplit(link, { type: "chars", mask: "lines" });
         headerTl.from(split.chars, {
             opacity: 0,
             y: 10,
@@ -42,7 +49,7 @@ function initMobileMenu() {
     let isMenuOpen = false;
 
     // Preparem els links mòbils per a SplitText (animació d'entrada del menú)
-    const mobileSplits = Array.from(document.querySelectorAll(".mobile-link .txt-original")).map(link => new SplitText(link, { type: "chars, lines", mask: "lines" }));
+    const mobileSplits = Array.from(document.querySelectorAll(".mobile-link .txt-original")).map(link => vtSplit(link, { type: "chars, lines", mask: "lines" })).filter(Boolean);
 
     menuToggle.addEventListener("click", () => {
         isMenuOpen = !isMenuOpen;
@@ -110,31 +117,37 @@ function initMobileMenu() {
 }
 
 // Efecte de Hover Premium per als Links del Header (Desktop i Mòbil)
-function initNavHover() {
-    const navLinks = document.querySelectorAll(".nav-link, .mobile-link");
-    
-    navLinks.forEach(link => {
-        const text = link.textContent.trim();
-        link.innerHTML = `
-            <div class="split-mask">
-                <span class="txt-original">${text}</span>
-                <span class="txt-clone">${text}</span>
-            </div>
-        `;
+function buildNavHoverTL(link, text) {
+    link.innerHTML = `
+        <div class="split-mask">
+            <span class="txt-original">${text}</span>
+            <span class="txt-clone">${text}</span>
+        </div>
+    `;
 
-        const original = link.querySelector(".txt-original");
-        const clone = link.querySelector(".txt-clone");
+    const original = link.querySelector(".txt-original");
+    const clone = link.querySelector(".txt-clone");
 
-        gsap.set(link.querySelector(".split-mask"), { position: "relative", overflow: "hidden", display: "inline-block" });
-        gsap.set(clone, { position: "absolute", top: "100%", left: 0, color: "var(--color-cream)" });
+    gsap.set(link.querySelector(".split-mask"), { position: "relative", overflow: "hidden", display: "inline-block" });
+    gsap.set(clone, { position: "absolute", top: "100%", left: 0, color: "var(--color-cream)" });
 
-        const splitOriginal = new SplitText(original, { type: "chars", mask: "lines" });
-        const splitClone = new SplitText(clone, { type: "chars", mask: "lines" });
+    const splitOriginal = vtSplit(original, { type: "chars", mask: "lines" });
+    const splitClone = vtSplit(clone, { type: "chars", mask: "lines" });
 
-        const tl = gsap.timeline({ paused: true });
+    const tl = gsap.timeline({ paused: true });
+    if (splitOriginal && splitClone) {
         tl.to(splitOriginal.chars, { yPercent: -100, stagger: 0.02, duration: 0.4, ease: "power2.inOut" })
           .to(splitClone.chars, { yPercent: -100, stagger: 0.02, duration: 0.4, ease: "power2.inOut" }, 0);
+    }
 
+    return tl;
+}
+
+function initNavHover() {
+    const navLinks = document.querySelectorAll(".nav-link, .mobile-link");
+    navLinks.forEach(link => {
+        const tl = buildNavHoverTL(link, link.textContent.trim());
+        link._vtNavTL = tl;
         link.addEventListener("mouseenter", () => tl.play());
         link.addEventListener("mouseleave", () => tl.reverse());
     });
@@ -143,7 +156,9 @@ function initNavHover() {
 /* ----- INICI SECCIÓ SWIPER + GSAP ----- */
 
 // Registrem els plugins de GSAP
-gsap.registerPlugin(ScrollTrigger, SplitText);
+if (typeof gsap !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger, SplitText);
+}
 
 // Variable de control per evitar solapaments d'animacions
 let isAnimating = false;
@@ -228,13 +243,15 @@ function hoverNextPrev(selector) {
         const clone = item.querySelector('.clone');
         
         // Dividim amb SplitText
-        const splitOriginal = new SplitText(original, { type: "chars", mask: "lines" });
-        const splitClone = new SplitText(clone, { type: "chars", mask: "lines" });
+        const splitOriginal = vtSplit(original, { type: "chars", mask: "lines" });
+        const splitClone = vtSplit(clone, { type: "chars", mask: "lines" });
         
         // Creem una línia de temps GSAP per al hover
         const tl = gsap.timeline({ paused: true });
-        tl.to(splitOriginal.chars, { yPercent: -100, stagger: 0.03, duration: 0.3, ease: "power2.inOut" })
-          .to(splitClone.chars, { yPercent: -100, stagger: 0.03, duration: 0.3, ease: "power2.inOut" }, 0);
+        if (splitOriginal && splitClone) {
+            tl.to(splitOriginal.chars, { yPercent: -100, stagger: 0.03, duration: 0.3, ease: "power2.inOut" })
+              .to(splitClone.chars, { yPercent: -100, stagger: 0.03, duration: 0.3, ease: "power2.inOut" }, 0);
+        }
 
         item.addEventListener("mouseenter", () => tl.play());
         item.addEventListener("mouseleave", () => tl.reverse());
@@ -242,9 +259,7 @@ function hoverNextPrev(selector) {
 }
 
 // Inicialitzem l'efecte als botons PREV i NEXT (només si existeixen)
-if (document.querySelector('.nav-arrow')) {
-    hoverNextPrev('.nav-arrow');
-}
+// Es crida des de DOMContentLoaded amb fonts.ready per evitar el warning de SplitText
 
 /* ----- INICI SECCIÓ ABOUT ENTRANCE (nosotros.html) ----- */
 function initAboutEntrance() {
@@ -254,11 +269,16 @@ function initAboutEntrance() {
         const heroTitle = document.querySelector('.about-hero-title');
         let heroSplit = null;
         if (heroTitle) {
-            heroSplit = new SplitText(heroTitle, { type: "words,chars" });
-            heroTitle.style.visibility = 'visible'; // override CSS .js-enabled rule BEFORE GSAP captures "to" state
-            gsap.set(heroSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: "center bottom" });
+            heroTitle.style.visibility = 'visible';
+            heroSplit = vtSplit(heroTitle, { type: "words,chars" });
+            if (heroSplit) {
+                gsap.set(heroSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: "center bottom" });
+            }
         }
-        gsap.set('.about-text-main p, .about-text-side p, .btn-cta', { opacity: 0, y: 30 });
+        var heroBody = document.querySelector('.about-text-main p, .about-text-side p, .btn-cta');
+        if (heroBody) {
+            gsap.set('.about-text-main p, .about-text-side p, .btn-cta', { opacity: 0, y: 30 });
+        }
 
         // ============================================
         // 1. HERO ENTRANCE (on load)
@@ -271,9 +291,15 @@ function initAboutEntrance() {
                 duration: 1.2, stagger: { each: 0.04, from: "start" }, ease: "back.out(1.4)"
             }, 0);
         }
-    heroTl.to('.about-text-main p', { autoAlpha: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.4");
-    heroTl.to('.about-text-side p', { autoAlpha: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.6");
-    heroTl.to('.btn-cta', { autoAlpha: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.15, ease: "power3.out" }, "-=0.6");
+        if (document.querySelector('.about-text-main p')) {
+            heroTl.to('.about-text-main p', { autoAlpha: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.4");
+        }
+        if (document.querySelector('.about-text-side p')) {
+            heroTl.to('.about-text-side p', { autoAlpha: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.6");
+        }
+        if (document.querySelector('.btn-cta')) {
+            heroTl.to('.btn-cta', { autoAlpha: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.15, ease: "power3.out" }, "-=0.6");
+        }
 
     // ============================================
     // 2. SECTION — animate via ScrollTrigger or immediately if already visible
@@ -284,24 +310,26 @@ function initAboutEntrance() {
 
     const artTitle = document.querySelector('.about-artists-title');
     if (artTitle) {
-        artTitle.style.visibility = 'visible'; // override CSS .js-enabled BEFORE GSAP captures "to" state
-        const artSplit = new SplitText(artTitle, { type: "chars" });
+        artTitle.style.visibility = 'visible';
+        const artSplit = vtSplit(artTitle, { type: "chars" });
 
-        if (isPastStart) {
-            // Section already visible — play immediately with slight delay
-            gsap.set(artSplit.chars, { autoAlpha: 0, yPercent: 80, rotationX: -90, transformOrigin: "top center" });
-            gsap.to(artSplit.chars, {
-                autoAlpha: 1, yPercent: 0, rotationX: 0,
-                duration: 0.7, stagger: { each: 0.04, from: "start" }, ease: "power3.out",
-                delay: 0.3
-            });
-        } else {
-            // Section below fold — ScrollTrigger
-            gsap.from(artSplit.chars, {
-                autoAlpha: 0, yPercent: 80, rotationX: -90, transformOrigin: "top center",
-                duration: 1, stagger: { each: 0.06, from: "start" }, ease: "power3.out",
-                scrollTrigger: { trigger: '.about-artists', start: 'top 80%', once: true }
-            });
+        if (artSplit) {
+            if (isPastStart) {
+                // Section already visible — play immediately with slight delay
+                gsap.set(artSplit.chars, { autoAlpha: 0, yPercent: 80, rotationX: -90, transformOrigin: "top center" });
+                gsap.to(artSplit.chars, {
+                    autoAlpha: 1, yPercent: 0, rotationX: 0,
+                    duration: 0.7, stagger: { each: 0.04, from: "start" }, ease: "power3.out",
+                    delay: 0.3
+                });
+            } else {
+                // Section below fold — ScrollTrigger
+                gsap.from(artSplit.chars, {
+                    autoAlpha: 0, yPercent: 80, rotationX: -90, transformOrigin: "top center",
+                    duration: 1, stagger: { each: 0.06, from: "start" }, ease: "power3.out",
+                    scrollTrigger: { trigger: '.about-artists', start: 'top 80%', once: true }
+                });
+            }
         }
     }
 
@@ -377,15 +405,19 @@ function initNoticiaEntrance() {
     const labelEl = document.querySelector('.noticia-section-label');
     let labelSplit = null;
     if (labelEl) {
-        labelSplit = new SplitText(labelEl, { type: 'chars' });
-        gsap.set(labelSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
+        labelSplit = vtSplit(labelEl, { type: 'chars' });
+        if (labelSplit) {
+            gsap.set(labelSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
+        }
     }
 
     const titleEl = document.getElementById('noticia-title');
     let titleSplit = null;
     if (titleEl) {
-        titleSplit = new SplitText(titleEl, { type: 'words,chars' });
-        gsap.set(titleSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
+        titleSplit = vtSplit(titleEl, { type: 'words,chars' });
+        if (titleSplit) {
+            gsap.set(titleSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
+        }
     }
 
     gsap.set('.noticia-body', { opacity: 0, y: 20 });
@@ -425,9 +457,9 @@ function initEventoEntrance() {
         } catch (e) {}
     }
 
-    if (typeof SplitText !== 'undefined') {
-        var titleSplit = new SplitText(titleEl, { type: 'words,chars' });
-        titleEl.style.visibility = 'visible';
+    titleEl.style.visibility = 'visible';
+    var titleSplit = vtSplit(titleEl, { type: 'words,chars' });
+    if (titleSplit) {
         gsap.set(titleSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
 
         var tl = gsap.timeline({ delay: 0.5 });
@@ -440,13 +472,11 @@ function initEventoEntrance() {
         var labelEl = document.getElementById('evento-label');
         var metaEl = document.getElementById('evento-meta');
         gsap.set([labelEl, metaEl].filter(Boolean), { opacity: 0, y: 20 });
-        tl.to(labelEl, { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.8');
-        tl.to(metaEl, { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.6');
+        if (labelEl) tl.to(labelEl, { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.8');
+        if (metaEl) tl.to(metaEl, { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.6');
 
         gsap.set('.evento-body, .evento-back, .evento-cta-wrap', { opacity: 0, y: 20 });
         tl.to('.evento-body, .evento-back, .evento-cta-wrap', { autoAlpha: 1, y: 0, duration: 1, stagger: 0.15, ease: 'power3.out' }, '-=0.4');
-    } else {
-        titleEl.style.visibility = 'visible';
     }
 }
 
@@ -456,9 +486,9 @@ function initArtistaEntrance() {
     if (!titleEl) return;
 
     /* ===== HERO ===== */
-    if (typeof SplitText !== 'undefined') {
-        var heroSplit = new SplitText(titleEl, { type: 'words,chars' });
-        titleEl.style.visibility = 'visible';
+    titleEl.style.visibility = 'visible';
+    var heroSplit = vtSplit(titleEl, { type: 'words,chars' });
+    if (heroSplit) {
         gsap.set(heroSplit.chars, { opacity: 0, y: 80, rotateX: -90, transformOrigin: 'center bottom' });
         gsap.to(heroSplit.chars, {
             opacity: 1, y: 0, rotateX: 0,
@@ -466,27 +496,34 @@ function initArtistaEntrance() {
         });
     }
 
-    gsap.set('.artist-hero-rol, .artist-hero-ig', { opacity: 0, y: 30 });
-    gsap.to('.artist-hero-rol, .artist-hero-ig', {
-        opacity: 1, y: 0, duration: 1, ease: 'power3.out',
-        delay: 0.8, stagger: 0.15
-    });
-
-    /* ===== BIO ===== */
-    var bioText = document.querySelector('#artista-bio-text p');
-    if (bioText && typeof SplitText !== 'undefined') {
-        var bioSplit = new SplitText('#artista-bio-text p', { type: 'lines', mask: 'lines' });
-        gsap.from(bioSplit.lines, {
-            opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.2,
-            scrollTrigger: { trigger: '.artist-bio', start: 'top 60%', toggleActions: 'play none none reverse' }
+    var heroRol = document.querySelector('.artist-hero-rol, .artist-hero-ig');
+    if (heroRol) {
+        gsap.set('.artist-hero-rol, .artist-hero-ig', { opacity: 0, y: 30 });
+        gsap.to('.artist-hero-rol, .artist-hero-ig', {
+            opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+            delay: 0.8, stagger: 0.15
         });
     }
 
+    /* ===== BIO ===== */
+    var bioText = document.querySelector('#artista-bio-text p');
+    if (bioText) {
+        var bioSplit = vtSplit(bioText, { type: 'lines', mask: 'lines' });
+        if (bioSplit) {
+            gsap.from(bioSplit.lines, {
+                opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.2,
+                scrollTrigger: { trigger: '.artist-bio', start: 'top 60%', toggleActions: 'play none none reverse' }
+            });
+        }
+    }
+
     /* ===== LOGROS ===== */
-    gsap.from('.artist-logro', {
-        opacity: 0, x: -60, duration: 0.8, ease: 'power3.out', stagger: 0.3,
-        scrollTrigger: { trigger: '.artist-logros', start: 'top 65%', toggleActions: 'play none none reverse' }
-    });
+    if (document.querySelector('.artist-logros')) {
+        gsap.from('.artist-logro', {
+            opacity: 0, x: -60, duration: 0.8, ease: 'power3.out', stagger: 0.3,
+            scrollTrigger: { trigger: '.artist-logros', start: 'top 65%', toggleActions: 'play none none reverse' }
+        });
+    }
 
     /* ===== OBRAS ===== */
     gsap.from('.artist-obra', {
@@ -526,6 +563,10 @@ const i18n = {
         "footer.legal.cookies": "Cookies",
         "footer.legal.accesibilidad": "Accesibilidad",
         "footer.developed": "Desarrollado por",
+        "agenda.hero.title": "Agenda",
+        "agenda.hero.subtitle": "Descubre las exposiciones, inauguraciones y eventos donde podrás vivir el arte en primera persona.",
+        "noticias.hero.title": "Noticias",
+        "noticias.hero.subtitle": "Toda la actualidad de Victoria Taylor: exposiciones, entrevistas y novedades del mundo del arte contemporáneo.",
         "contact.title": "Contacto",
         "contact.girona": "Carrer Pic de Peguera, 11 17003 GIRONA",
         "contact.london": "VICTORIA TAYLOR<br>112 Whitechapel High Street E1 7AQ LONDON",
@@ -578,6 +619,10 @@ const i18n = {
         "footer.legal.cookies": "Galetes",
         "footer.legal.accesibilidad": "Accessibilitat",
         "footer.developed": "Desenvolupat per",
+        "agenda.hero.title": "Agenda",
+        "agenda.hero.subtitle": "Descobreix les exposicions, inauguracions i esdeveniments on podràs viure l'art en primera persona.",
+        "noticias.hero.title": "Notícies",
+        "noticias.hero.subtitle": "Tota l'actualitat de Victoria Taylor: exposicions, entrevistes i novetats del món de l'art contemporani.",
         "contact.title": "Contacte",
         "contact.girona": "Carrer Pic de Peguera, 11 17003 GIRONA",
         "contact.london": "VICTORIA TAYLOR<br>112 Whitechapel High Street E1 7AQ LONDRES",
@@ -630,6 +675,10 @@ const i18n = {
         "footer.legal.cookies": "Cookies",
         "footer.legal.accesibilidad": "Accessibility",
         "footer.developed": "Developed by",
+        "agenda.hero.title": "Agenda",
+        "agenda.hero.subtitle": "Discover the exhibitions, openings and events where you can experience art first-hand.",
+        "noticias.hero.title": "News",
+        "noticias.hero.subtitle": "All the latest from Victoria Taylor: exhibitions, interviews and news from the world of contemporary art.",
         "contact.title": "Contact",
         "contact.girona": "Carrer Pic de Peguera, 11 17003 GIRONA",
         "contact.london": "VICTORIA TAYLOR<br>112 Whitechapel High Street E1 7AQ LONDON",
@@ -669,6 +718,57 @@ const i18n = {
 
 let vtCurrentLang = localStorage.getItem("vt-lang") || "es";
 
+/* ----- ACTUALITZAR IDIOMA EN SSR D'ARTISTA ----- */
+function updateArtistLang(lang) {
+    var dataEl = document.getElementById('ssr-artista-data');
+    if (!dataEl) return;
+    var a;
+    try { a = JSON.parse(dataEl.textContent); } catch(e) { return; }
+
+    // Hero rol
+    var rolEl = document.getElementById('artista-rol');
+    if (rolEl && a.rol) {
+        var rol = a.rol[lang] || a.rol.es || '';
+        rolEl.textContent = rol;
+    }
+
+    // Section labels
+    var labelMap = {
+        'artista-label-sobre': { es: 'Sobre el artista', ca: 'Sobre l\'artista', en: 'About the Artist' },
+        'artista-label-trajectoria': { es: 'Trayectoria', ca: 'Trajectòria', en: 'Timeline' },
+        'artista-label-obres': { es: 'Obras', ca: 'Obres', en: 'Works' }
+    };
+    Object.keys(labelMap).forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = labelMap[id][lang] || labelMap[id].es;
+    });
+
+    // Bio paragrafs
+    var bioText = document.getElementById('artista-bio-text');
+    if (bioText && a.bio) {
+        var texts = a.bio[lang] || a.bio.es || [];
+        var ps = bioText.querySelectorAll('p');
+        texts.forEach(function(t, i) {
+            if (ps[i]) ps[i].textContent = t;
+        });
+    }
+
+    // Logros textos
+    if (a.logros) {
+        var logroEls = document.querySelectorAll('.artist-logro');
+        a.logros.forEach(function(logro, i) {
+            var textosEl = logroEls[i] ? logroEls[i].querySelector('.artist-logro-textos') : null;
+            if (textosEl && logro.textos) {
+                var textos = logro.textos[lang] || logro.textos.es || [];
+                var ps = textosEl.querySelectorAll('p');
+                textos.forEach(function(t, j) {
+                    if (ps[j]) ps[j].textContent = t;
+                });
+            }
+        });
+    }
+}
+
 function setVTLang(lang) {
     if (!i18n[lang]) return;
     vtCurrentLang = lang;
@@ -677,16 +777,12 @@ function setVTLang(lang) {
     document.querySelectorAll("[data-i18n]").forEach((el) => {
         const key = el.getAttribute("data-i18n");
         if (!i18n[lang] || !i18n[lang][key]) return;
-        // Si el nav link ya tiene split-mask (de initNavHover), només canviem el text
-        const elSplit = el.querySelector(".split-mask");
-        if (elSplit) {
-            const orig = el.querySelector(".txt-original");
-            const clone = el.querySelector(".txt-clone");
-            if (orig && clone) {
-                orig.textContent = i18n[lang][key];
-                clone.textContent = i18n[lang][key];
-                return;
-            }
+        // Si el nav link ya tiene split-mask (de initNavHover), reconstruïm la timeline
+        if (el.querySelector(".split-mask")) {
+            const newText = i18n[lang][key];
+            const tl = buildNavHoverTL(el, newText);
+            el._vtNavTL = tl;
+            return;
         }
         el.innerHTML = i18n[lang][key];
     });
@@ -710,9 +806,9 @@ function setVTLang(lang) {
 
     localStorage.setItem("vt-lang", lang);
 
-    // Re-renderitzar pàgina d'artista si és el cas
-    if (typeof window.renderArtist === "function") {
-        window.renderArtist(lang);
+    // Actualitzar texts SSR de la pàgina d'artista si és el cas
+    if (document.getElementById('ssr-artista-data')) {
+        updateArtistLang(lang);
     }
 }
 
@@ -721,101 +817,173 @@ document.addEventListener("click", (e) => {
     if (btn) setVTLang(btn.getAttribute("data-lang"));
 });
 
+/* ----- INICI MODAL GALERIA ARTISTA ----- */
+function initArtistaGallery() {
+    var obras = document.querySelectorAll('.artist-obra');
+    var modal = document.getElementById('artista-modal');
+    if (!modal || !obras.length) return;
+
+    var modalImg = document.getElementById('artista-modal-img');
+    var modalTitulo = document.getElementById('artista-modal-titulo');
+    var overlay = document.getElementById('artista-modal-overlay');
+    var closeBtn = document.getElementById('artista-modal-close');
+    var prevBtn = document.getElementById('artista-modal-prev');
+    var nextBtn = document.getElementById('artista-modal-next');
+
+    var currentIndex = 0;
+
+    function openModal(index) {
+        currentIndex = index;
+        var obra = obras[index];
+        if (!obra) return;
+        var img = obra.querySelector('img');
+        var titulo = obra.querySelector('.artist-obra-titulo');
+        modalImg.src = img.src;
+        modalImg.alt = img.alt;
+        modalTitulo.textContent = titulo ? titulo.textContent : '';
+        modal.style.visibility = 'visible';
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.style.visibility = 'hidden';
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    obras.forEach(function(obra) {
+        obra.addEventListener('click', function() {
+            openModal(parseInt(this.getAttribute('data-index')));
+        });
+        obra.style.cursor = 'pointer';
+    });
+
+    overlay.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', closeModal);
+
+    prevBtn.addEventListener('click', function() {
+        var newIndex = (currentIndex - 1 + obras.length) % obras.length;
+        openModal(newIndex);
+    });
+
+    nextBtn.addEventListener('click', function() {
+        var newIndex = (currentIndex + 1) % obras.length;
+        openModal(newIndex);
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (modal.style.visibility !== 'visible') return;
+        if (e.key === 'Escape') closeModal();
+        if (e.key === 'ArrowLeft') prevBtn.click();
+        if (e.key === 'ArrowRight') nextBtn.click();
+    });
+
+    modal.setAttribute('aria-hidden', 'true');
+}
+
 // Inicialitzem tot quan el DOM estigui llist
 document.addEventListener("DOMContentLoaded", () => {
     // Apliquem l'idioma guardat abans d'inicialitzar res
     setVTLang(vtCurrentLang);
 
-    // Ordre crític: primer preparem l'estructura de hover, després animem l'entrada
-    initNavHover(); 
-    initHeaderAnimations();
-    initMobileMenu();
+    document.fonts.ready.then(() => {
+        // Ordre crític: primer preparem l'estructura de hover, després animem l'entrada
+        initNavHover(); 
+        initHeaderAnimations();
+        initMobileMenu();
 
-    // Parallax real amb ScrollTrigger (només si existeix la secció)
-    if (document.querySelector('.about-parallax')) {
-        gsap.to('.about-parallax-bg', {
-            yPercent: -35,
-            ease: 'none',
-            scrollTrigger: {
-                trigger: '.about-parallax',
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: 1
-            }
-        });
-    }
+        // Parallax real amb ScrollTrigger (només si existeix la secció)
+        if (document.querySelector('.about-parallax')) {
+            gsap.to('.about-parallax-bg', {
+                yPercent: -35,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '.about-parallax',
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1
+                }
+            });
+        }
 
-    // About entrance (nosotros.html hero + artists section)
-    if (document.querySelector('.about-hero') || document.querySelector('.about-artists')) {
-        initAboutEntrance();
-    }
+        // About entrance (nosotros.html hero + artists section)
+        if (document.querySelector('.about-hero') || document.querySelector('.about-artists')) {
+            initAboutEntrance();
+        }
 
-    // Noticia entrance (noticia.php hero)
-    if (document.querySelector('.noticia-hero') && typeof initNoticiaEntrance === 'function') {
-        initNoticiaEntrance();
-    }
+        // Noticia entrance (noticia.php hero)
+        if (document.querySelector('.noticia-hero') && typeof initNoticiaEntrance === 'function') {
+            initNoticiaEntrance();
+        }
 
-    // Evento entrance (evento.php hero)
-    if (document.querySelector('.evento-hero') && typeof initEventoEntrance === 'function') {
-        initEventoEntrance();
-    }
+        // Evento entrance (evento.php hero)
+        if (document.querySelector('.evento-hero') && typeof initEventoEntrance === 'function') {
+            initEventoEntrance();
+        }
 
-    // Artista entrance (artista.php hero)
-    if (document.getElementById('artista-title') && typeof initArtistaEntrance === 'function') {
-        initArtistaEntrance();
-    }
+        // Artista entrance (artista.php hero)
+        if (document.getElementById('artista-title') && typeof initArtistaEntrance === 'function') {
+            initArtistaEntrance();
+        }
 
-    // Footer reveal animation
-    if (document.querySelector('.main-footer')) {
-        const footerCols = document.querySelectorAll('.footer-grid > div');
-        gsap.from(footerCols, {
-            opacity: 0,
-            y: 40,
-            duration: 0.8,
-            ease: 'power3.out',
-            stagger: 0.1,
-            scrollTrigger: {
-                trigger: '.main-footer',
-                start: 'top 85%',
-                toggleActions: 'play none none reverse'
-            }
-        });
+        // Artista gallery modal
+        if (document.querySelector('.artist-obras-grid') && typeof initArtistaGallery === 'function') {
+            initArtistaGallery();
+        }
 
-        // Bottom bar reveal
-        gsap.from('.footer-bottom', {
-            opacity: 0,
-            y: 20,
-            duration: 0.6,
-            ease: 'power2.out',
-            delay: 0.4,
-            scrollTrigger: {
-                trigger: '.main-footer',
-                start: 'top 85%',
-                toggleActions: 'play none none reverse'
-            }
-        });
-    }
+        // Footer reveal animation
+        if (document.querySelector('.main-footer')) {
+            const footerCols = document.querySelectorAll('.footer-grid > div');
+            gsap.from(footerCols, {
+                opacity: 0,
+                y: 40,
+                duration: 0.8,
+                ease: 'power3.out',
+                stagger: 0.1,
+                scrollTrigger: {
+                    trigger: '.main-footer',
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
 
-    // Animació Entrada Contacto
-    if (document.querySelector('.contact-page')) {
-        document.fonts.ready.then(() => {
+            // Bottom bar reveal
+            gsap.from('.footer-bottom', {
+                opacity: 0,
+                y: 20,
+                duration: 0.6,
+                ease: 'power2.out',
+                delay: 0.4,
+                scrollTrigger: {
+                    trigger: '.main-footer',
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+        }
+
+        // Animació Entrada Contacto
+        if (document.querySelector('.contact-page')) {
             const contactTl = gsap.timeline({ delay: 0.5 });
             
             const title = document.querySelector('.contact-title');
-            title.style.visibility = 'visible';
-            const splitTitle = new SplitText(title, { type: "chars" });
+            if (title) title.style.visibility = 'visible';
+            const splitTitle = title ? vtSplit(title, { type: "chars" }) : null;
             
-            gsap.set(splitTitle.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: "center bottom" });
-            
-            contactTl.to(splitTitle.chars, {
-                opacity: 1, 
-                yPercent: 0, 
-                scale: 1,
-                rotationX: 0,
-                duration: 1.2, 
-                stagger: { each: 0.04, from: "start" }, 
-                ease: "back.out(1.4)"
-            });
+            if (splitTitle) {
+                gsap.set(splitTitle.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: "center bottom" });
+                
+                contactTl.to(splitTitle.chars, {
+                    opacity: 1, 
+                    yPercent: 0, 
+                    scale: 1,
+                    rotationX: 0,
+                    duration: 1.2, 
+                    stagger: { each: 0.04, from: "start" }, 
+                    ease: "back.out(1.4)"
+                });
+            }
             
             contactTl.from('.contact-details, .contact-socials', {
                 opacity: 0, 
@@ -845,6 +1013,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 duration: 1.2,
                 ease: "power3.out"
             }, "-=1");
-        });
-    }
+        }
+
+        // Nav arrows hover (fonts ja carregats)
+        if (document.querySelector('.nav-arrow')) {
+            hoverNextPrev('.nav-arrow');
+        }
+    });
 });

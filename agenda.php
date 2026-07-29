@@ -115,7 +115,7 @@ foreach ($events as $ev) {
 
     <title>Victoria Taylor | Agenda</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=2">
     <link rel="stylesheet" href="css/agenda.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -128,7 +128,7 @@ foreach ($events as $ev) {
     <header id="header" class="main-header" aria-label="Navegació principal">
         <div class="header-container">
             <div class="logo">
-                <a href="index.html" aria-label="Inici Victoria Taylor">
+                <a href="index.php" aria-label="Inici Victoria Taylor">
                     <img src="img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
                 </a>
             </div>
@@ -161,7 +161,7 @@ foreach ($events as $ev) {
         </div>
         <nav id="mobile-nav" class="mobile-nav" aria-label="Navegació mòbil">
             <div class="logo">
-                <a href="index.html" aria-label="Inici Victoria Taylor">
+                <a href="index.php" aria-label="Inici Victoria Taylor">
                     <img src="img/logo.avif" alt="Victoria Taylor Logo" class="header-logo">
                 </a>
             </div>
@@ -187,8 +187,8 @@ foreach ($events as $ev) {
             <div class="agenda-hero-bg" style="background-image: url('img/slide1.webp');"></div>
             <div class="agenda-hero-overlay"></div>
             <div class="agenda-hero-content">
-                <h1 class="agenda-hero-title" style="visibility:hidden;">Agenda</h1>
-                <p class="agenda-hero-subtitle">Descobreix les exposicions, inauguracions i esdeveniments on podr&agrave;s viure l'art en primera persona.</p>
+                <h1 class="agenda-hero-title" style="visibility:hidden;" data-i18n="agenda.hero.title">Agenda</h1>
+                <p class="agenda-hero-subtitle" data-i18n="agenda.hero.subtitle">Descobreix les exposicions, inauguracions i esdeveniments on podràs viure l'art en primera persona.</p>
             </div>
         </section>
 
@@ -314,6 +314,6 @@ foreach ($events as $ev) {
         <?= json_encode($events, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>
     </script>
     <script src="js/script.js"></script>
-    <script src="js/agenda.js"></script>
+    <script src="js/agenda.js?v=2"></script>
 </body>
 </html>

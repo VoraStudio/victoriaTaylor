@@ -1,28 +1,30 @@
 /* ----- INICI ANIMACIÓ LLISTAT AGENDA (SSR) ----- */
 document.addEventListener('DOMContentLoaded', function() {
-    /* ===== HERO ENTRANCE (SplitText com totes les pàgines) ===== */
-    var heroTitle = document.querySelector('.agenda-hero-title');
-    var heroSplit = null;
-    if (heroTitle && typeof SplitText !== 'undefined') {
-        heroSplit = new SplitText(heroTitle, { type: 'words,chars' });
-        heroTitle.style.visibility = 'visible';
-        gsap.set(heroSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
-    }
+    document.fonts.ready.then(function() {
+        /* ===== HERO ENTRANCE (SplitText) ===== */
+        var heroTitle = document.querySelector('.agenda-hero-title');
+        if (heroTitle) heroTitle.style.visibility = 'visible';
+        var heroSplit = heroTitle ? vtSplit(heroTitle, { type: 'words,chars' }) : null;
+        if (heroSplit) {
+            gsap.set(heroSplit.chars, { opacity: 0, yPercent: -50, scale: 0.5, rotationX: -90, transformOrigin: 'center bottom' });
+        }
 
-    gsap.set('.agenda-hero-label', { opacity: 0, y: 20 });
-    gsap.set('.agenda-hero-subtitle', { y: 20 });
+        var heroTl = gsap.timeline({ delay: 0.5 });
+        if (heroSplit) {
+            heroTl.to(heroSplit.chars, {
+                opacity: 1, yPercent: 0, scale: 1, rotationX: 0,
+                duration: 1.2, stagger: { each: 0.04, from: 'start' }, ease: 'back.out(1.4)'
+            }, 0);
+        }
 
-    var heroTl = gsap.timeline({ delay: 0.5 });
-    if (heroSplit) {
-        heroTl.to(heroSplit.chars, {
-            opacity: 1, yPercent: 0, scale: 1, rotationX: 0,
-            duration: 1.2, stagger: { each: 0.04, from: 'start' }, ease: 'back.out(1.4)'
-        }, 0);
-        heroTl.to('.agenda-hero-subtitle', { autoAlpha: 0.65, y: 0, duration: 3, ease: 'power3.out' }, '>-0.8');
-    } else {
-        heroTl.to('.agenda-hero-subtitle', { autoAlpha: 0.65, y: 0, duration: 1, ease: 'power3.out' });
-    }
-    heroTl.to('.agenda-hero-label', { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.8');
+        if (document.querySelector('.agenda-hero-subtitle')) {
+            if (heroSplit) {
+                heroTl.to('.agenda-hero-subtitle', { autoAlpha: 0.65, y: 0, duration: 3, ease: 'power3.out' }, '>-0.8');
+            } else {
+                heroTl.to('.agenda-hero-subtitle', { autoAlpha: 0.65, y: 0, duration: 1, ease: 'power3.out' });
+            }
+        }
+    });
 
     /* ===== PESTANTES: Pròxims / Històric ===== */
     var tabUp = document.getElementById('agenda-tab-upcoming');

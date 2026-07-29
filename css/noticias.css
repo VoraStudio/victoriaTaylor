@@ -10,7 +10,7 @@
   justify-content: flex-start;
   background-color: var(--color-black);
   overflow: hidden;
-  min-height: 100svh;
+  min-height: 90svh;
   padding-bottom: var(--space-xxl);
 }
 
@@ -81,7 +81,7 @@
   color: var(--color-white);
   opacity: 0;
   visibility: hidden;
-  max-width: 60%;
+  max-width: 90%;
   line-height: 1.8;
 }
 
@@ -161,6 +161,14 @@
   .news-grid,
   .news-grid-inner {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .news-hero-subtitle {
+    max-width: 60% !important;
+  }
+
+  .news-hero {
+    min-height: 90svh;
   }
 }
 

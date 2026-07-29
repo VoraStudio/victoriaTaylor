@@ -141,7 +141,7 @@ $ogImage = $imgUrl ?: 'https://victoriataylor.art/img/og-image.jpg';
     <header id="header" class="main-header" aria-label="Navegació principal">
         <div class="header-container">
             <div class="logo">
-                <a href="index.html" aria-label="Inici Victoria Taylor">
+                <a href="index.php" aria-label="Inici Victoria Taylor">
                     <img src="img/logo.avif" alt="Victoria Taylor Logo" class="header-logo" />
                 </a>
             </div>
@@ -174,7 +174,7 @@ $ogImage = $imgUrl ?: 'https://victoriataylor.art/img/og-image.jpg';
         </div>
         <nav id="mobile-nav" class="mobile-nav" aria-label="Navegació mòbil">
             <div class="logo">
-                <a href="index.html" aria-label="Inici Victoria Taylor">
+                <a href="index.php" aria-label="Inici Victoria Taylor">
                     <img src="img/logo.avif" alt="Victoria Taylor Logo" class="header-logo" />
                 </a>
             </div>
@@ -201,6 +201,7 @@ $ogImage = $imgUrl ?: 'https://victoriataylor.art/img/og-image.jpg';
                 <div class="evento-hero-bg" id="evento-hero-bg" style="background-image: url('<?= htmlspecialchars($imgUrl, ENT_QUOTES, 'UTF-8') ?>');"></div>
                 <div class="evento-hero-overlay"></div>
                 <div class="evento-hero-content">
+                    <span class="evento-label" id="evento-label" data-i18n="evento.label">Event</span>
                     <h1 class="evento-title" id="evento-title" style="visibility:hidden;"><?= $titul ?></h1>
                     <div class="evento-meta" id="evento-meta">
                         <?php if ($dataFormatada): ?>
@@ -343,17 +344,17 @@ $ogImage = $imgUrl ?: 'https://victoriataylor.art/img/og-image.jpg';
         document.addEventListener('DOMContentLoaded', () => {
             // Create Modal HTML dynamically and append to body
             const modalHTML = `
-                <div class="artista-modal" aria-hidden="true" role="dialog" aria-label="Visor d'imatges" style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0;">
-                    <div class="artista-modal-overlay" style="position:absolute;inset:0;background:rgba(0,0,0,0.92);backdrop-filter:blur(8px);"></div>
-                    <button class="artista-modal-close" aria-label="Tancar" style="position:absolute;top:30px;right:30px;background:none;border:none;color:#fff;font-size:35px;cursor:pointer;z-index:2;">&times;</button>
-                    <button class="artista-modal-prev" aria-label="Anterior" style="position:absolute;top:50%;left:30px;transform:translateY(-50%);background:none;border:none;color:#fff;cursor:pointer;z-index:2;">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg>
+                <div class="artista-modal" aria-hidden="true" role="dialog" aria-label="Visor d'imatges" style="opacity:0;">
+                    <div class="artista-modal-overlay"></div>
+                    <button class="artista-modal-close" aria-label="Tancar">&times;</button>
+                    <button class="artista-modal-prev" aria-label="Anterior">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
                     </button>
-                    <button class="artista-modal-next" aria-label="Següent" style="position:absolute;top:50%;right:30px;transform:translateY(-50%);background:none;border:none;color:#fff;cursor:pointer;z-index:2;">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg>
+                    <button class="artista-modal-next" aria-label="Següent">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
                     </button>
-                    <div class="artista-modal-content" style="position:relative;z-index:1;max-width:85vw;max-height:85vh;display:flex;flex-direction:column;align-items:center;">
-                        <img class="artista-modal-img" src="" alt="" style="max-width:100%;max-height:75vh;object-fit:contain;display:block;border-radius:4px;">
+                    <div class="artista-modal-content">
+                        <img class="artista-modal-img" src="" alt="">
                     </div>
                 </div>
             `;
@@ -435,46 +436,51 @@ $ogImage = $imgUrl ?: 'https://victoriataylor.art/img/og-image.jpg';
             });
 
             // --- ANIMACIONS GSAP (Idénticas a la ficha de artista) ---
-            const heroTitle = document.querySelector('.evento-title');
-            if (heroTitle && typeof SplitText !== 'undefined') {
-                const split = new SplitText(heroTitle, { type: 'words,chars' });
-                heroTitle.style.visibility = 'visible';
-                gsap.from(split.chars, {
-                    opacity: 0, y: 80, rotateX: -90, stagger: 0.04,
-                    duration: 1, ease: 'power4.out', delay: 0.3
-                });
-            }
+            document.fonts.ready.then(function() {
+                var heroTitle = document.querySelector('.evento-title');
+                if (heroTitle && typeof SplitText !== 'undefined') {
+                    var split = new SplitText(heroTitle, { type: 'words,chars' });
+                    heroTitle.style.visibility = 'visible';
+                    gsap.from(split.chars, {
+                        opacity: 0, y: 80, rotateX: -90, stagger: 0.04,
+                        duration: 1, ease: 'power4.out', delay: 0.3
+                    });
+                }
 
-            gsap.from('.evento-label, .evento-meta', {
-                opacity: 0, y: 30, duration: 1, ease: 'power3.out',
-                delay: 0.8, stagger: 0.15
+                if (document.querySelector('.evento-label, .evento-meta')) {
+                    gsap.from('.evento-label, .evento-meta', {
+                        opacity: 0, y: 30, duration: 1, ease: 'power3.out',
+                        delay: 0.8, stagger: 0.15
+                    });
+                }
+
+                var heroBg = document.querySelector('.evento-hero-bg');
+                if (heroBg) {
+                    gsap.to(heroBg, {
+                        yPercent: 15, ease: 'none',
+                        scrollTrigger: { trigger: '.evento-hero', start: 'top top', end: 'bottom top', scrub: 1 }
+                    });
+                }
+
+                var bioParas = document.querySelectorAll('.evento-body p');
+                if (bioParas.length && typeof SplitText !== 'undefined') {
+                    gsap.set('.evento-body p', { perspective: '800px', transformStyle: 'preserve-3d' });
+                    var bioSplit = new SplitText('.evento-body p', { type: 'lines', mask: 'lines' });
+                    if (bioSplit.lines && bioSplit.lines.length) {
+                        gsap.from(bioSplit.lines, {
+                            opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.2,
+                            scrollTrigger: { trigger: '.evento-content', start: 'top 60%', toggleActions: 'play none none reverse' }
+                        });
+                    }
+                }
+
+                if (document.querySelector('.evento-gallery')) {
+                    gsap.from('.evento-gallery-item', {
+                        opacity: 0, y: 60, duration: 0.8, ease: 'power3.out', stagger: 0.2,
+                        scrollTrigger: { trigger: '.evento-gallery', start: 'top 60%', toggleActions: 'play none none reverse' }
+                    });
+                }
             });
-
-            const heroBg = document.querySelector('.evento-hero-bg');
-            if (heroBg) {
-                gsap.to(heroBg, {
-                    yPercent: 15, ease: 'none',
-                    scrollTrigger: { trigger: '.evento-hero', start: 'top top', end: 'bottom top', scrub: 1 }
-                });
-            }
-
-            const bioParas = document.querySelectorAll('.evento-body p');
-            if (bioParas.length && typeof SplitText !== 'undefined') {
-                gsap.set('.evento-body p', { perspective: '800px', transformStyle: 'preserve-3d' });
-                const bioSplit = new SplitText('.evento-body p', { type: 'lines', mask: 'lines' });
-                gsap.from(bioSplit.lines, {
-                    opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.2,
-                    scrollTrigger: { trigger: '.evento-content', start: 'top 60%', toggleActions: 'play none none reverse' }
-                });
-            }
-
-            const galleryGrid = document.querySelector('.evento-gallery');
-            if (galleryGrid) {
-                gsap.from('.evento-gallery-item', {
-                    opacity: 0, y: 60, duration: 0.8, ease: 'power3.out', stagger: 0.2,
-                    scrollTrigger: { trigger: '.evento-gallery', start: 'top 60%', toggleActions: 'play none none reverse' }
-                });
-            }
         });
     </script>
 </body>
