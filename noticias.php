@@ -171,7 +171,7 @@ $sections = $cms->fetch('/api/sections?active=true');
             <div class="news-hero-bg" style="background-image: url('img/slide3.webp');"></div>
             <div class="news-hero-overlay"></div>
             <div class="news-hero-content">
-                <h1 class="news-hero-title" style="visibility:hidden;" data-i18n="noticias.hero.title">Notícies</h1>
+                <h1 class="news-hero-title" data-i18n="noticias.hero.title">Notícies</h1>
                 <p class="news-hero-subtitle" data-i18n="noticias.hero.subtitle">Tota l'actualitat de Victoria Taylor: exposicions, entrevistes i novetats del món de l'art contemporani.</p>
             </div>
         </section>

@@ -21,7 +21,7 @@ class CmsClient
         string $cmsUrl,
         string $origin,
         int $cacheTtl = 300,
-        ?string $cacheDir = null,
+        ?string $cacheDir = null
     ) {
         $this->cmsUrl = rtrim($cmsUrl, '/');
         $this->origin = $origin;

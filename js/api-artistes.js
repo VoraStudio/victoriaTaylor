@@ -44,9 +44,14 @@
       imgUrl = entry.imatge[0].url;
     }
 
-    var bio = entry.descripcio
-      ? entry.descripcio.split('\n').filter(function (p) { return p.trim(); })
-      : [];
+    var rawBio = entry.descripcio || '';
+    rawBio = rawBio.replace(/<\/p>/gi, '\n\n').replace(/<br\s*\/?>/gi, ' ');
+    rawBio = rawBio.replace(/<[^>]+>/g, '');
+    rawBio = rawBio.replace(/\r\n/g, '\n');
+    var bio = rawBio
+      .split(/\n\s*\n/)
+      .map(function (p) { return p.replace(/\s+/g, ' ').trim(); })
+      .filter(Boolean);
 
     /* Logros: [{ año, texto }] -> [{ año, textos: {es,ca,en} }] */
     var logros = (entry.logros || []).map(function (l) {

@@ -40,9 +40,15 @@ if (!$artista) {
                 $imgUrl = getVoraMediaUrl($entry['imatge'][0]['url']);
             }
 
-            $bio = $entry['descripcio']
-                ? array_values(array_filter(explode("\n", $entry['descripcio']), fn($p) => trim($p) !== ''))
-                : [];
+            $rawDesc = $entry['descripcio'] ?? '';
+            $rawDesc = preg_replace('/<\/p>/i', "\n\n", $rawDesc);
+            $rawDesc = preg_replace('/<br\s*\/?>/i', ' ', $rawDesc);
+            $rawDesc = strip_tags($rawDesc);
+            $rawDesc = str_replace("\r\n", "\n", $rawDesc);
+            $parts = preg_split('/\n\s*\n/', $rawDesc);
+            $bio = array_values(array_filter(array_map(function($p) {
+                return trim(preg_replace('/\s+/', ' ', $p));
+            }, $parts), fn($p) => $p !== ''));
 
             $logros = [];
             foreach (($entry['logros'] ?? []) as $l) {
@@ -267,7 +273,7 @@ if ($artista) {
                 <h2 class="section-label" id="artista-label-sobre">Sobre l'artista</h2>
                 <div class="artist-bio-text" id="artista-bio-text">
                     <?php foreach ($bio as $paragraf): ?>
-                        <p><?= htmlspecialchars($paragraf, ENT_QUOTES, 'UTF-8') ?></p>
+                        <p class="artist-bio-text-p"><?= htmlspecialchars($paragraf, ENT_QUOTES, 'UTF-8') ?></p>
                     <?php endforeach; ?>
                 </div>
             </div>

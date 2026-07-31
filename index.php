@@ -170,8 +170,8 @@ $cms->post('/api/visit', [
             <article class="swiper-slide">
               <div class="slide-bg" style="background-image: url(&quot;img/slide1.webp&quot;)"></div>
               <div class="slide-content">
-                <span class="slide-subtitle"></span>
-                <h1 class="slide-title">Victoria Taylor</h1>
+                <span class="slide-subtitle" data-i18n="hero.slide1.subtitle">Arte Exclusivo</span>
+                <h1 class="slide-title">VICTORIA TAYLOR</h1>
               </div>
             </article>
 
@@ -180,7 +180,7 @@ $cms->post('/api/visit', [
               <div class="slide-bg" style="background-image: url(&quot;img/slide2.avif&quot;)"></div>
               <div class="slide-content">
                 <span class="slide-subtitle" data-i18n="hero.slide2.subtitle">Talento Único</span>
-                <h1 class="slide-title" data-i18n="hero.slide2.title">Artistas</h1>
+                <h1 class="slide-title" data-i18n="hero.slide2.title">Artistas Emergentes</h1>
               </div>
             </article>
 
@@ -188,8 +188,8 @@ $cms->post('/api/visit', [
             <article class="swiper-slide">
               <div class="slide-bg" style="background-image: url(&quot;img/slide3.webp&quot;)"></div>
               <div class="slide-content">
-                <span class="slide-subtitle" data-i18n="hero.slide3.subtitle">Visión Creativa</span>
-                <h1 class="slide-title" data-i18n="hero.slide3.title">Expresión</h1>
+                <span class="slide-subtitle" data-i18n="hero.slide3.subtitle">Expresión Contemporánea</span>
+                <h1 class="slide-title" data-i18n="hero.slide3.title">Creatividad</h1>
               </div>
             </article>
 
@@ -202,7 +202,7 @@ $cms->post('/api/visit', [
               </div>
             </article>
 
-            <!-- Slide 5 -->
+            <!-- Slide 5 
             <article class="swiper-slide">
               <div class="slide-bg" style="background-image: url(&quot;img/slide5.webp&quot;)"></div>
               <div class="slide-content">
@@ -211,7 +211,6 @@ $cms->post('/api/visit', [
               </div>
             </article>
 
-            <!-- Slide 6 -->
             <article class="swiper-slide">
               <div class="slide-bg" style="background-image: url(&quot;img/slide6.webp&quot;)"></div>
               <div class="slide-content">
@@ -219,6 +218,7 @@ $cms->post('/api/visit', [
                 <h1 class="slide-title" data-i18n="hero.slide6.title">Infinite</h1>
               </div>
             </article>
+            -->
           </div>
 
           <!-- Paginació (punts horitzontals) -->

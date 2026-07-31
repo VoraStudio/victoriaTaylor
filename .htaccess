@@ -1,0 +1,15 @@
+# ==== VICTORIA TAYLOR — REDIRECIONS HTTPS + CANONICAL ====
+# Canonical final: https://victoriataylor.art (sense www)
+# SSL el termina Varnish, Apache ve HTTP intern -> usar X-Forwarded-Proto
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # 1. Redirigir www -> sense www (canonical)
+    RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+    RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+    # 2. Redirigir http -> https (proxy-aware)
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+</IfModule>

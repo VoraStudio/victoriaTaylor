@@ -35,11 +35,10 @@ $env = loadEnv(dirname(__DIR__) . '/.env');
 
 // --- DETECCIÓ ENTORN ---
 $host = $_SERVER['HTTP_HOST'] ?? '';
-$is_localhost = $host === 'localhost' || $host === '127.0.0.1' || str_starts_with($host, 'localhost:') || str_starts_with($host, '127.0.0.1:');
+$is_localhost = $host === 'localhost' || $host === '127.0.0.1' || strpos($host, 'localhost:') === 0 || strpos($host, '127.0.0.1:') === 0;
 
 // --- DESTINATARI ---
-$destinatari = $env['SMTP_USER'] ?? 'pau@vorastudio.cat';
-// TODO: Cambiar a info@victoriataylor.art antes de subir a producción
+$destinatari = $env['SMTP_USER'] ?? 'info@victoriataylor.art';
 $asunto_web = 'Nou missatge des de Victoria Taylor';
 
 // --- 1. RECAPTCHA v3 (només en producció) ---
